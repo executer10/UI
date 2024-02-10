@@ -1,0 +1,35 @@
+/*UI_BoxStyle.css*/
+@charset "utf-8";
+
+.UI_boxStyle{
+    border: 2px solid black;
+    background-color: white;
+    padding: 20px;
+    margin: 10px;
+    width: 250px;
+    height: 250px;
+}
+
+.UIStyle{
+    border: 2px solid black;
+    background-color: white;
+    padding: 20px;
+    margin: 10px;
+}
+
+.MediaQurry{ /* 미디어쿼리 */
+    width: 100%; /* 부모 요소의 너비에 맞게 이미지 크기 조정 */
+    height: 100%; /* 이미지 비율 유지 */
+}
+
+@media (max-width: 2000px) {
+    .test {
+        max-width: 100%; /* 이미지 최대 너비를 부모 요소의 너비에 맞게 조정 */
+    }
+}
+@media (max-height: 300px) {
+    .test {
+        max-height: 100%; /* 이미지 최대 너비를 부모 요소의 너비에 맞게 조정 */
+        height: 100%;
+    }
+}

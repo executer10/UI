@@ -1,0 +1,34 @@
+/*UI_Index.css*/
+@charset "utf-8";
+#UI{
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+}
+.UIMain{
+	position: relative;
+}
+.UIMain img{
+	position: absolute; top:0; left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.UIBox{
+    border-left: 2px solid black;
+    padding: 10px;
+}
+
+.UIStyle{
+    padding: 10px;
+}
+.UIStyle input{
+    padding: 10px;
+    font-size: 15px;
+}
+
+.UIStyleSecond{
+    
+    border: 2px solid black;
+    padding: 10px;
+    background-color: white;
+}

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- userMapper.xml -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!-- mapper의 전체경로 -->
+<mapper namespace="com.UI.dao.UserMapper">
+	<!-- 회원가입 -->
+	<insert id="register" parameterType="UserDTO">
+		INSERT INTO UI_USER (id, pw, name, birth, tel)
+		VALUES (#{id}, #{pw}, #{name}, #{birth}, #{tel})
+	</insert>
+	
+	<!-- 아이디 중복 체크 -->
+	<select id="idOverlap" resultType="int">
+		SELECT COUNT(*)
+		FROM UI_USER
+		WHERE id = #{id}
+	</select>
+	
+	<!-- 로그인 -->
+	<select id="login" resultType="int">
+		SELECT COUNT(*)
+		FROM UI_USER
+		WHERE id = #{id} AND pw = #{pw}
+	</select>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="delete" parameterType="UserDTO">
+		DELETE FROM UI_USER
+		WHERE id = #{id}
+	</delete>
+</mapper>

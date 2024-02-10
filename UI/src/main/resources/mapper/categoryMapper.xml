@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- categoryMapper.xml -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!-- mapper의 전체경로 -->
+<mapper namespace="com.UI.dao.CategoryMapper">
+	<!-- 카테고리 등록 -->
+	<insert id="insert" parameterType="CategoryDTO">
+		INSERT INTO UI_CATEGORY (c_name)
+		VALUES (#{c_name})
+	</insert>
+	
+	<!-- 카테고리 삭제 -->
+	<delete id="delete" parameterType="CategoryDTO">
+		DELETE FROM UI_CATEGORY
+		WHERE c_name = #{c_name}
+	</delete>
+	
+	<!-- 카테고리 출력 -->
+	<select id="select" parameterType="String" resultType="CategoryDTO">
+		SELECT c_name
+		from UI_CATEGORY
+		WHERE c_name = #{c_name}
+	</select>
+</mapper>

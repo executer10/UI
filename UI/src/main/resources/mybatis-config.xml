@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<settings>
+		<setting name="cacheEnabled" value="false" />
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+
+	<typeAliases>
+		<typeAlias alias="UserDTO" type="com.UI.domain.UserDTO" />
+		<typeAlias alias="BoardDTO" type="com.UI.domain.BoardDTO" />
+		<typeAlias alias="CategoryDTO" type="com.UI.domain.CategoryDTO" />
+		<typeAlias alias="PageHandler" type="com.UI.domain.PageHandler" />
+		<typeAlias alias="SearchCondition" type="com.UI.domain.SearchCondition" />
+	</typeAliases>
+	
+</configuration>

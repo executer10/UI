@@ -1,0 +1,36 @@
+/*UI_JoinStyle.css*/
+@charset "utf-8";
+
+.UI_join{
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-top: 30px;
+}
+
+.UI_joinBox{
+
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    border: 1px solid black;
+}
+
+.UI_join_textWarp{
+    font-weight: 700;
+    font-size: 16px;
+    height: 100px;
+    line-height: 40px;
+
+}
+
+.UI_join_textWarp input{
+    width: 400px;
+    height: 40px;
+    
+}

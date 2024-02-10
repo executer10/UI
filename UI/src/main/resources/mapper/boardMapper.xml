@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- boardMapper.xml -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!-- mapper의 전체경로 -->
+<mapper namespace="com.UI.dao.BoardMapper">
+
+	<!-- 게시글 읽어오기 -->
+	<select id="select" parameterType="int" resultType="BoardDTO">
+		SELECT bno, title, content, writer, view_cnt, comments_cnt, reg_date, c_name
+		FROM UI_BOARD
+		where bno = #{bno}
+	</select>
+	
+	<!-- 전체 게시물 개수 -->
+	<select id="count" parameterType="String" resultType="int">
+	    SELECT COUNT(*)
+	    FROM UI_BOARD
+	    WHERE C_NAME = #{c_name}
+	</select>
+	
+	<!-- 글 추가하기 -->
+	<insert id="insert" parameterType="BoardDTO">
+		INSERT INTO UI_BOARD(bno, title, content, writer, c_name)
+		VALUES (seq_bno.nextval, #{title}, #{content}, #{writer}, #{c_name})
+	</insert>
+	
+	<!-- 글 수정하기 -->
+	<update id="update" parameterType="BoardDTO">
+		UPDATE UI_BOARD
+		SET TITLE = #{title}, CONTENT = #{content}, UP_DATE = SYSDATE
+		WHERE bno = #{bno} AND writer =#{writer}
+	</update>
+	
+	<!-- 글 삭제하기(게시글 번호와 작성자가 일치하는 경우) -->
+	<delete id="delete" parameterType="map">
+		DELETE FROM UI_BOARD
+		WHERE bno=#{bno} and writer=#{writer}
+	</delete>
+	
+	<!-- 관리자의 경우 반드시 삭제 가능 -->
+	<delete id="deleteForAdmin" parameterType="int">
+		DELETE FROM UI_BOARD WHERE bno=#{bno}
+	</delete>
+	
+	<!-- 게시글 전체 삭제 -->
+	<delete id="deleteAll">
+		DELETE FROM UI_BOARD
+	</delete>
+	
+	<!-- 게시글 목록(등록일 기준으로 내림차순) -->
+	<select id="selectAll" resultType="BoardDTO">
+		SELECT bno, title, writer, view_cnt, comments_cnt, reg_date 
+		FROM UI_BOARD
+		ORDER BY reg_date DESC, bno DESC
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="increaseViewCnt" parameterType="int">
+		UPDATE UI_BOARD
+		SET view_cnt = view_cnt + 1
+		WHERE bno = #{bno}
+	</update>
+	
+	
+	<!-- 페이징 처리하기 -->
+	<select id="selectPage" parameterType="map" resultType="BoardDTO">
+		SELECT * 
+		FROM(SELECT ROWNUM rNum, A.*
+			FROM (SELECT bno, title, content, writer, view_cnt, comments_cnt, reg_date, c_name
+					FROM UI_BOARD
+					ORDER BY reg_date DESC, bno DESC) A)
+		WHERE rNum BETWEEN ((NVL(#{page}, 0)-1) * #{pageSize} +1) AND (NVL(#{page}, 0) * #{pageSize})
+	</select>
+	
+	<sql id="searchCondition">
+		<choose><!-- sql문 안에서는 큰 따옴표가 안먹혀서 작은따옴표를 먼저 찍음 -->
+			<when test='option=="T"'>
+				AND title LIKE '%'||#{keyword}||'%'
+			</when>
+			<when test='option=="W"'>
+				AND writer LIKE '%'||#{keyword}||'%'
+			</when>
+			<otherwise>
+				AND (title LIKE '%'||#{keyword}||'%'
+				OR content LIKE '%'||#{keyword}||'%')
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<!-- 게시글 검색하기 -->
+	<select id="searchSelectPage" parameterType="SearchCondition" resultType="BoardDTO">
+		SELECT * 
+	    FROM (SELECT ROWNUM rNum, A.*
+	          FROM (SELECT bno, title, content, writer, view_cnt, comments_cnt, reg_date, c_name
+	                FROM UI_BOARD
+	                WHERE 1=1
+	                <include refid="searchCondition"></include>
+	                <if test="c_name != null and c_name != ''">
+	                    AND c_name = #{c_name}
+	                </if>
+	                ORDER BY reg_date DESC, bno desc) A)
+	    WHERE rNum BETWEEN ((NVL(#{page}, 0)-1) * #{pageSize} +1) AND (NVL(#{page}, 0) * #{pageSize})
+	</select>
+	
+	<!-- 검색 했을때의 게시글 개수 -->
+	<select id="searchResultCnt" parameterType="SearchCondition" resultType="int">
+		SELECT count(*) 
+		FROM UI_BOARD
+		WHERE 1=1
+		<include refid="searchCondition"></include>
+	</select>
+	
+	<update id="updateCommentsCnt" parameterType="map">
+		UPDATE UI_BOARD
+		set comments_cnt=comments_cnt + #{cnt}
+		WHERE bno = #{bno}
+	</update>
+	
+	<select id="getCategoryList" parameterType="String" resultType="BoardDTO">
+	    SELECT * 
+	    FROM UI_BOARD
+	    WHERE c_name = #{c_name}
+	</select>
+</mapper>
