@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.developer.dao.BillingDAO">
+  	<!-- 요금 -->
+	<select id="charge" resultType="com.developer.dto.BillingDTO">
+		SELECT usage_data, 
+           COALESCE(usage_fee, 0) as usage_fee, 
+           CAST(usage_fee * 0.1 AS SIGNED) as vat_fee, 
+           COALESCE(overdue_fee, 0) as overdue_fee,
+           COALESCE(usage_fee, 0) + CAST(usage_fee * 0.1 AS SIGNED) + COALESCE(overdue_fee, 0) as total_amount
+    FROM billing
+    WHERE contract_number = #{contract_number}
+    AND YEAR(billing_date) = #{year}
+    AND MONTH(billing_date) = #{month}
+	</select>
+</mapper>

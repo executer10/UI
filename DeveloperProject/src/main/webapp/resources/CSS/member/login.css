@@ -1,0 +1,22 @@
+@charset "utf-8";
+
+body{
+    width: 100%;
+    padding-top: 300px;
+}
+
+form{
+    display: flex;              /* Flexbox 사용 */
+    justify-content: center;    /* 수평 중앙 정렬 */
+    align-items: center;        /* 수직 중앙 정렬 */
+/* 수직 정렬은 hight설정이 필요하고, 수평 정렬은 width설정이 필요함.*/
+}
+
+table, td{
+    border: 2px green solid;
+}
+
+form #user_id, #password{
+	width: 300px;
+	height: 30px;
+}
