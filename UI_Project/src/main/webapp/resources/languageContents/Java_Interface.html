@@ -1,0 +1,194 @@
+<table>
+    <tr>
+        <th>
+            <h2>인터페이스(Interface)</h2>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <h3>제목 정의</h3>
+            <ul>
+                <li><b>인터페이스</b>는 클래스가 구현해야 하는 메서드의 목록을 정의한 것입니다.</li>
+                <li>인터페이스는 다중 상속을 가능하게 하고, 객체 간의 통신을 표준화합니다.</li>
+            </ul>
+
+            <h3>세부 정보 정의</h3>
+            <ol>
+                <li><b>인터페이스 선언</b>: `interface` 키워드를 사용하여 인터페이스를 선언합니다.</li>
+                <li><b>인터페이스 구현</b>: 클래스는 `implements` 키워드를 사용하여 인터페이스를 구현합니다. 구현하는 클래스는 인터페이스에 정의된 모든 메서드를 반드시 구현해야
+                    합니다.</li>
+                <li><b>다중 인터페이스 구현</b>: 하나의 클래스가 여러 인터페이스를 동시에 구현할 수 있습니다.</li>
+                <li><b>인터페이스 사용</b>: 인터페이스 타입의 변수를 사용하여 구현 클래스의 객체를 참조할 수 있습니다.</li>
+            </ol>
+
+            <h3>특징</h3>
+            <ol>
+                <li>인터페이스는 메서드의 시그니처만 정의하며, 구현은 포함하지 않습니다.</li>
+                <li>인터페이스는 다중 상속을 지원하여 여러 인터페이스를 구현할 수 있습니다.</li>
+                <li>인터페이스의 모든 메서드는 기본적으로 `public`이며, `abstract`로 간주됩니다.</li>
+            </ol>
+
+            <h3>사용 이유</h3>
+            <ol>
+                <li>다양한 클래스 간의 통신을 표준화하고 일관성을 유지하기 위해 필요합니다.</li>
+                <li>유연한 코드 작성을 가능하게 하여 유지보수를 용이하게 합니다.</li>
+                <li>다형성을 활용하여 코드의 재사용성을 높입니다.</li>
+            </ol>
+
+            <h3>예제 구문</h3>
+            <strong>
+                <pre>
+// 인터페이스 선언
+interface Animal {
+    void makeSound(); // 추상 메서드
+}
+
+// 인터페이스 구현
+class Dog implements Animal {
+    @Override
+    public void makeSound() {
+        System.out.println("멍멍 소리를 냅니다.");
+    }
+}
+
+// 또 다른 인터페이스 구현
+interface Pet {
+    void play(); // 추상 메서드
+}
+
+// 다중 인터페이스 구현
+class Cat implements Animal, Pet {
+    @Override
+    public void makeSound() {
+        System.out.println("야옹 소리를 냅니다.");
+    }
+    @Override
+    public void play() {
+        System.out.println("고양이가 놀고 있습니다.");
+    }
+}
+
+// 메인 클래스
+public class Main {
+    public static void main(String[] args) {
+        Animal dog = new Dog(); // 인터페이스 타입으로 객체 생성
+        dog.makeSound(); // 멍멍 소리를 냅니다. 출력
+        Pet cat = new Cat(); // Pet 인터페이스 타입으로 객체 생성
+        cat.play(); // 고양이가 놀고 있습니다. 출력
+        ((Animal) cat).makeSound(); // 야옹 소리를 냅니다. 출력
+    }
+}
+                </pre>
+            </strong>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>
+            <h2>타입 변환과 다형성</h2>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <h3>제목 정의</h3>
+            <ul>
+                <li><b>타입 변환</b>은 하나의 데이터 타입을 다른 데이터 타입으로 변환하는 과정입니다.</li>
+                <li><b>다형성</b>은 같은 메서드가 다양한 형태로 동작할 수 있는 능력을 말합니다.</li>
+            </ul>
+
+            <h3>세부 정보 정의</h3>
+            <ol>
+                <li><b>자동 타입 변환</b>: 작은 데이터 타입에서 큰 데이터 타입으로 자동으로 변환되는 과정입니다. 예: int에서 double로.</li>
+                <li><b>필드의 다형성</b>: 상위 클래스 타입의 필드를 통해 하위 클래스 객체를 참조할 수 있습니다.</li>
+                <li><b>매개 변수의 다형성</b>: 메서드의 매개변수로 상위 클래스 타입을 사용하면 하위 클래스 객체를 전달할 수 있습니다.</li>
+                <li><b>강제 타입 변환</b>: 상위 클래스 타입을 하위 클래스 타입으로 변환할 때 사용하며, 이때는 명시적으로 캐스팅해야 합니다.</li>
+                <li><b>객체 타입 확인</b>: `instanceof` 연산자를 사용하여 객체가 특정 클래스의 인스턴스인지 확인할 수 있습니다.</li>
+                <li><b>인터페이스 상속</b>: 인터페이스는 다른 인터페이스를 상속받을 수 있으며, 이를 통해 여러 인터페이스를 구현할 수 있습니다.</li>
+            </ol>
+
+            <h3>특징</h3>
+            <ol>
+                <li>타입 변환을 통해 다양한 타입의 데이터를 유연하게 처리할 수 있습니다.</li>
+                <li>다형성을 통해 코드의 재사용성과 유연성을 높일 수 있습니다.</li>
+                <li>강제 타입 변환 시, 잘못된 변환으로 인해 런타임 오류가 발생할 수 있으므로 주의가 필요합니다.</li>
+                <li>인터페이스 상속을 통해 여러 인터페이스를 조합하여 사용할 수 있습니다.</li>
+            </ol>
+
+            <h3>사용 이유</h3>
+            <ol>
+                <li>타입 변환을 통해 서로 다른 데이터 타입 간의 호환성을 확보할 수 있습니다.</li>
+                <li>다형성은 객체 지향 프로그래밍의 중요한 원칙으로, 코드의 확장성을 높입니다.</li>
+                <li>유연한 코드 작성을 통해 유지보수를 용이하게 합니다.</li>
+            </ol>
+
+            <h3>예제 구문</h3>
+            <strong>
+                <pre>
+// 상위 클래스
+class Animal {
+    void makeSound() {
+        System.out.println("동물이 소리를 냅니다.");
+    }
+}
+
+// 하위 클래스
+class Dog extends Animal {
+    @Override
+    void makeSound() {
+        System.out.println("멍멍 소리를 냅니다.");
+    }
+}
+
+// 인터페이스 선언
+interface Pet {
+    void play(); // 추상 메서드
+}
+
+// 다중 인터페이스 구현
+class Cat extends Animal implements Pet {
+    @Override
+    void makeSound() {
+        System.out.println("야옹 소리를 냅니다.");
+    }
+    @Override
+    public void play() {
+        System.out.println("고양이가 놀고 있습니다.");
+    }
+}
+
+// 메인 클래스
+public class Main {
+    public static void main(String[] args) {
+
+        // 자동 타입 변환
+        Animal animal = new Dog(); // Dog 객체를 Animal 타입으로 참조
+        animal.makeSound(); // 멍멍 소리를 냅니다. 출력
+
+        // 매개 변수의 다형성
+        makeAnimalSound(animal); // Animal 타입의 매개변수에 Dog 객체 전달
+
+        // 객체 타입 확인
+        if (animal instanceof Dog) {
+            System.out.println("animal은 Dog 타입입니다."); // 출력
+        }
+
+        // 강제 타입 변환
+        Dog dog = (Dog) animal; // Animal 타입을 Dog 타입으로 강제 변환
+        dog.makeSound(); // 멍멍 소리를 냅니다. 출력
+
+        // 인터페이스 사용
+        Pet cat = new Cat(); // Cat 객체를 Pet 타입으로 참조
+        cat.play(); // 고양이가 놀고 있습니다. 출력
+    }
+    
+    static void makeAnimalSound(Animal animal) {
+        animal.makeSound(); // 다형성에 의해 재정의된 메서드 호출
+    }
+}
+                </pre>
+            </strong>
+        </td>
+    </tr>
+</table>

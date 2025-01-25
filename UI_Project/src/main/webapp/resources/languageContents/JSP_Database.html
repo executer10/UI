@@ -1,0 +1,117 @@
+<table>
+    <tr>
+        <td>
+            <h3>목차</h3>
+            <strong>로그인 시스템 구조도</strong>
+            <ul>
+                <li>데이터 계층
+                    <ul>
+                        <li>회원정보 관리 (MemberDTO)</li>
+                        <li>데이터 접근 객체 (MemberDAO)</li>
+                    </ul>
+                </li>
+                <li>데이터베이스 연결
+                    <ul>
+                        <li>기본 JDBC 연결 (JDBConnect)</li>
+                        <li>커넥션 풀 관리 (DBConnPool)</li>
+                    </ul>
+                </li>
+                <li>사용자 인터페이스
+                    <ul>
+                        <li>로그인 화면 구현</li>
+                        <li>로그인 처리 로직</li>
+                        <li>로그아웃 기능</li>
+                        <li>메뉴 네비게이션</li>
+                    </ul>
+                </li>
+            </ul>
+            <h3>세부 내용</h3>
+            <ol>
+                <li><strong>데이터 계층 구현</strong>
+                    <ul>
+                        <li>회원정보 DTO (Data Transfer Object)
+                            <ul>
+                                <li>필수 회원 정보: 아이디, 비밀번호, 이름, 가입일자</li>
+                                <li>데이터 보안: private 접근제어자 사용</li>
+                                <li>데이터 접근: getter/setter 메소드 구현</li>
+                            </ul>
+                        </li>
+                        <li>회원정보 DAO (Data Access Object)
+                            <ul>
+                                <li>데이터베이스 연결: JDBConnect 상속</li>
+                                <li>회원 인증: PreparedStatement 활용</li>
+                                <li>보안 강화: SQL 인젝션 방지</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>데이터베이스 연결 관리</strong>
+                    <ul>
+                        <li>JDBC 직접 연결
+                            <ul>
+                                <li>연결 방식: 기본, 매개변수, ServletContext</li>
+                                <li>자원 관리: Connection, Statement 등</li>
+                                <li>예외 처리: try-catch 구문 활용</li>
+                            </ul>
+                        </li>
+                        <li>커넥션 풀 활용
+                            <ul>
+                                <li>설정: JNDI 컨텍스트 초기화</li>
+                                <li>효율성: 자동 커넥션 반환</li>
+                                <li>모니터링: 연결 상태 로깅</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>사용자 인터페이스 구현</strong>
+                    <ul>
+                        <li>로그인 화면 (로그인폼.jsp)
+                            <ul>
+                                <li>입력 검증: JavaScript 유효성 검사</li>
+                                <li>화면 구성: 조건부 렌더링</li>
+                                <li>오류 처리: 메시지 표시 기능</li>
+                            </ul>
+                        </li>
+                        <li>로그인 처리 (로그인처리.jsp)
+                            <ul>
+                                <li>데이터 처리: 폼 데이터 수신</li>
+                                <li>인증 절차: DAO 활용</li>
+                                <li>세션 관리: 사용자 정보 저장</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>특징</h3>
+            <ol>
+                <li><strong>보안 강화 기능</strong>
+                    <ul>
+                        <li>SQL 인젝션 방지: PreparedStatement 사용</li>
+                        <li>세션 기반 인증: 로그인 상태 관리</li>
+                        <li>입력값 검증: 클라이언트/서버 이중 검사</li>
+                    </ul>
+                </li>
+                <li><strong>효율적인 리소스 관리</strong>
+                    <ul>
+                        <li>커넥션 풀 활용: 데이터베이스 연결 최적화</li>
+                        <li>자원 해제: 체계적인 close() 처리</li>
+                        <li>메모리 관리: 누수 방지 구조</li>
+                    </ul>
+                </li>
+                <li><strong>사용자 경험 최적화</strong>
+                    <ul>
+                        <li>직관적 인터페이스: 한글 메시지 활용</li>
+                        <li>오류 처리: 명확한 피드백 제공</li>
+                        <li>동적 메뉴: 로그인 상태 반영</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>예제 구문</h3>
+            <pre>
+
+            </pre>
+        </td>
+    </tr>
+</table>

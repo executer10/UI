@@ -1,0 +1,688 @@
+<table>
+    <tr>
+        <td>
+            <h3>목차</h3>
+            <ol>
+                <li>JSTL 개요</li>
+                <li>JSTL 태그 라이브러리 종류</li>
+                <li>JSTL 설정 방법</li>
+                <li>태그별 상세 설명</li>
+                <li>태그별 속성 정보</li>
+            </ol>
+
+            <h3>세부 내용</h3>
+            <ol>
+                <li>
+                    JSTL 개요
+                    <p>
+                        JSTL(JSP Standard Tag Library)은 JSP 페이지에서 자주 사용되는 핵심 기능(반복문, 조건문, 데이터 관리 등)을 구현한 커스텀 태그
+                        라이브러리입니다. JSP 코드를 더 간단하고 가독성 있게 작성할 수 있도록 도와줍니다.
+                    </p>
+                </li>
+                <li>
+                    JSTL 태그 라이브러리 종류
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>라이브러리</th>
+                                <th>접두어</th>
+                                <th>기능</th>
+                                <th>URI(통캣 8~9버전 기준)</th>
+                            </tr>
+                            <tr>
+                                <td>Core</td>
+                                <td>c</td>
+                                <td>변수지원, 제어문, 페이지 관련 처리</td>
+                                <td>http://java.sun.com/jsp/jstl/core</td>
+                            </tr>
+                            <tr>
+                                <td>XML</td>
+                                <td>x</td>
+                                <td>XML 관련 처리</td>
+                                <td>http://java.sun.com/jsp/jstl/xml</td>
+                            </tr>
+                            <tr>
+                                <td>Formatting</td>
+                                <td>fmt</td>
+                                <td>숫자/날짜/시간 포맷지정, 국제화 지원</td>
+                                <td>http://java.sun.com/jsp/jstl/fmt</td>
+                            </tr>
+                            <tr>
+                                <td>Database</td>
+                                <td>sql</td>
+                                <td>DB 관련 CRUD</td>
+                                <td>http://java.sun.com/jsp/jstl/sql</td>
+                            </tr>
+                            <tr>
+                                <td>Functions</td>
+                                <td>fn</td>
+                                <td>컬렉션, 문자열 처리</td>
+                                <td>http://java.sun.com/jsp/jstl/functions</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li>
+                <li>
+                    JSTL 설정 방법
+                    <ol>
+                        <li>Maven 의존성 추가
+                            <pre>
+&lt;dependency&gt;
+    &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+    &lt;artifactId&gt;jstl&lt;/artifactId&gt;
+    &lt;version&gt;1.2&lt;/version&gt;
+&lt;/dependency&gt;
+                            </pre>
+                            혹은 mvnrepository.com에 접속하여 JSTL을 다운받아 WEB-INF의 lib폴더에 설치
+                        </li>
+                        <li>JSP 피이지에 태그 라이브러리 선언
+                            <pre>
+&lt;%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %&gt;
+                            </pre>
+                        </li>
+                    </ol>
+                </li>
+                <li>각 태그별 기능
+                    <ol>
+                        <li>Core 태그 (c:)
+                            <ul>
+                                <li>set: 변수 선언 및 값 설정</li>
+                                <li>remove: 선언된 변수 제거</li>
+                                <li>out: 값을 출력</li>
+                                <li>if: 조건문 처리</li>
+                                <li>c:choose: 조건부 실행 태그</li>
+                                <li>c:when: choose의 하위 태그, if 혹은 else if</li>
+                                <li>c:otherwise: when 조건이 false일 때 실행</li>
+                                <li>forEach: 컬렉션/배열의 반복 처리</li>
+                                <li>forTokens: 구분자로 분리된 토큰 처리</li>
+                                <li>import: 외부 자원 가져오기</li>
+                                <li>url: URL 생성</li>
+                                <li>param: URL 파라미터 추가</li>
+                                <li>redirect: 페이지 리다이렉트</li>
+                                <li>catch: 예외 처리</li>
+                            </ul>
+                        </li>
+                        <li>XML 태그
+                            <ul>
+                                <li>out: XPath 표현식 결과 출력</li>
+                                <li>parse: XML 데이터 파싱</li>
+                                <li>parseError: XML 파싱 에러 처리</li>
+                                <li>set: XPath 표현식 값으로 변수 설정</li>
+                                <li>if: XML 조건문 처리</li>
+                                <li>forEach: XML 노드 반복 처리</li>
+                                <li>transform: XSL 변환 적용</li>
+                                <li>param: XSLT 스타일시트 파라미터 설정</li>
+                                <li>choose: XML 다중 조건문</li>
+                                <li>when: XML 조건 분기</li>
+                                <li>otherwise: XML 기본 조건</li>
+                            </ul>
+                        </li>
+                        <li>Formatting 태그
+                            <ul>
+                                <li>formatNumber: 숫자 포맷팅</li>
+                                <li>formatDate: 날짜/시간 포맷팅</li>
+                                <li>parseNumber: 문자열을 숫자로 파싱</li>
+                                <li>parseDate: 문자열을 날짜로 파싱</li>
+                                <li>timeZone: 시간대 설정</li>
+                                <li>setTimeZone: 시간대 변경</li>
+                                <li>bundle: 리소스 번들 로드</li>
+                                <li>setBundle: 리소스 번들 설정</li>
+                                <li>setLocale: 로케일 설정</li>
+                                <li>message: 메시지 출력</li>
+                                <li>requestEncoding: 요청 인코딩 설정</li>
+                            </ul>
+                        </li>
+                        <li>Database 태그
+                            <ul>
+                                <li>setDataSource: 데이터베이스 연결 설정</li>
+                                <li>query: SELECT 쿼리 실행</li>
+                                <li>update: INSERT/UPDATE/DELETE 쿼리 실행</li>
+                                <li>param: SQL 파라미터 설정</li>
+                                <li>dateParam: 날짜 타입 파라미터 설정</li>
+                                <li>transaction: 트랜잭션 처리</li>
+                                <li>setTimeZone: DB 시간대 설정</li>
+                                <li>driver: JDBC 드라이버 설정</li>
+                                <li>resultSet: 결과셋 처리</li>
+                                <li>statement: SQL 문 실행</li>
+                            </ul>
+                        </li>
+                        <li>Functions 태그
+                            <ul>
+                                <li>contains: 문자열 포함 여부 확인</li>
+                                <li>containsIgnoreCase: 대소문자 무시 문자열 포함 확인</li>
+                                <li>endsWith: 지정된 문자열로 끝나는지 확인</li>
+                                <li>escapeXml: XML 마크업 문자 이스케이프 처리</li>
+                                <li>indexOf: 문자열 위치 검색</li>
+                                <li>join: 배열 요소를 문자열로 결합</li>
+                                <li>length: 컬렉션/문자열 길이 반환</li>
+                                <li>replace: 문자열 치환</li>
+                                <li>split: 문자열 분할</li>
+                                <li>startsWith: 지정된 문자열로 시작하는지 확인</li>
+                                <li>substring: 부분 문자열 추출</li>
+                                <li>substringAfter: 지정된 문자열 이후 부분 추출</li>
+                                <li>substringBefore: 지정된 문자열 이전 부분 추출</li>
+                                <li>toLowerCase: 소문자 변환</li>
+                                <li>toUpperCase: 대문자 변환</li>
+                                <li>trim: 문자열 앞뒤 공백 제거</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </li>
+                <li>각 태그별 속성
+                    <ul>
+                        <li>Core 태그 속성
+                            <ol>
+                                <li>set 태그
+                                    <ul>
+                                        <li>var: 변수명</li>
+                                        <li>value: 설정할 값</li>
+                                        <li>target: 대상 객체</li>
+                                        <li>property: 프로퍼티명</li>
+                                        <li>scope: 변수 범위 (page, request, session, application)</li>
+                                    </ul>
+                                </li>
+                                <li>out 태그
+                                    <ul>
+                                        <li>value: 출력할 값</li>
+                                        <li>default: 기본값</li>
+                                        <li>escapeXml: XML 특수문자 이스케이프 여부</li>
+                                    </ul>
+                                </li>
+                                <li>if 태그
+                                    <ul>
+                                        <li>test: 조건식</li>
+                                        <li>var: 조건 결과 저장 변수</li>
+                                        <li>scope: 변수 범위</li>
+                                    </ul>
+                                </li>
+                                <li>choose 태그
+                                    <ul>
+                                        <li>없음</li>
+                                    </ul>
+                                </li>
+                                <li>when 태그
+                                    <ul>
+                                        <li>test : 조건식</li>
+                                    </ul>
+                                </li>
+                                <li>otherwise 태그
+                                    <ul>
+                                        <li>없음</li>
+                                    </ul>
+                                </li>
+                                <li>forEach 태그
+                                    <ul>
+                                        <li>var: 현재 항목 변수명</li>
+                                        <li>items: 반복할 컬렉션</li>
+                                        <li>begin: 시작 인덱스</li>
+                                        <li>end: 종료 인덱스</li>
+                                        <li>step: 증가값</li>
+                                        <li>varStatus: 반복 상태 변수</li>
+                                    </ul>
+                                </li>
+                                <li>forTokens 태그
+                                    <ul>
+                                        <li>var: 현재 토큰 변수</li>
+                                        <li>items: 문자열</li>
+                                        <li>delims: 구분자</li>
+                                        <li>varStatus: 반복 상태 변수</li>
+                                    </ul>
+                                </li>
+                                <li>import 태그
+                                    <ul>
+                                        <li>url: 가져올 리소스 URL</li>
+                                        <li>var: 저장할 변수명</li>
+                                        <li>scope: 변수 범위</li>
+                                        <li>charEncoding: 문자 인코딩</li>
+                                    </ul>
+                                </li>
+                                <li>url 태그
+                                    <ul>
+                                        <li>value: URL 경로</li>
+                                        <li>var: 저장할 변수명</li>
+                                        <li>scope: 변수 범위</li>
+                                    </ul>
+                                </li>
+                                <li>redirect 태그
+                                    <ul>
+                                        <li>url: 리다이렉트할 URL</li>
+                                        <li>context: 컨텍스트 경로</li>
+                                        <li>var: 저장할 변수명</li>
+                                        <li>scope: 변수 범위</li>
+                                    </ul>
+                                </li>
+                                <li>catch 태그
+                                    <ul>
+                                        <li>var: 예외 저장 변수</li>
+                                        <li>scope: 변수 범위</li>
+                                    </ul>
+                                </li>
+                                <li>param 태그
+                                    <ul>
+                                        <li>name: 파라미터 이름</li>
+                                        <li>value: 파라미터 값</li>
+                                    </ul>
+                                </li>
+                                <li>contains 태그
+                                    <ul>
+                                        <li>string: 검색 대상 문자열</li>
+                                        <li>substring: 찾을 부분 문자열</li>
+                                    </ul>
+                                </li>
+                                <li>containsIgnoreCase 태그
+                                    <ul>
+                                        <li>string: 검색 대상 문자열</li>
+                                        <li>substring: 찾을 부분 문자열</li>
+                                    </ul>
+                                </li>
+                                <li>length 태그
+                                    <ul>
+                                        <li>string: 길이를 측정할 문자열 또는 컬렉션</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </li>
+                        <li>Formatting 태그 속성
+                            <ol>
+                                <li>formatNumber 태그
+                                    <ul>
+                                        <li>value: 포맷팅할 숫자</li>
+                                        <li>type: 포맷 유형 (number, currency, percent)</li>
+                                        <li>pattern: 사용자 정의 패턴</li>
+                                        <li>currencyCode: 통화 코드</li>
+                                        <li>groupingUsed: 자릿수 구분 사용 여부</li>
+                                        <li>maxIntegerDigits: 최대 정수 자릿수</li>
+                                        <li>minIntegerDigits: 최소 정수 자릿수</li>
+                                        <li>maxFractionDigits: 최대 소수점 자릿수</li>
+                                        <li>minFractionDigits: 최소 소수점 자릿수</li>
+                                    </ul>
+                                </li>
+                                <li>formatDate 태그
+                                    <ul>
+                                        <li>value: 포맷팅할 날짜</li>
+                                        <li>type: 포맷 유형 (date, time, both)</li>
+                                        <li>dateStyle: 날짜 스타일 (default, short, medium, long, full)</li>
+                                        <li>timeStyle: 시간 스타일 (default, short, medium, long, full)</li>
+                                        <li>pattern: 사용자 정의 패턴</li>
+                                        <li>timeZone: 시간대</li>
+                                    </ul>
+                                </li>
+                                <li>parseNumber 태그
+                                    <ul>
+                                        <li>value: 파싱할 문자열</li>
+                                        <li>type: 파싱 유형 (number, currency, percent)</li>
+                                        <li>pattern: 사용자 정의 패턴</li>
+                                        <li>parseLocale: 파싱할 로케일</li>
+                                        <li>integerOnly: 정수만 파싱 여부</li>
+                                    </ul>
+                                </li>
+                                <li>parseDate 태그
+                                    <ul>
+                                        <li>value: 파싱할 문자열</li>
+                                        <li>type: 파싱 유형 (date, time, both)</li>
+                                        <li>dateStyle: 날짜 스타일</li>
+                                        <li>timeStyle: 시간 스타일</li>
+                                        <li>pattern: 사용자 정의 패턴</li>
+                                        <li>timeZone: 시간대</li>
+                                        <li>parseLocale: 파싱할 로케일</li>
+                                    </ul>
+                                </li>
+                                <li>bundle/setBundle 태그
+                                    <ul>
+                                        <li>basename: 리소스 번들 기본 이름</li>
+                                        <li>var: 저장할 변수명</li>
+                                        <li>scope: 변수 범위</li>
+                                    </ul>
+                                </li>
+                                <li>message 태그
+                                    <ul>
+                                        <li>key: 메시지 키</li>
+                                        <li>bundle: 리소스 번들</li>
+                                        <li>var: 저장할 변수명</li>
+                                        <li>scope: 변수 범위</li>
+                                    </ul>
+                                </li>
+                                <li>timeZone/setTimeZone 태그
+                                    <ul>
+                                        <li>value: 시간대 ID</li>
+                                        <li>var: 저장할 변수명</li>
+                                        <li>scope: 변수 범위</li>
+                                    </ul>
+                                </li>
+                                <li>setLocale 태그
+                                    <ul>
+                                        <li>value: 로케일 값</li>
+                                        <li>variant: 로케일 변형</li>
+                                        <li>scope: 변수 범위</li>
+                                    </ul>
+                                </li>
+                                <li>requestEncoding 태그
+                                    <ul>
+                                        <li>value: 인코딩 값</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </li>
+                        <li>Database 태그 속성
+                            <ol>
+                                
+                                <li>setDataSource 태그
+                                    <ul>
+                                        <li>driver: JDBC 드라이버 클래스</li>
+                                        <li>url: 데이터베이스 URL</li>
+                                        <li>user: 사용자명</li>
+                                        <li>password: 비밀번호</li>
+                                        <li>dataSource: 데이터소스 객체</li>
+                                        <li>var: 변수명</li>
+                                        <li>scope: 변수 범위</li>
+                                    </ul>
+                                </li>
+                                <li>query 태그
+                                    <ul>
+                                        <li>sql: SQL 쿼리문</li>
+                                        <li>var: 결과 저장 변수</li>
+                                        <li>scope: 변수 범위</li>
+                                        <li>dataSource: 데이터소스 참조</li>
+                                        <li>maxRows: 최대 행 수</li>
+                                    </ul>
+                                </li>
+                                <li>update 태그
+                                    <ul>
+                                        <li>sql: SQL 쿼리문</li>
+                                        <li>dataSource: 데이터소스 참조</li>
+                                        <li>var: 결과 저장 변수</li>
+                                        <li>scope: 변수 범위</li>
+                                    </ul>
+                                </li>
+                                <li>transaction 태그
+                                    <ul>
+                                        <li>dataSource: 데이터소스 참조</li>
+                                        <li>isolation: 트랜잭션 격리 수준</li>
+                                    </ul>
+                                </li>
+                                <li>param 태그
+                                    <ul>
+                                        <li>value: 파라미터 값</li>
+                                        <li>type: SQL 타입</li>
+                                    </ul>
+                                </li>
+                                <li>dateParam 태그
+                                    <ul>
+                                        <li>value: 날짜 값</li>
+                                        <li>type: 날짜 타입</li>
+                                        <li>timestamp: 타임스탬프 여부</li>
+                                    </ul>
+                                </li>
+                                <li>resultSet 태그
+                                    <ul>
+                                        <li>var: 결과셋 저장 변수</li>
+                                        <li>scope: 변수 범위</li>
+                                        <li>maxRows: 최대 행 수</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </li>
+                        <li>XML 태그 속성
+                            <ol>
+                                <li>parse 태그
+                                    <ul>
+                                        <li>xml: XML 문서</li>
+                                        <li>var: 파싱 결과 저장 변수</li>
+                                        <li>scope: 변수 범위</li>
+                                        <li>varDom: DOM 트리 저장 변수</li>
+                                    </ul>
+                                </li>
+                                <li>transform 태그
+                                    <ul>
+                                        <li>xml: XML 문서</li>
+                                        <li>xslt: XSLT 스타일시트</li>
+                                        <li>var: 변환 결과 저장 변수</li>
+                                        <li>scope: 변수 범위</li>
+                                    </ul>
+                                </li>
+                                <li>out 태그
+                                    <ul>
+                                        <li>select: XPath 표현식</li>
+                                        <li>escapeXml: XML 이스케이프 처리 여부</li>
+                                    </ul>
+                                </li>
+                                <li>if 태그
+                                    <ul>
+                                        <li>select: XPath 조건식</li>
+                                        <li>var: 조건 결과 저장 변수</li>
+                                        <li>scope: 변수 범위</li>
+                                    </ul>
+                                </li>
+                                <li>forEach 태그
+                                    <ul>
+                                        <li>select: XPath 표현식</li>
+                                        <li>var: 현재 항목 변수</li>
+                                        <li>varStatus: 반복 상태 변수</li>
+                                    </ul>
+                                </li>
+                                <li>param 태그
+                                    <ul>
+                                        <li>name: 파라미터 이름</li>
+                                        <li>value: 파라미터 값</li>
+                                    </ul>
+                                </li>
+                                <li>choose/when/otherwise 태그
+                                    <ul>
+                                        <li>select: XPath 조건식 (when 태그에만 해당)</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>특징</h3>
+            <ul>
+                <li>간편한 문법: JSP 스크립틀릿 대체</li>
+                <li>표준화된 태그: 일관된 코딩 스타일 제공</li>
+                <li>다양한 기능: 핵심 기능 내장</li>
+                <li>높은 재사용성: 공통 기능 모듈화</li>
+            </ul>
+            
+            <h3>예제 구문</h3>
+            <ul>
+                <li>Core 태그 예제
+                    <pre>
+&lt;%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %&gt;
+
+&lt;!-- 1. 변수 설정 (set) --&gt;
+&lt;c:set var="사용자이름" value="홍길동" /&gt;
+&lt;c:set var="나이" value="25" /&gt;
+&lt;c:set var="취미목록" value="등산,독서,여행" /&gt;
+&lt;c:set var="회원정보" value="${memberDAO.getMemberInfo()}" /&gt; &lt;!-- 객체 저장 예시 --&gt;
+
+<hr>
+
+&lt;!-- 2. 변수 출력 (out) --&gt;
+회원이름: &lt;c:out value="${사용자이름}" default="이름없음" /&gt;
+&lt;!-- 실행결과: 회원이름: 홍길동 --&gt;
+
+<hr>
+
+&lt;!-- 3. 조건문 (if) --&gt;
+&lt;c:if test="${나이 &gt;= 20}"&gt;
+    &lt;p&gt;${사용자이름}님은 성인입니다.&lt;/p&gt;
+&lt;/c:if&gt;
+&lt;!-- 실행결과: 홍길동님은 성인입니다. --&gt;
+
+<hr>
+
+&lt;!-- 4. 다중 조건문 (choose, when, otherwise) --&gt;
+&lt;c:choose&gt;
+    &lt;c:when test="${나이 &gt;= 20 &amp;&amp; 나이 &lt; 30}"&gt;
+        &lt;p&gt;20대입니다.&lt;/p&gt;
+    &lt;/c:when&gt;
+    &lt;c:when test="${나이 &gt;= 30 &amp;&amp; 나이 &lt; 40}"&gt;
+        &lt;p&gt;30대입니다.&lt;/p&gt;
+    &lt;/c:when&gt;
+    &lt;c:otherwise&gt;
+        &lt;p&gt;기타 연령대입니다.&lt;/p&gt;
+    &lt;/c:otherwise&gt;
+&lt;/c:choose&gt;
+&lt;!-- 실행결과: 20대입니다. --&gt;
+
+<hr>
+
+&lt;!-- 5. 반복문 (forEach) - 숫자 범위 --&gt;
+&lt;h4&gt;카운트다운&lt;/h4&gt;
+&lt;c:forEach var="숫자" begin="1" end="3"&gt;
+    &lt;p&gt;${숫자}번째 항목&lt;/p&gt;
+&lt;/c:forEach&gt;
+&lt;!-- 실행결과:
+1번째 항목
+2번째 항목
+3번째 항목
+--&gt;
+
+<hr>
+
+&lt;!-- 6. 반복문 (forEach) - 배열/리스트 --&gt;
+&lt;%
+    List&lt;String&gt; 과일목록 = Arrays.asList("사과", "바나나", "오렌지");
+    request.setAttribute("과일들", 과일목록);
+%&gt;
+&lt;h4&gt;과일 목록&lt;/h4&gt;
+&lt;c:forEach var="과일" items="${과일들}" varStatus="상태"&gt;
+    ${상태.count}. ${과일}&lt;br&gt;
+&lt;/c:forEach&gt;
+&lt;!-- 실행결과:
+1. 사과
+2. 바나나
+3. 오렌지
+--&gt;
+
+<hr>
+
+&lt;!-- 7. 구분자로 문자열 분리 (forTokens) --&gt;
+&lt;h4&gt;취미 목록&lt;/h4&gt;
+&lt;c:forTokens var="취미" items="${취미목록}" delims=","&gt;
+    - ${취미}&lt;br&gt;
+&lt;/c:forTokens&gt;
+&lt;!-- 실행결과:
+- 등산
+- 독서
+- 여행
+--&gt;
+
+<hr>
+
+&lt;!-- 8. 예외 처리 (catch) --&gt;
+&lt;c:catch var="에러"&gt;
+    &lt;% int result = 10 / 0; %&gt; &lt;!-- 의도적 에러 발생 --&gt;
+&lt;/c:catch&gt;
+&lt;c:if test="${not empty 에러}"&gt;
+    &lt;p&gt;계산 중 에러가 발생했습니다: ${에러.message}&lt;/p&gt;
+&lt;/c:if&gt;
+&lt;!-- 실행결과: 계산 중 에러가 발생했습니다: / by zero --&gt;
+
+<hr>
+
+&lt;!-- 9. URL 생성 (url) --&gt;
+&lt;c:url var="검색URL" value="/search"&gt;
+    &lt;c:param name="keyword" value="JSTL" /&gt;
+    &lt;c:param name="category" value="책" /&gt;
+&lt;/c:url&gt;
+&lt;a href="${검색URL}"&gt;검색하기&lt;/a&gt;
+&lt;!-- 실행결과: &lt;a href="/search?keyword=JSTL&amp;category=책"&gt;검색하기&lt;/a&gt; --&gt;
+
+<hr>
+
+&lt;!-- 10. 외부 자원 가져오기 (import) --&gt;
+&lt;c:import var="네이버홈" url="https://www.naver.com" /&gt;
+&lt;div class="preview"&gt;
+    ${네이버홈}
+&lt;/div&gt;
+&lt;!-- 실행결과: 네이버 홈페이지 내용이 div 안에 로드됨 --&gt;
+
+<hr>
+
+&lt;!-- 11. 변수 제거 (remove) --&gt;
+&lt;c:remove var="사용자이름" /&gt;
+&lt;p&gt;삭제 후 이름: &lt;c:out value="${사용자이름}" default="이름이 삭제됨" /&gt;&lt;/p&gt;
+&lt;!-- 실행결과: 삭제 후 이름: 이름이 삭제됨 --&gt;
+
+<hr>
+
+&lt;!-- 12. 페이지 리다이렉트 (redirect) --&gt;
+&lt;c:if test="${empty 세션유저}"&gt;
+    &lt;c:redirect url="/login.jsp"&gt;
+        &lt;c:param name="returnUrl" value="/main.jsp" /&gt;
+    &lt;/c:redirect&gt;
+&lt;/c:if&gt;
+&lt;!-- 실행결과: 비로그인 시 /login.jsp?returnUrl=/main.jsp 로 리다이렉트 --&gt;
+
+<hr>
+
+                    </pre>
+                </li>
+                <li>Formatting 태그 예제
+                    <pre>
+&lt;%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %&gt;
+
+&lt;!-- 숫자 포맷팅 --&gt;
+&lt;c:set var="금액" value="1234567" /&gt;
+&lt;fmt:formatNumber value="${금액}" type="currency" currencySymbol="₩" /&gt;
+
+&lt;!-- 날짜 포맷팅 --&gt;
+&lt;c:set var="현재날짜" value="&lt;%= new java.util.Date() %&gt;" /&gt;
+&lt;fmt:formatDate value="${현재날짜}" pattern="yyyy년 MM월 dd일" /&gt;
+                    </pre>
+                </li>
+                <li>SQL 태그 예제
+                    <pre>
+&lt;%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %&gt;
+
+&lt;!-- 데이터베이스 연결 --&gt;
+&lt;sql:setDataSource var="데이터소스" 
+    driver="com.mysql.jdbc.Driver"
+    url="jdbc:mysql://localhost:3306/테스트DB"
+    user="사용자명" 
+    password="비밀번호" /&gt;
+
+&lt;!-- 데이터 조회 --&gt;
+&lt;sql:query var="결과" dataSource="${데이터소스}"&gt;
+    SELECT * FROM 회원테이블 WHERE 나이 >= ?
+    &lt;sql:param value="20" /&gt;
+&lt;/sql:query&gt;
+                    </pre>
+                </li>
+                <li>Functions 태그 예제
+                    <pre>
+&lt;%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %&gt;
+
+&lt;!-- 문자열 처리 --&gt;
+&lt;c:set var="문자열" value="안녕하세요 JSTL입니다" /&gt;
+
+문자열 길이: ${fn:length(문자열)}
+대문자 변환: ${fn:toUpperCase(문자열)}
+문자열 자르기: ${fn:substring(문자열, 0, 5)}
+                    </pre>
+                </li>
+                <li>XML 태그 예제
+                    <pre>
+&lt;%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %&gt;
+
+&lt;!-- XML 파싱 --&gt;
+&lt;c:set var="XML데이터"&gt;
+    &lt;사용자들&gt;
+        &lt;사용자&gt;
+            &lt;이름&gt;홍길동&lt;/이름&gt;
+            &lt;나이&gt;25&lt;/나이&gt;
+        &lt;/사용자&gt;
+    &lt;/사용자들&gt;
+&lt;/c:set&gt;
+
+&lt;x:parse xml="${XML데이터}" var="결과" /&gt;
+&lt;x:out select="$결과/사용자들/사용자/이름" /&gt;
+                    </pre>
+                </li>
+            </ul>
+        </td>
+    </tr>
+</table>

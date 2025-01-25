@@ -1,0 +1,77 @@
+<table>
+    <tr>
+        <td>
+            <pre>
+package DataBaseUtils;
+
+/**
+ * 게시판의 페이지네이션을 처리하는 유틸리티 클래스
+ * HTML 형식의 페이징 링크를 생성
+ */
+public class PageHandler {
+    
+    /**
+     * 페이지네이션 처리를 위한 HTML 문자열을 생성하는 정적 메서드
+     * 
+     * @param totalCount 전체 게시물 수
+     * @param pageSize 한 페이지당 표시할 게시물 수
+     * @param pageNum 현재 페이지 번호
+     * @param blockPage 한 블록당 표시할 페이지 수
+     * @param reqUrl 요청 URL
+     * @return 페이지네이션 HTML 문자열
+     */
+    public static String pagingProcessing(int totalCount, int pageSize, int pageNum, int blockPage, String reqUrl) {
+        String pagingStr = "";
+        
+        // 전체 페이지 수 계산
+        // Math.ceil을 사용하여 올림 처리 (마지막 페이지의 게시물이 pageSize보다 적을 경우를 위함)
+        int totalPages = (int)(Math.ceil((double) totalCount/pageSize));
+        
+        // 현재 페이지가 속한 페이지 블록의 시작과 끝 페이지 번호 계산
+        int startPage = ((pageNum - 1) / blockPage) * blockPage + 1;  // 블록의 시작 페이지
+        int endPage = Math.min(startPage + blockPage - 1, totalPages); // 블록의 끝 페이지
+        
+        // URL 파라미터 처리
+        // 기존 URL에 파라미터가 있는 경우 &를, 없는 경우 ?를 사용
+        String searchParam = reqUrl.contains("?") ? "&" : "?";
+        
+        // 이전 블록 바로가기 링크 생성
+        if(startPage &gt; 1) {
+            // 첫 페이지로 이동하는 링크
+            pagingStr += "&lt;a href='" + reqUrl + searchParam + "pageNum=1'&gt;[첫 페이지]&lt;/a&gt;&nbsp;";
+            // 이전 블록의 마지막 페이지로 이동하는 링크
+            pagingStr += "&lt;a href='" + reqUrl + searchParam + "pageNum=" + (startPage - 1) 
+                     + "'&gt;[이전 블록]&lt;/a&gt;&nbsp;";
+        }
+        
+        // 각 페이지 번호 출력
+        for(int i = startPage; i &lt;= endPage; i++) {
+            if(i == pageNum) {
+                // 현재 페이지는 링크 없이 강조 표시
+                pagingStr += "&nbsp;&lt;strong&gt;" + i + "&lt;/strong&gt;&nbsp;";
+            } else {
+                // 다른 페이지는 링크로 표시
+                pagingStr += "&nbsp;&lt;a href='" + reqUrl + searchParam + "pageNum=" + i 
+                         + "'&gt;" + i + "&lt;/a&gt;&nbsp;";
+            }
+        }
+        
+        // 다음 블록 바로가기 링크 생성
+        if(endPage &lt; totalPages) {
+            // 다음 블록의 첫 페이지로 이동하는 링크
+            pagingStr += "&nbsp;&lt;a href='" + reqUrl + searchParam + "pageNum=" + (endPage + 1) 
+                     + "'&gt;[다음 블록]&lt;/a&gt;";
+            // 마지막 페이지로 이동하는 링크
+            pagingStr += "&nbsp;&lt;a href='" + reqUrl + searchParam + "pageNum=" + totalPages 
+                     + "'&gt;[마지막 페이지]&lt;/a&gt;";
+        }
+        
+        return pagingStr;
+    }
+}
+            </pre>
+
+            <h4>이 클래스는 게시판의 페이지네이션을 처리하는데 필요한 HTML 문자열을 생성하며, 재사용 가능한 형태로 설계되어 있습니다.</h4>
+        </td>
+    </tr>
+</table>

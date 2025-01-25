@@ -1,0 +1,268 @@
+<table>
+  <tr>
+    <th>
+      <h2>파이썬 자료 구조 기초</h2>
+    </th>
+  </tr>
+  <tr>
+    <td>
+      <h3>제목</h3>
+      <ul>
+        <li><b>리스트</b> 기초</li>
+        <li><b>리스트</b> 활용하기</li>
+        <li><b>리스트</b>에서 유용하게 사용하는 파이썬 내장 함수</li>
+        <li><b>리스트 컴프리헨션</b></li>
+        <li><b>2차원 리스트</b></li>
+        <li><b>튜플</b></li>
+        <li><b>딕셔너리</b></li>
+      </ul>
+
+      <h3>세부 내용 정의</h3>
+      <ol>
+        <li><b>리스트 기초</b>
+          <ol>
+            <li><b>리스트 생성</b>
+              <ul>
+                <li>초기 값이 있는 리스트 생성: list = [1, 2, 3]</li>
+                <li>빈 리스트 생성: list = []</li>
+              </ul>
+            </li>
+            <li><b>리스트 활용하기</b>
+              <ul>
+                <li>리스트 데이터 항목 사용: 인덱싱을 통해 접근 (예: list[0])</li>
+                <li>리스트 항목값 변경: 인덱스를 사용하여 값 수정</li>
+                <li><b>리스트 메소드</b>: append(), extend(), insert(), remove(), pop(), clear(), index(), count(), sort(),
+                  reverse(), copy()</li>
+                <li>리스트를 이용한 if문과 for문: in 연산자를 사용한 멤버십 테스트</li>
+              </ul>
+            </li>
+            <li><b>유용한 파이썬 내장 함수</b>: len(), sum(), max(), min(), sorted(), map(), filter(), enumerate(), any(), all()
+            </li>
+            <li><b>리스트 연산</b>: 연결(+), 반복(*)</li>
+            <li><b>리스트 슬라이싱</b>: [start:end], [start:], [:end], [start:end:step]</li>
+          </ol>
+        </li>
+        <li><b>튜플</b>
+          <ul>
+            <li>특징: 불변의 자료 구조</li>
+            <li><b>튜플 메소드</b>: count(), index()</li>
+          </ul>
+        </li>
+        <li><b>딕셔너리</b>
+          <ul>
+            <li>특징: 키-값 쌍으로 데이터를 저장</li>
+            <li><b>딕셔너리 메소드</b>: clear(), copy(), get(), items(), keys(), values(), pop(), popitem(), setdefault(),
+              update()</li>
+          </ul>
+        </li>
+      </ol>
+
+      <h3>특징</h3>
+      <ol>
+        <li><b>리스트</b>는 변경 가능한 데이터 구조입니다.</li>
+        <li><b>튜플</b>은 변경 불가능한 데이터 구조입니다.</li>
+        <li><b>딕셔너리</b>는 키-값 쌍으로 데이터를 저장합니다.</li>
+      </ol>
+
+      <h3>사용 이유</h3>
+      <ol>
+        <li><b>리스트</b>는 데이터의 순서가 중요할 때 사용합니다.</li>
+        <li><b>튜플</b>은 데이터의 불변성을 보장할 때 사용합니다.</li>
+        <li><b>딕셔너리</b>는 빠른 데이터 검색이 필요할 때 사용합니다.</li>
+      </ol>
+
+      <h3>예제 구문</h3>
+      <strong>
+        <pre>
+# === 리스트 예제와 출력 ===
+# 1. 리스트 생성과 기본 출력
+numbers = [1, 2, 3, 4, 5]  # 정수로 구성된 리스트
+mixed = [1, "hello", 3.14, True]  # 다양한 타입의 요소를 가진 리스트
+nested = [1, [2, 3], [4, [5, 6]]]  # 중첩된 리스트
+empty_list = []  # 빈 리스트
+
+print("\n# 1-1. 기본 출력")
+print(f"기본 리스트: {numbers}")  # 기본 리스트 출력
+print(f"빈 리스트: {empty_list}")  # 빈 리스트 출력
+print(f"혼합 리스트: {mixed}")  # 다양한 타입의 요소를 가진 리스트 출력
+print(f"중첩 리스트: {nested}")  # 중첩된 리스트 출력
+
+print("\n# 1-2. 형식화된 출력")
+print("리스트 요소 하나씩 출력:")
+for i, item in enumerate(mixed):
+    print(f"  {i}번째 요소: {item} (타입: {type(item)})")  # 각 요소와 그 타입 출력
+
+# 2. 리스트 조작과 출력
+print("\n# 2-1. 기본 조작")
+numbers.append(6)  # 리스트 끝에 6 추가
+print(f"append(6) 후: {numbers}")
+
+numbers.extend([7, 8])  # 리스트 끝에 [7, 8] 추가
+print(f"extend([7, 8]) 후: {numbers}")
+
+numbers.insert(2, 2.5)  # 인덱스 2에 2.5 삽입
+print(f"insert(2, 2.5) 후: {numbers}")
+
+print("\n# 2-2. 제거 작업")
+numbers.remove(2.5)  # 첫 번째로 발견되는 2.5 제거
+print(f"remove(2.5) 후: {numbers}")
+
+popped = numbers.pop()  # 리스트의 마지막 요소 제거 및 반환
+print(f"pop() 후: {numbers}")
+print(f"pop된 값: {popped}")
+
+popped_index = numbers.pop(2)  # 인덱스 2의 요소 제거 및 반환
+print(f"pop(2) 후: {numbers}")
+print(f"인덱스 2에서 pop된 값: {popped_index}")
+
+# 3. 검색과 정렬
+print("\n# 3-1. 검색 기능")
+search_list = [1, 2, 2, 3, 2, 4, 5]
+print(f"원본 리스트: {search_list}")
+print(f"2의 개수: {search_list.count(2)}")  # 리스트에서 2의 개수
+print(f"2의 첫 번째 위치: {search_list.index(2)}")  # 2의 첫 번째 위치
+print(f"2의 두 번째 위치: {search_list.index(2, 2)}")  # 인덱스 2부터 2의 위치
+
+print("\n# 3-2. 정렬 기능")
+unsorted = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+print(f"정렬 전: {unsorted}")
+
+sorted_asc = sorted(unsorted)  # 오름차순으로 정렬된 리스트 반환 (원본 유지)
+print(f"오름차순 정렬(sorted): {sorted_asc}")
+
+unsorted.sort(reverse=True)  # 내림차순으로 원본 리스트 정렬
+print(f"내림차순 정렬(sort): {unsorted}")
+
+# 4. 고급 슬라이싱
+print("\n# 4. 고급 슬라이싱")
+sample = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+print(f"원본: {sample}")
+print(f"처음 3개: {sample[:3]}")  # 처음 3개 요소
+print(f"마지막 3개: {sample[-3:]}")  # 마지막 3개 요소
+print(f"2~4번째: {sample[1:4]}")  # 인덱스 1부터 3까지
+print(f"처음부터 2칸씩: {sample[::2]}")  # 처음부터 2칸 간격으로
+print(f"역순: {sample[::-1]}")  # 리스트 역순
+print(f"중간 부분 역순: {sample[2:7][::-1]}")  # 인덱스 2부터 6까지 역순
+
+
+# === 튜플 종합 예제 ===
+# 1. 튜플 생성과 변환
+print("\n# 1. 튜플 생성과 변환")
+empty_tuple = ()  # 빈 튜플
+single_tuple = (42,)  # 단일 요소 튜플
+multi_tuple = (1, "hello", 3.14)  # 다양한 타입의 요소를 가진 튜플
+nested_tuple = (1, (2, 3), (4, (5, 6)))  # 중첩된 튜플
+
+print(f"빈 튜플: {empty_tuple}")
+print(f"단일 요소 튜플: {single_tuple}")
+print(f"다중 요소 튜플: {multi_tuple}")
+print(f"중첩 튜플: {nested_tuple}")
+
+# 리스트/튜플 변환
+list_to_tuple = tuple([1, 2, 3])  # 리스트를 튜플로 변환
+tuple_to_list = list((4, 5, 6))  # 튜플을 리스트로 변환
+print(f"리스트→튜플: {list_to_tuple}")
+print(f"튜플→리스트: {tuple_to_list}")
+
+# 2. 튜플 연산과 메서드
+print("\n# 2. 튜플 연산과 메서드")
+tuple1 = (1, 2, 3)
+tuple2 = (4, 5, 6)
+
+print(f"연결(+): {tuple1 + tuple2}")  # 튜플 연결
+print(f"반복(*3): {tuple1 * 3}")  # 튜플 반복
+print(f"길이: {len(tuple1)}")  # 튜플 길이
+print(f"최대값: {max(tuple1)}")  # 튜플 최대값
+print(f"최소값: {min(tuple1)}")  # 튜플 최소값
+print(f"합계: {sum(tuple1)}")  # 튜플 요소 합계
+
+# 3. 고급 튜플 언패킹
+print("\n# 3. 고급 튜플 언패킹")
+coords = (1, 2, 3, 4, 5)
+x, *middle, y = coords  # 첫 번째와 마지막 요소를 제외한 나머지 언패킹
+print(f"첫 값(x): {x}")
+print(f"중간 값들(middle): {middle}")
+print(f"마지막 값(y): {y}")
+
+# 중첩 튜플 언패킹
+nested = ((1, 2), (3, 4))
+(a, b), (c, d) = nested  # 중첩된 튜플 언패킹
+print(f"중첩 언패킹: a={a}, b={b}, c={c}, d={d}")
+
+
+# === 딕셔너리 종합 예제 ===
+# 1. 딕셔너리 생성과 접근
+print("\n# 1. 딕셔너리 생성과 접근")
+empty_dict = {}  # 빈 딕셔너리
+simple_dict = {'a': 1, 'b': 2}  # 간단한 키-값 쌍
+nested_dict = {
+    'user': {
+        'name': '홍길동',
+        'scores': {'math': 90, 'english': 85}
+    },
+    'settings': {
+        'active': True,
+        'theme': 'dark'
+    }
+}  # 중첩된 딕셔너리
+
+print(f"빈 딕셔너리: {empty_dict}")
+print(f"단순 딕셔너리: {simple_dict}")
+print(f"중첩 딕셔너리: {nested_dict}")
+
+# 안전한 접근 방법들
+print("\n# 안전한 접근 방법")
+print(f"get 메서드: {simple_dict.get('c', '기본값')}")  # 키가 없을 때 기본값 반환
+print(f"setdefault 메서드: {simple_dict.setdefault('d', 4)}")  # 키가 없으면 추가하고 반환
+
+# 2. 딕셔너리 수정
+print("\n# 2. 딕셔너리 수정")
+dict1 = {'a': 1, 'b': 2}
+print(f"원본: {dict1}")
+
+# update 다양한 방법
+dict1.update({'b': 3, 'c': 4})  # 기존 키 업데이트 및 새로운 키 추가
+print(f"update 후: {dict1}")
+
+dict1.update(d=5, e=6)  # 키워드 인자를 사용한 업데이트
+print(f"키워드 update 후: {dict1}")
+
+# 3. 딕셔너리 병합
+print("\n# 3. 딕셔너리 병합")
+dict2 = {'a': 10, 'f': 7}
+
+# 다양한 병합 방법
+merged1 = {**dict1, **dict2}  # 딕셔너리 병합
+merged2 = dict1 | dict2  # Python 3.9+에서 지원하는 병합
+print(f"** 병합: {merged1}")
+print(f"| 병합: {merged2}")
+
+# 4. 고급 기능
+print("\n# 4. 고급 기능")
+# 딕셔너리 컴프리헨션
+squares = {x: x**2 for x in range(5)}  # 키와 값이 x와 x의 제곱인 딕셔너리 생성
+print(f"컴프리헨션: {squares}")
+
+# 중첩 순회
+print("\n중첩 딕셔너리 순회:")
+for outer_key, outer_value in nested_dict.items():
+    if isinstance(outer_value, dict):
+        print(f"{outer_key}:")
+        for inner_key, inner_value in outer_value.items():
+            print(f"  {inner_key}: {inner_value}")
+    else:
+        print(f"{outer_key}: {outer_value}")
+
+# 딕셔너리 뷰 객체
+print("\n딕셔너리 뷰:")
+keys = simple_dict.keys()  # 키 뷰
+values = simple_dict.values()  # 값 뷰
+items = simple_dict.items()  # 키-값 쌍 뷰
+print(f"keys 뷰: {keys}")
+print(f"values 뷰: {values}")
+print(f"items 뷰: {items}")
+        </pre>
+      </strong>
+    </td>
+  </tr>
+</table>

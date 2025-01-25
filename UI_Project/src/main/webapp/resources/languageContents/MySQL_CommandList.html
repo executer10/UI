@@ -1,0 +1,281 @@
+<table>
+  <tr>
+    <th>1. DDL (Data Definition Language) - 데이터 정의어</th>
+  </tr>
+  <tr>
+    <td>
+      <strong>[데이터베이스 객체 구조를 정의]</strong>
+      <ul>
+        <li>CREATE: 새로운 데이터베이스 객체 생성 (테이블, 뷰, 인덱스 등)
+          <ul>
+            <li>CREATE DATABASE: 데이터베이스 생성</li>
+            <li>CREATE TABLE: 테이블 생성</li>
+            <li>CREATE INDEX: 인덱스 생성</li>
+          </ul>
+        </li>
+      </ul>
+
+      <strong>[데이터 타입]</strong>
+      <ul>
+        <li>숫자형
+          <ul>
+            <li>정수: INT, TINYINT, SMALLINT, MEDIUMINT, BIGINT</li>
+            <li>실수: FLOAT, DOUBLE, DECIMAL(정확한 소수)</li>
+          </ul>
+        </li>
+        <li>문자형
+          <ul>
+            <li>고정길이: CHAR</li>
+            <li>가변길이: VARCHAR, TEXT</li>
+            <li>대용량: TINYTEXT, MEDIUMTEXT, LONGTEXT</li>
+          </ul>
+        </li>
+        <li>날짜/시간형
+          <ul>
+            <li>DATE: 날짜(YYYY-MM-DD)</li>
+            <li>TIME: 시간(HH:MM:SS)</li>
+            <li>DATETIME/TIMESTAMP: 날짜와 시간</li>
+            <li>YEAR: 연도</li>
+          </ul>
+        </li>
+        <li>이진데이터
+          <ul>
+            <li>BINARY, VARBINARY: 고정/가변 길이 이진 데이터</li>
+            <li>BLOB 유형: TINYBLOB, BLOB, MEDIUMBLOB, LONGBLOB</li>
+          </ul>
+        </li>
+        <li>기타: ENUM(열거형), SET(집합), JSON</li>
+      </ul>
+
+      <strong>[제약조건]</strong>
+      <ul>
+        <li>NOT NULL: NULL 값 허용하지 않음</li>
+        <li>UNIQUE: 중복값 허용하지 않음</li>
+        <li>PRIMARY KEY: 기본키 지정 (NOT NULL + UNIQUE)</li>
+        <li>FOREIGN KEY: 외래키 지정 (다른 테이블 참조)</li>
+        <li>CHECK: 입력값 범위 제한</li>
+        <li>DEFAULT: 기본값 설정</li>
+        <li>AUTO_INCREMENT: 자동 증가</li>
+      </ul>
+
+      <strong>[테이블 옵션]</strong>
+      <ul>
+        <li>ENGINE: 스토리지 엔진 설정
+          <ul>
+            <li>InnoDB: 트랜잭션 지원 (기본)</li>
+            <li>MyISAM: 빠른 읽기 작업</li>
+          </ul>
+        </li>
+        <li>CHARACTER SET: 문자셋 설정 (예: utf8mb4)</li>
+        <li>COLLATE: 정렬 규칙 설정</li>
+        <li>COMMENT: 테이블 주석</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>[ALTER: 기존 객체 구조 변경]</strong>
+      <ul>
+        <li>ADD: 컬럼/제약조건 추가</li>
+        <li>MODIFY: 컬럼 정의 수정</li>
+        <li>CHANGE: 컬럼명과 정의 수정</li>
+        <li>DROP: 컬럼/제약조건 삭제</li>
+        <li>RENAME: 컬럼명 변경</li>
+        <li>ALTER COLUMN: 컬럼 속성 변경</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>[DROP: 객체 삭제]</strong>
+      <ul>
+        <li>CASCADE: 연관된 객체도 함께 삭제</li>
+        <li>RESTRICT: 참조하는 객체가 있으면 삭제 거부</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>[뷰 관련]</strong>
+      <ul>
+        <li>CREATE VIEW: 뷰 생성</li>
+        <li>ALTER VIEW: 뷰 수정</li>
+        <li>DROP VIEW: 뷰 삭제</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>[파티션 관련]</strong>
+      <ul>
+        <li>PARTITION BY: 파티션 정의
+          <ul>
+            <li>RANGE: 범위 기반 파티셔닝</li>
+            <li>LIST: 목록 기반 파티셔닝</li>
+            <li>HASH: 해시 기반 파티셔닝</li>
+            <li>KEY: 키 기반 파티셔닝</li>
+          </ul>
+        </li>
+        <li>ADD PARTITION: 파티션 추가</li>
+        <li>DROP PARTITION: 파티션 삭제</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <th>2. DML (Data Manipulation Language) - 데이터 조작어</th>
+  </tr>
+  <tr>
+    <td>
+      <strong>[기본 명령어]</strong>
+      <ul>
+        <li>SELECT: 데이터 조회
+          <ul>
+            <li>DISTINCT: 중복 제거</li>
+            <li>AS: 별칭 지정</li>
+            <li>UNION/UNION ALL: 결과 집합 결합</li>
+            <li>CASE WHEN: 조건부 표현식</li>
+          </ul>
+        </li>
+        <li>INSERT: 데이터 삽입
+          <ul>
+            <li>INSERT INTO: 테이블에 데이터 삽입</li>
+            <li>INSERT IGNORE: 중복 무시</li>
+            <li>ON DUPLICATE KEY UPDATE: 중복 시 수정</li>
+          </ul>
+        </li>
+        <li>UPDATE: 데이터 수정
+          <ul>
+            <li>SET: 수정할 값 지정</li>
+          </ul>
+        </li>
+        <li>DELETE: 데이터 삭제
+          <ul>
+            <li>DELETE FROM: 테이블에서 데이터 삭제</li>
+          </ul>
+        </li>
+        <li>MERGE: 조건부 삽입/수정</li>
+        <li>REPLACE: 레코드 업데이트 또는 삽입</li>
+        <li>CALL: 저장 프로시저/Java 서브프로그램 호출</li>
+        <li>EXPLAIN: 쿼리 실행 계획 표시</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>[집계 함수]</strong>
+      <ul>
+        <li>COUNT(): 행 개수 계산</li>
+        <li>SUM(): 합계 계산</li>
+        <li>AVG(): 평균값 계산</li>
+        <li>MAX(): 최대값 검색</li>
+        <li>MIN(): 최소값 검색</li>
+      </ul>
+
+      <strong>[주요 절(Clause)]</strong>
+      <ul>
+        <li>WHERE: 조건 필터링
+          <ul>
+            <li>비교 연산자: =, &lt;&gt;, &gt;, &lt;,&gt;=, &lt;=</li>
+            <li>IN, NOT IN: 목록 포함 여부</li>
+            <li>BETWEEN AND: 범위 지정</li>
+            <li>LIKE, NOT LIKE: 패턴 매칭</li>
+            <li>IS NULL, IS NOT NULL: NULL 값 확인</li>
+          </ul>
+        </li>
+        <li>GROUP BY: 그룹화
+          <ul>
+            <li>WITH ROLLUP: 총계 추가</li>
+          </ul>
+        </li>
+        <li>HAVING: 그룹 조건</li>
+        <li>ORDER BY: 정렬
+          <ul>
+            <li>ASC: 오름차순</li>
+            <li>DESC: 내림차순</li>
+          </ul>
+        </li>
+        <li>LIMIT: 결과 개수 제한
+          <ul>
+            <li>OFFSET: 시작 위치 지정</li>
+          </ul>
+        </li>
+        <li>JOIN: 테이블 결합
+          <ul>
+            <li>INNER JOIN: 내부 조인</li>
+            <li>LEFT JOIN: 왼쪽 외부 조인</li>
+            <li>RIGHT JOIN: 오른쪽 외부 조인</li>
+            <li>FULL JOIN: 전체 외부 조인</li>
+            <li>CROSS JOIN: 교차 조인</li>
+            <li>NATURAL JOIN: 자연 조인</li>
+          </ul>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <th>3. DCL (Data Control Language) - 데이터 제어어</th>
+  </tr>
+  <tr>
+    <td>
+      <strong>[권한 관리]</strong>
+      <ul>
+        <li>GRANT: 권한 부여</li>
+        <li>REVOKE: 권한 회수</li>
+        <li>DENY: 권한 명시적 거부 (DBMS 별로 상이)</li>
+      </ul>
+
+      <strong>[사용자 관리]</strong>
+      <ul>
+        <li>CREATE USER: 사용자 생성</li>
+        <li>ALTER USER: 사용자 수정</li>
+        <li>DROP USER: 사용자 삭제</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <th>4. TCL (Transaction Control Language) - 트랜잭션 제어어</th>
+  </tr>
+  <tr>
+    <td>
+      <ul>
+        <li>BEGIN/START TRANSACTION: 트랜잭션 시작</li>
+        <li>COMMIT: 트랜잭션 확정</li>
+        <li>ROLLBACK: 트랜잭션 취소</li>
+        <li>SAVEPOINT: 중간저장점 생성</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <th>5. 시스템 관리</th>
+  </tr>
+  <tr>
+    <td>
+      <strong>[시스템 명령어]</strong>
+      <ul>
+        <li>help (\?): 도움말 표시</li>
+        <li>clear (\c): 현재 입력 취소</li>
+        <li>connect (\r): 서버 재연결</li>
+        <li>quit (\q): MySQL 종료</li>
+        <li>status (\s): 서버 상태 확인</li>
+        <li>source: SQL 파일 실행</li>
+        <li>use: 데이터베이스 선택</li>
+      </ul>
+
+      <strong>[백업/복구]</strong>
+      <ul>
+        <li>mysqldump: 데이터베이스 백업</li>
+        <li>mysqlimport: 데이터 가져오기</li>
+        <li>LOAD DATA INFILE: 파일에서 데이터 로드</li>
+        <li>SELECT INTO OUTFILE: 데이터를 파일로 내보내기</li>
+      </ul>
+
+      <strong>[테이블 관리]</strong>
+      <ul>
+        <li>ANALYZE TABLE: 테이블 분석</li>
+        <li>CHECK TABLE: 테이블 검사</li>
+        <li>OPTIMIZE TABLE: 테이블 최적화</li>
+        <li>REPAIR TABLE: 테이블 복구</li>
+      </ul>
+    </td>
+  </tr>
+</table>

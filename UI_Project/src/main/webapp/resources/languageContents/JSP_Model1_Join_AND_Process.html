@@ -1,0 +1,124 @@
+<table>
+    <tr>
+        <td>
+            <h2>Join</h2>
+            <pre>
+&lt;!-- Join.jsp - 회원가입 폼 페이지 --&gt;
+&lt;%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;title&gt;회원 가입&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- 회원가입 폼 
+         - onsubmit: 폼 제출 전 formCheck() 함수로 유효성 검사
+         - action: 폼 데이터를 전송할 처리 페이지
+         - method: POST 방식으로 데이터 전송 --&gt;
+    &lt;form onsubmit="return formCheck()" action="../Process/JoinProcess.jsp" method="POST"&gt;
+        &lt;table&gt;
+            &lt;!-- 회원가입 폼 헤더 --&gt;
+            &lt;tr&gt;
+                &lt;td&gt;[회원 가입]&lt;/td&gt;
+                &lt;td&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;!-- 회원 ID 입력 필드 --&gt;
+            &lt;tr&gt;
+                &lt;td&gt;회원 ID&lt;/td&gt;
+                &lt;td&gt;&lt;input type="text" name="join_id"&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;!-- 비밀번호 입력 필드 --&gt;
+            &lt;tr&gt;
+                &lt;td&gt;회원 비밀번호&lt;/td&gt;
+                &lt;td&gt;&lt;input type="password" name="join_pw"&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;!-- 비밀번호 확인 필드 --&gt;
+            &lt;tr&gt;
+                &lt;td&gt;회원 비밀번호 확인&lt;/td&gt;
+                &lt;td&gt;&lt;input type="password" name="join_pw_check"&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;!-- 이름 입력 필드 --&gt;
+            &lt;tr&gt;
+                &lt;td&gt;이름&lt;/td&gt;
+                &lt;td&gt;&lt;input type="text" name="join_name"&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;!-- 성별 선택 라디오 버튼 --&gt;
+            &lt;tr&gt;
+                &lt;td&gt;성별&lt;/td&gt;
+                &lt;td&gt;
+                &lt;input type="radio" name="join_gender" value="male"&gt;남성
+                &lt;input type="radio" name="join_gender" value="female"&gt;여성
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;!-- 집전화 입력 필드 --&gt;
+            &lt;tr&gt;
+                &lt;td&gt;집전화&lt;/td&gt;
+                &lt;td&gt;&lt;input type="tel" name="join_home_tel"&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;!-- 휴대전화 입력 필드 --&gt;
+            &lt;tr&gt;
+                &lt;td&gt;휴대전화&lt;/td&gt;
+                &lt;td&gt;&lt;input type="tel" name="join_phone_tel"&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;!-- 이메일 입력 필드 --&gt;
+            &lt;tr&gt;
+                &lt;td&gt;이메일&lt;/td&gt;
+                &lt;td&gt;&lt;input type="email" name="join_email"&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;!-- 제출 및 리셋 버튼 --&gt;
+            &lt;tr&gt;
+                &lt;td&gt;&lt;button type="submit"&gt;회원가입&lt;/button&gt;&lt;/td&gt;
+                &lt;td&gt;&lt;button type="reset"&gt;다시입력&lt;/button&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/table&gt;
+    &lt;/form&gt;
+    
+    &lt;!-- 회원가입 폼 유효성 검사를 위한 JavaScript 파일 포함 --&gt;
+    &lt;script type="text/javascript" src="../JavaScript/Join.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+            </pre>
+
+            <h2>JoinProcess</h2>
+            <pre>
+&lt;!-- JoinProcess.jsp - 회원가입 처리 페이지 --&gt;
+&lt;%@page import="DataBaseUtils.JSFunction"%&gt;
+&lt;%@page import="DAO.MemberDAO"%&gt;
+&lt;%@page import="DTO.MemberDTO"%&gt;
+&lt;%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%&gt;
+
+&lt;%
+String id = request.getParameter("join_id");
+String pw = request.getParameter("join_pw");
+String name = request.getParameter("join_name");
+String gender = request.getParameter("join_gender");
+String home_tel = request.getParameter("join_home_tel");
+String phone_tel = request.getParameter("join_phone_tel");
+String email = request.getParameter("join_email");
+
+MemberDTO dto = new MemberDTO();
+dto.setId(id);
+dto.setPw(pw);
+dto.setName(name);
+dto.setGender(gender);
+dto.setHome_tel(home_tel);
+dto.setPhone_tel(phone_tel);
+dto.setEmail(email);
+
+MemberDAO dao = new MemberDAO(application);
+int iResult = dao.insertMember(dto);
+dao.close();
+
+if(iResult == 1){
+    response.sendRedirect("../Main/BoardList.jsp");
+} else {
+    JSFunction.alertBack("글쓰기에 실패하였읍니다", out);
+}
+%&gt;
+            </pre>
+        </td>
+    </tr>
+</table>

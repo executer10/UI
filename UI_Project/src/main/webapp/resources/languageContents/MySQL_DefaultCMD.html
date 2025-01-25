@@ -1,0 +1,103 @@
+<table>
+    <tr>
+        <th>기본 시스템 명령어</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 도움말 보기
+help;
+\?
+
+-- 현재 서버 상태 확인
+status;
+\s
+
+-- DB 선택
+USE 쇼핑몰DB;
+
+-- SQL 파일 실행
+source C:/백업/초기화.sql;
+
+-- 서버 재연결
+connect;
+\r
+
+-- MySQL 종료
+quit;
+\q
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <th>백업과 복구</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 전체 DB 백업
+mysqldump -u 관리자 -p 쇼핑몰DB > backup.sql
+
+-- 특정 테이블만 백업
+mysqldump -u 관리자 -p 쇼핑몰DB 회원테이블 > 회원백업.sql
+
+-- 데이터 복원
+mysql -u 관리자 -p 쇼핑몰DB &gt; backup.sql
+
+-- CSV 파일로 데이터 내보내기
+SELECT * FROM 회원
+INTO OUTFILE 'C:/데이터/회원목록.csv'
+FIELDS TERMINATED BY ',';
+
+-- CSV 파일 데이터 가져오기
+LOAD DATA INFILE 'C:/데이터/신규회원.csv'
+INTO TABLE 회원
+FIELDS TERMINATED BY ',';
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <th>테이블 관리/최적화</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 테이블 상태 분석
+ANALYZE TABLE 회원;
+
+-- 테이블 이상 여부 검사
+CHECK TABLE 회원 QUICK;
+
+-- 테이블 최적화 (공간 정리)
+OPTIMIZE TABLE 회원;
+
+-- 손상된 테이블 복구
+REPAIR TABLE 회원;
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <th>실무 활용 예시</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 일일 백업 스크립트
+mysqldump -u 관리자 -p --databases 쇼핑몰DB \
+    --ignore-table=쇼핑몰DB.로그 \
+    --single-transaction \
+    --routines \
+    > /백업/쇼핑몰_$(date +%Y%m%d).sql
+
+-- 대용량 데이터 내보내기
+SELECT id, name, email
+INTO OUTFILE '/tmp/회원목록.csv'
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+FROM 회원
+WHERE 가입일 >= DATE_SUB(NOW(), INTERVAL 1 MONTH);
+            </pre>
+        </td>
+    </tr>
+</table>

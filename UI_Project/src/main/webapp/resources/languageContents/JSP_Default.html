@@ -1,0 +1,230 @@
+<!-- JSP 페이지 지시어 (Directive) 설명서 -->
+<table>
+    <tr><th>JSP 페이지 지시어 설명서</th></tr>
+    <tr>
+        <td>
+            <div>
+                <h2>Page 지시어란?</h2>
+                <p>JSP 페이지의 전반적인 설정을 담당하며, 페이지의 속성과 동작 방식을 정의합니다.</p>
+            </div>
+            <ul>
+                <li><strong>프로그래밍 언어 설정 (language)</strong>
+                    <ul>
+                        <li>사용법: &lt;%@ page language="java" %&gt;</li>
+                        <li>언제 쓰나요?: JSP 페이지에서 사용할 프로그래밍 언어를 명확히 지정해야 할 때 사용합니다.</li>
+                    </ul>
+                </li>
+                <li><strong>문서 유형과 문자 인코딩 (contentType)</strong>
+                    <ul>
+                        <li>사용법: &lt;%@ page contentType="text/html; charset=UTF-8" %&gt;</li>
+                        <li>언제 쓰나요?: 웹 브라우저에 보낼 문서의 종류와 문자 인코딩을 지정해야 할 때 사용합니다.</li>
+                    </ul>
+                </li>
+                <li><strong>페이지 문자 인코딩 (pageEncoding)</strong>
+                    <ul>
+                        <li>사용법: &lt;%@ page pageEncoding="UTF-8" %&gt;</li>
+                        <li>언제 쓰나요?: JSP 파일에서 한글 등 특수 문자를 사용할 때 문자가 깨지지 않도록 설정해야 할 때 사용합니다.</li>
+                    </ul>
+                </li>
+                <li><strong>출력 버퍼 설정 (buffer와 autoFlush)</strong>
+                    <ul>
+                        <li>사용법: &lt;%@ page buffer="16kb" autoFlush="true" %&gt;</li>
+                        <li>언제 쓰나요?: 페이지 출력 성능을 최적화하고 메모리를 효율적으로 관리해야 할 때 사용합니다.</li>
+                        <li>버퍼 설정 안내:
+                            <ul>
+                                <li>작은 페이지: buffer="8kb"</li>
+                                <li>큰 페이지: buffer="32kb"</li>
+                                <li>실시간 데이터: buffer="none"</li>
+                            </ul>
+                        </li>
+                        <li>autoFlush 설정:
+                            <ul>
+                                <li>true: 버퍼가 가득 차면 자동으로 전송</li>
+                                <li>false: 버퍼가 가득 차면 에러 발생</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>자바 클래스 가져오기 (import)</strong>
+                    <ul>
+                        <li>사용법: &lt;%@ page import="java.util.ArrayList" %&gt;</li>
+                        <li>언제 쓰나요?: 자바의 다양한 클래스나 패키지를 JSP 페이지에서 사용해야 할 때 선언합니다.</li>
+                    </ul>
+                </li>
+                <li><strong>세션 사용 여부 (session)</strong>
+                    <ul>
+                        <li>사용법: &lt;%@ page session="true" %&gt;</li>
+                        <li>언제 쓰나요?: 로그인 정보나 사용자별 데이터를 유지해야 할 때 사용합니다.</li>
+                    </ul>
+                </li>
+                <li><strong>오류 페이지 설정 (errorPage와 isErrorPage)</strong>
+                    <ul>
+                        <li>사용법: errorPage: &lt;%@ page errorPage="error.jsp" %&gt;</li>
+                        <li>사용법: isErrorPage: &lt;%@ page isErrorPage="true" %&gt;</li>
+                        <li>언제 쓰나요?: 예외가 발생했을 때 사용자에게 보여줄 오류 페이지를 지정하거나 만들 때 사용합니다.</li>
+                    </ul>
+                </li>
+                <li><strong>페이지 설명 (info)</strong>
+                    <ul>
+                        <li>사용법: &lt;%@ page info="페이지 설명" %&gt;</li>
+                        <li>언제 쓰나요?: JSP 페이지의 용도나 특징을 문서화하고 싶을 때 사용합니다.</li>
+                    </ul>
+                </li>
+                <li><strong>표현 언어 사용 설정 (isELIgnored)</strong>
+                    <ul>
+                        <li>사용법: &lt;%@ page isELIgnored="false" %&gt;</li>
+                        <li>언제 쓰나요?: JSP에서 EL(Expression Language)을 사용하거나 비활성화해야 할 때 사용합니다.</li>
+                    </ul>
+                </li>
+                <li><strong>상속 클래스 지정 (extends)</strong>
+                    <ul>
+                        <li>사용법: &lt;%@ page extends="클래스명" %&gt;</li>
+                        <li>언제 쓰나요?: JSP가 특정 클래스의 기능을 상속받아 확장해야 할 때 사용합니다.</li>
+                    </ul>
+                </li>
+                <li><strong>불필요한 공백 제거 (trimDirectiveWhitespaces)</strong>
+                    <ul>
+                        <li>사용법: &lt;%@ page trimDirectiveWhitespaces="true" %&gt;</li>
+                        <li>언제 쓰나요?: JSP 페이지 소스에서 불필요한 빈 줄이나 공백을 제거하고 싶을 때 사용합니다.</li>
+                    </ul>
+                </li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+<!-- JSP Include 지시어 (Directive) -->
+<table>
+    <tr><th>JSP Include 지시어 설명서</th></tr>
+    <tr>
+        <td>
+            <div>
+                <h2>Include 지시어란?</h2>
+                <p>여러 JSP에서 공통으로 사용되는 부분을 포함하는 지시어입니다.</p>
+            </div>
+            <ul>
+                <li><strong>정적 Include</strong> (지시어)
+                    <ul>
+                        <li>사용법: &lt;%@ include file="header.jsp" %&gt;</li>
+                        <li>언제 쓰나요?: 여러 페이지에서 공통으로 사용되는 헤더나 푸터 같은 정적 콘텐츠를 포함할 때 사용합니다.</li>
+                    </ul>
+                </li>
+                <li><strong>동적 Include</strong> (액션태그)
+                    <ul>
+                        <li>사용법: &lt;jsp:include page="header.jsp" /&gt;</li>
+                        <li>언제 쓰나요?: 실시간으로 변경되는 내용이나 페이지별로 다른 결과를 보여줘야 할 때 사용합니다.</li>
+                    </ul>
+                </li>
+                <li><strong>상대 경로와 절대 경로 사용</strong>
+                    <ul>
+                        <li>사용법: 상대 경로: &lt;%@ include file="./include/header.jsp" %&gt;</li>
+                        <li>사용법: 절대 경로: &lt;%@ include file="/common/footer.jsp" %&gt;</li>
+                        <li>언제 쓰나요?: 다른 폴더에 있는 JSP 파일을 정확하게 찾아서 포함해야 할 때 사용합니다.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><strong>주의사항:</strong> 중복된 page 지시어 사용을 피하고, 동적 콘텐츠에는 <code>&lt;jsp:include&gt;</code> 태그를 권장</p>
+        </td>
+    </tr>
+</table>
+
+<!-- JSP Taglib 지시어 (Directive) -->
+<table>
+    <tr><th>JSP Taglib 지시어 설명서</th></tr>
+    <tr>
+        <td>
+            <div>
+                <h2>Taglib 지시어란?</h2>
+                <p>JSP에서 커스텀 태그 라이브러리를 사용할 수 있도록 해주는 지시어입니다.</p>
+            </div>
+            <ul>
+                <li><strong>JSTL 기본 선언</strong>
+                    <ul>
+                        <li>사용법: &lt;%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %&gt;</li>
+                        <li>언제 쓰나요?: JSP 페이지에서 반복문이나 조건문 같은 로직을 태그 형태로 작성하고 싶을 때 사용합니다.</li>
+                    </ul>
+                </li>
+                <li><strong>태그 라이브러리 설치 방법</strong>
+                    <ul>
+                        <li>사용법: Maven 사용 시:
+                            <pre>
+&lt;dependency&gt;
+    &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+    &lt;artifactId&gt;jstl&lt;/artifactId&gt;
+    &lt;version&gt;1.2&lt;/version&gt;
+&lt;/dependency&gt;
+                            </pre>
+                        </li>
+                        <li>사용법: 직접 설치 시, jstl.jar와 standard.jar 파일을 WEB-INF/lib 폴더에 복사</li>
+                        <li>언제 쓰나요?: 프로젝트에서 JSTL 태그를 처음 사용하기 위해 환경을 설정할 때 필요합니다.</li>
+                    </ul>
+                </li>
+                <li><strong>기타 태그 라이브러리</strong>
+                    <ul>
+                        <li>사용법: &lt;%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %&gt;</li>
+                        <li>언제 쓰나요?: 날짜, 시간, 숫자의 형식을 지정하거나 다국어 처리가 필요할 때 사용합니다.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><strong>주의사항:</strong> 태그 라이브러리는 각각 선언해야 하며, 정확한 URI와 중복되지 않는 prefix를 사용해야 합니다.</p>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>스크립트 요소(Script Elements)</th>
+    </tr>
+    <tr>
+        <td>
+            <ol>
+                <li><strong>선언부</strong> &lt;%! ... %&gt;
+                    <ul>
+                        <li>사용법: &lt;%! 자료형 변수명; %&gt; 또는 &lt;%! 리턴타입 메서드명() { ... } %&gt;</li>
+                        <li>언제 쓰나요?: JSP 페이지에서 전역변수를 선언하거나 메서드를 정의해야 할 때 사용합니다.</li>
+                        <li>예시:
+                            <pre>
+&lt;%! 
+    int counter = 0;
+    public String greet(String name) {
+        return "Hello, " + name;
+    }
+%&gt;
+                            </pre>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>스크립틀릿</strong> &lt;% ... %&gt;
+                    <ul>
+                        <li>사용법: &lt;% 자바 코드 %&gt;</li>
+                        <li>언제 쓰나요?: JSP 페이지 내에서 자바 코드로 로직을 처리해야 할 때 사용합니다.</li>
+                        <li>예시:
+                            <pre>
+&lt;%
+    counter++;
+    if (counter % 2 == 0) {
+        out.println("<p>Counter is even</p>");
+    } else {
+        out.println("<p>Counter is odd</p>");
+    }
+%&gt;
+                            </pre>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>표현식</strong> &lt;%= ... %&gt;
+                    <ul>
+                        <li>사용법: &lt;%= 변수명 또는 메서드 호출 %&gt;</li>
+                        <li>언제 쓰나요?: 변수값이나 메서드의 반환값을 웹 페이지에 직접 출력하고 싶을 때 사용합니다.</li>
+                        <li>예시:
+                            <pre>
+&lt;p&gt;Counter Value: &lt;%= counter %&gt;&lt;/p&gt;
+&lt;p&gt;Greeting: &lt;%= greet("User") %&gt;&lt;/p&gt;
+                            </pre>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+        </td>
+    </tr>
+</table>

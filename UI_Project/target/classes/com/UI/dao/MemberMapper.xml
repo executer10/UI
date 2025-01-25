@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- xml과 java의 경로는 동일해야 한다. -->
+<mapper namespace="com.UI.dao.MemberDAO">
+
+  	<!-- 회원 가입 -->
+	<insert id="register" parameterType="com.UI.domain.MemberDTO">
+    	INSERT INTO member(id, pw, email, name, birth, tel, gender)
+    	VALUES(#{id}, #{pw}, #{email}, #{name}, #{birth}, #{tel}, #{gender})
+	</insert>
+  
+  	<!-- 아이디 중복 체크 -->
+	<select id="idOverlap" resultType="int">
+		SELECT COUNT(*)
+		FROM member
+		WHERE id = #{id}
+	</select>
+	
+	<!-- 로그인 -->
+	<select id="login" resultType="int">
+		SELECT COUNT(*)
+		FROM member
+		WHERE id = #{id} AND pw = #{pw}
+	</select>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="delete" parameterType="com.UI.domain.MemberDTO">
+		DELETE FROM member
+		WHERE id = #{id}
+	</delete>
+	
+	<!-- 회원 정보 확인 -->
+	<select id="memberInfo" resultType="com.UI.domain.MemberDTO">
+        SELECT id, email, name, birth, tel, gender
+		FROM member 
+        WHERE id = #{id}
+    </select>
+	
+</mapper>

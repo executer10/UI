@@ -1,0 +1,124 @@
+<table>
+    <tr>
+        <td>
+            <pre>
+//JDBConnect.java
+package DataBaseUtils;    // 데이터베이스 관련 유틸리티 클래스들을 모아둔 패키지
+
+// 데이터베이스 작업에 필요한 자바 기본 클래스들을 임포트
+import java.sql.Connection;        // 데이터베이스 연결을 담당하는 인터페이스
+import java.sql.DriverManager;     // 데이터베이스 드라이버를 관리하고 연결을 생성하는 클래스
+import java.sql.PreparedStatement; // SQL 구문을 실행하기 위한 객체 (값을 나중에 설정 가능)
+import java.sql.ResultSet;         // SQL 쿼리 실행 결과를 담는 객체
+import java.sql.Statement;         // SQL 구문을 실행하기 위한 기본 객체
+
+import javax.servlet.ServletContext; // 웹 애플리케이션의 컨텍스트 정보를 담는 객체
+
+/**
+ * MySQL 데이터베이스 연결과 작업을 위한 기본 클래스
+ * 필요한 라이브러리: mysql-connector-j-8.0.33.jar
+ * 위치: WEB-INF/lib 폴더에 배치해야 함
+ */
+public class JDBConnect {
+    // 데이터베이스 작업에 필요한 핵심 객체들을 멤버 변수로 선언
+    public Connection con;          // 데이터베이스 연결을 담당
+    public Statement stmt;          // SQL문을 실행하기 위한 기본 객체
+    public PreparedStatement psmt;  // SQL문을 실행하기 위한 객체 (보안에 더 안전함)
+    public ResultSet rs;           // SELECT 쿼리의 결과를 저장하는 객체
+    
+    /**
+     * 기본 생성자: 
+     * 미리 설정된 데이터베이스 연결 정보를 사용하여 연결을 수행
+     */
+    public JDBConnect() {
+        try {
+            // MySQL 드라이버 로드 (MySQL 8.0 이상 버전용 드라이버)
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            
+            // 데이터베이스 연결 정보 설정
+            String url = "jdbc:mysql://localhost:3306/MVC_db?serverTimezone=Asia/Seoul";  // 데이터베이스 주소
+            String id = "root";      // 데이터베이스 접속 아이디
+            String pwd = "1234";     // 데이터베이스 접속 비밀번호
+            
+            // 실제 데이터베이스 연결 수행
+            con = DriverManager.getConnection(url, id, pwd);
+            
+            System.out.println("DB 연결 성공(기본 생성자)");
+        }
+        catch (Exception e) {
+            e.printStackTrace();    // 오류 발생시 오류 내용을 콘솔에 출력
+        }
+    }
+    
+    /**
+     * 두 번째 생성자:
+     * 사용자가 직접 데이터베이스 연결 정보를 매개변수로 전달하여 연결
+     * @param driver 데이터베이스 드라이버 클래스명
+     * @param url 데이터베이스 주소
+     * @param id 데이터베이스 접속 아이디
+     * @param pwd 데이터베이스 접속 비밀번호
+     */
+    public JDBConnect(String driver, String url, String id, String pwd) {
+        try {
+            Class.forName(driver);  // 전달받은 드라이버 로드
+            
+            // 전달받은 연결 정보로 데이터베이스 연결
+            con = DriverManager.getConnection(url, id, pwd);
+            
+            System.out.println("DB 연결 성공(인수 생성자 1)");
+        } 
+        catch (Exception e) {
+            e.printStackTrace();    // 오류 발생시 오류 내용을 콘솔에 출력
+        }
+    }
+    
+    /**
+     * 세 번째 생성자:
+     * 웹 애플리케이션의 설정 파일(web.xml)에서 연결 정보를 읽어와 연결
+     * @param application 웹 애플리케이션의 컨텍스트 객체
+     */
+    public JDBConnect(ServletContext application) {
+        try {
+            // web.xml에서 설정한 데이터베이스 드라이버 정보 로드
+            String driver = application.getInitParameter("MysqlDriver");
+            Class.forName(driver);
+            
+            // web.xml에서 설정한 데이터베이스 연결 정보 로드
+            String url = application.getInitParameter("MysqlURL");     // DB 주소
+            String id = application.getInitParameter("MysqlId");       // DB 아이디
+            String pwd = application.getInitParameter("MysqlPwd");     // DB 비밀번호
+            
+            // 로드한 정보로 데이터베이스 연결
+            con = DriverManager.getConnection(url, id, pwd);
+            
+            System.out.println("DB 연결 성공(인수 생성자 2)");
+        }
+        catch (Exception e) {
+            e.printStackTrace();    // 오류 발생시 오류 내용을 콘솔에 출력
+        }
+    }
+    
+    /**
+     * 데이터베이스 작업 완료 후 사용한 자원을 해제
+     * 자원을 해제하지 않으면 메모리 누수가 발생할 수 있음
+     */
+    public void close() {
+        try {
+            // 생성한 순서의 역순으로 객체들을 닫음
+            if (rs != null) rs.close();      // ResultSet 객체 닫기
+            if (psmt != null) psmt.close();  // PreparedStatement 객체 닫기
+            if (stmt != null) stmt.close();  // Statement 객체 닫기
+            if (con != null) con.close();    // Connection 객체 닫기
+            
+            System.out.println("JDBC 자원 해제");
+        }
+        catch (Exception e) {
+            e.printStackTrace();    // 오류 발생시 오류 내용을 콘솔에 출력
+        }
+    }
+}
+            </pre>
+            <h4>이 클래스는 웹 애플리케이션에서 MySQL 데이터베이스 작업을 위한 기본적인 연결 관리를 담당합니다. 필요한 곳에서 이 클래스를 상속하거나 인스턴스화하여 사용할 수 있습니다.</h4>
+        </td>
+    </tr>
+</table>

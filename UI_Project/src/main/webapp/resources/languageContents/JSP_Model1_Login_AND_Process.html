@@ -1,0 +1,170 @@
+<table>
+    <tr>
+        <td>
+            <pre>
+&lt;%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;title&gt;로그인 페이지&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- 공통 헤더 포함 --&gt;
+    &lt;jsp:include page="../Main/HeaderLink.jsp"/&gt;
+
+    &lt;!-- 로그인 실패 시 에러 메시지 표시 영역 --&gt;
+    &lt;!-- request 객체에서 LoginErrMsg 속성을 확인하여 에러 메시지 출력 --&gt;
+    &lt;span style="color: red; font-size: 1.2em;"&gt;
+        &lt;%= request.getAttribute("LoginErrMsg") == null ? "" : request.getAttribute("LoginErrMsg") %&gt;
+    &lt;/span&gt;
+    
+    &lt;%
+    // 세션에서 UserId 속성을 확인하여 로그인 상태 체크
+    if(session.getAttribute("UserId") == null) { // 로그아웃 상태인 경우
+    %&gt;
+    
+    &lt;!-- 폼 유효성 검사를 위한 JavaScript 함수 --&gt;
+    &lt;script type="text/javascript"&gt;
+    function validateForm(form) {
+        // 아이디 입력 확인
+        if(!form.user_id.value) {
+            alert("아이디를 입력하세요");
+            return false;
+        }
+        // 비밀번호 입력 확인
+        if(form.user_pw.value == "") {
+            alert("패스워드를 입력하세요");
+            return false;
+        }
+    }
+    &lt;/script&gt;
+    
+    &lt;!-- 로그인 폼 --&gt;
+    &lt;!-- LoginProcess.jsp로 폼 데이터를 POST 방식으로 전송 --&gt;
+    &lt;!-- onsubmit 이벤트에서 validateForm 함수를 호출하여 유효성 검사 수행 --&gt;
+    &lt;form action="../Process/LoginProcess.jsp" method="post" name="loginFrm" 
+          onsubmit="return validateForm(this);"&gt;
+        &lt;table&gt;
+            &lt;tr&gt;
+                &lt;td&gt;회원 로그인&lt;/td&gt;
+                &lt;td&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;아이디&lt;/td&gt;
+                &lt;td&gt;&lt;input type="text" name="user_id"&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;비밀번호&lt;/td&gt;
+                &lt;td&gt;&lt;input type="text" name="user_pw"&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;
+                    &lt;!-- 로그인 버튼 --&gt;
+                    &lt;button type="submit"&gt;로그인&lt;/button&gt;
+                &lt;/td&gt;
+                &lt;td&gt;
+                    &lt;!-- 회원가입 페이지로 이동하는 버튼 --&gt;
+                    &lt;button type="button" 
+                            onclick="location.href='../Main/Join.jsp';"&gt;회원가입&lt;/button&gt;
+                    &lt;!-- 게시판 리스트 페이지로 이동하는 버튼 --&gt;
+                    &lt;button type="button" 
+                            onclick="location.href='../Main/BoardList.jsp';"&gt;게시판 리스트 보기&lt;/button&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/table&gt;
+    &lt;/form&gt;
+    
+    &lt;%
+    } else { // 로그인 상태인 경우
+    %&gt;
+    &lt;!-- 로그인된 사용자 정보 표시 및 로그아웃 링크 제공 --&gt;
+    &lt;%= session.getAttribute("UserName") %&gt;회원님, 로그인 하셨습니다.&lt;br&gt;
+    &lt;a href="../Process/LogoutProcess.jsp"&gt;[로그아웃]&lt;/a&gt;
+    &lt;%
+    }
+    %&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+            </pre>
+            
+            <h4>이 JSP 파일은 사용자 인증을 위한 기본적인 로그인 기능을 제공하며, 사용자 경험을 고려한 인터페이스와 기본적인 보안 기능을 구현하고 있습니다.</h4>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td>
+            <h2>LoginCheck</h2>
+            <pre>
+&lt;!-- LoginCheck.jsp --&gt;
+&lt;%@page import="DataBaseUtils.JSFunction"%&gt;
+&lt;%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%&gt;
+&lt;%
+if(session.getAttribute("UserId")==null){
+    JSFunction.alertLocation("로그인 후 이용해 주십시오.", "../Main/Login.jsp", out);
+    return;
+}
+%&gt;
+            </pre>
+
+            <h2>LogoutProcess</h2>
+            <pre>
+&lt;!-- LogoutProcess.jsp --&gt;
+&lt;%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%&gt;
+&lt;%
+session.removeAttribute("UserId");
+session.removeAttribute("UserName");
+
+session.invalidate();
+
+response.sendRedirect("../Process/LoginProcess.jsp");
+%&gt;
+            </pre>
+
+            <h2>LoginProcess</h2>
+            <pre>
+&lt;!-- LoginProcess.jsp --&gt;
+&lt;%@page import="DTO.MemberDTO"%&gt;
+&lt;%@page import="DAO.MemberDAO"%&gt;
+&lt;%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%&gt;
+
+&lt;%
+try {
+    String UserId = request.getParameter("user_id");
+    String UserPwd = request.getParameter("user_pw");
+
+    String MysqlDriver = application.getInitParameter("MysqlDriver");
+    String MysqlURL = application.getInitParameter("MysqlURL");
+    String MysqlId = application.getInitParameter("MysqlId");
+    String MysqlPwd = application.getInitParameter("MysqlPwd");
+
+    MemberDAO dao = new MemberDAO(MysqlDriver, MysqlURL, MysqlId, MysqlPwd);
+    MemberDTO dto = dao.getMemberDTO(UserId, UserPwd);
+    dao.close();
+
+    System.out.println("DTO 결과: " + dto.getId());
+    System.out.println("DTO 이름: " + dto.getName());
+    
+    if(dto.getId() != null) {
+        session.setAttribute("UserId", dto.getId());
+        session.setAttribute("UserName", dto.getName());
+        response.sendRedirect("../Main/Login.jsp");
+    } else {
+        request.setAttribute("LoginErrMsg", "로그인 오류 입니다.");
+        request.getRequestDispatcher("../Main/Login.jsp").forward(request, response);
+    }
+} catch(Exception e) {
+    e.printStackTrace();
+}
+            </pre>
+
+            <h4>이 세 파일은 웹 애플리케이션의 인증 시스템에서 핵심적인 역할을 수행하며, 보안과 사용자 경험을 모두 고려한 구현을 보여줍니다.</h4>
+        </td>
+    </tr>
+</table>
