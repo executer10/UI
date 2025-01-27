@@ -1,6 +1,7 @@
 <h1>DeveloperProject (첫 번째 팀 프로젝트)</h1> 
 Spring Framework를 활용한 공과금(가스) 요금 조회 및 납부 내역 관리 시스템입니다.
 
+<h2>프로젝트 구조</h2>
 <code>
 DeveloperProject
 ├─ controller
@@ -26,32 +27,33 @@ DeveloperProject
       └─ PaymentReceipt.jsp    // 납부 내역 출력
 </code>
 
+<h2>주요 기능</h2>
+<ul>
+   <li>회원 관리
+      <ul>
+         <li>회원가입: 아이디 중복 체크, 유효성 검증</li>
+         <li>로그인/로그아웃: 세션 관리, Remember Me 쿠키 지원</li>
+         <li>회원탈퇴: 계정 삭제 및 세션 정리</li>
+      </ul>
+   </li>
+   <li>요금 조회
+      <ul>
+         <li>사용계약번호와 청구년월 기준 요금 조회</li>
+         <li>사용량, 공급가액, 부가세, 연체료 등 상세 내역 표시</li>
+         <li>Chart.js를 활용한 요금 구성 시각화</li>
+      </ul>
+   </li>
+   <li>납부 내역 관리
+      <ul>
+         <li>연간 납부 내역 조회 및 출력</li>
+         <li>고객명, 계약번호 기반 조회</li>
+         <li>납부확인서 PDF 출력</li>
+      </ul>
+   </li>
+</ul>
 
 <h1>UI_Project (개인 프로젝트 + 두 번째 팀 프로젝트)</h1> 
 Spring Framework, MyBatis, Java, JSP, JSTL, MySQL, JavaScript, jQuery 등을 활용하여 구현된 웹 프로젝트입니다. 주요 기능은 회원 가입/로그인, 마이페이지, 데이터 분석 (Python 연동), 가스 대시보드 등으로 구성되어 있습니다.
-
-<h3>목차</h3>
-<ol>
-  <li>프로젝트 개요</li>
-  <li>프로젝트 구조</li>
-  <li>주요 기능
-    <ul>
-      <li>HTML, CSS, JavaScript, Java, MySQL, Python, JSP, Spring, Github 공부내용 정리</li>
-      <li>회원 관리 (가입/로그인/마이페이지)</li>
-      <li>데이터 분석 대시보드</li>
-      <li>가스 대시보드</li>
-    </ul>
-  </li>
-  <li>소스 코드 주요 파일
-    <ul>
-      <li>JSP</li>
-      <li>JavaScript</li>
-      <li>Controller</li>
-      <li>MyBatis Mapper XML</li>
-      <li>PythonExecutor (유틸리티)</li>
-    </ul>
-  </li>
-</ol>
 
 <hr>
 <h2>프로젝트 개요</h2>
@@ -61,6 +63,7 @@ Spring Framework, MyBatis, Java, JSP, JSTL, MySQL, JavaScript, jQuery 등을 활
       <li>HTML, CSS, JavaScript, Java, MySQL, Python, JSP, Spring, Github등 배운것을 기록하고, 활용하기 위함.</li>
       <li>웹 서비스의 전반적인 아키텍처(프론트엔드 & 백엔드 & DB)를 이해.</li>
       <li>Python과 Spring(자바) 간의 연동(데이터 분석 및 시각화)</li>
+      <li>내가 배운 것을 정리 및 기록하는 공간</li>
     </ul>
   </li>
   <li>주요 특징:
