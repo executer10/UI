@@ -1,30 +1,41 @@
 <h1>DeveloperProject (첫 번째 팀 프로젝트)</h1> 
-Spring Framework를 활용한 공과금(가스) 요금 조회 및 납부 내역 관리 시스템입니다.
+Spring Framework를 활용한 가스 요금 조회 및 납부 내역 관리 시스템입니다.
 
 <h2>프로젝트 구조</h2>
 <code>
 DeveloperProject
-├─ controller
-│  ├─ MainController.java        // 요금 조회
-│  ├─ MemberController.java      // 회원 관리
-│  └─ PaymentReceiptController.java  // 납부 내역
-├─ dto
-│  ├─ BillingDTO.java           // 요금 정보
-│  ├─ MemberDTO.java            // 회원 정보
-│  └─ PaymentReceiptDTO.java    // 납부 내역
-├─ dao
-│  ├─ BillingDAO.java
-│  ├─ MemberDAO.java
-│  └─ PaymentReceiptDAO.java
-└─ views
-   ├─ main
-   │  └─ main.jsp               // 메인 화면
-   ├─ member
-   │  ├─ login.jsp             // 로그인
-   │  ├─ join.jsp              // 회원가입
-   │  └─ header.jsp            // 공통 헤더
-   └─ detail
-      └─ PaymentReceipt.jsp    // 납부 내역 출력
+├─ src/main/java                        # Java 소스 파일 디렉토리
+│  ├─ com.developer.controller          # 컨트롤러 패키지
+│  │  ├─ MainController.java           # 메인 페이지 및 요금 조회 컨트롤러
+│  │  ├─ MemberController.java         # 회원 관리 컨트롤러 (로그인, 회원가입 등)
+│  │  └─ PaymentReceiptController.java # 납부 내역 관리 컨트롤러
+│  ├─ com.developer.dao                # 데이터 액세스 객체 패키지
+│  ├─ com.developer.dto                # 데이터 전송 객체 패키지
+│  └─ com.developer.service            # 비즈니스 로직 서비스 패키지
+│
+├─ src/main/resources                   # 리소스 파일 디렉토리
+│  ├─ com.developer.dao                # MyBatis 매퍼 XML 파일 디렉토리
+│  │  ├─ BillingMapper.xml            # 요금 조회 관련 SQL 매핑
+│  │  ├─ MemberMapper.xml             # 회원 관리 관련 SQL 매핑
+│  │  └─ PaymentReceiptMapper.xml     # 납부 내역 관련 SQL 매핑
+│  └─ log4j.xml                       # 로깅 설정 파일
+│
+└─ src/main/webapp                      # 웹 애플리케이션 루트 디렉토리
+   ├─ WEB-INF                          # 웹 설정 디렉토리
+   │  ├─ spring                        # 스프링 설정 파일 디렉토리
+   │  ├─ views                         # JSP 뷰 파일 디렉토리
+   │  │  ├─ detail                    # 상세 페이지 뷰
+   │  │  │  ├─ PaymentReceipt.jsp    # 납부 내역 출력 페이지
+   │  │  │  └─ view_details.jsp      # 상세 정보 조회 페이지
+   │  │  ├─ main                      # 메인 페이지 관련 뷰
+   │  │  │  └─ main.jsp              # 메인 페이지
+   │  │  └─ member                    # 회원 관련 뷰
+   │  │      ├─ alertPrint.jsp       # 알림 메시지 출력 페이지
+   │  │      ├─ header.jsp           # 공통 헤더 페이지
+   │  │      ├─ join.jsp             # 회원가입 페이지
+   │  │      └─ login.jsp            # 로그인 페이지
+   │  └─ web.xml                      # 웹 애플리케이션 설정 파일
+   └─ resources                        # 정적 리소스 디렉토리 (CSS, JS, 이미지 등)
 </code>
 
 <h2>주요 기능</h2>
@@ -51,6 +62,44 @@ DeveloperProject
       </ul>
    </li>
 </ul>
+
+<h2>기술 스택</h2>
+<ol>
+  <li>Backend
+    <ul>
+      <li>Spring MVC</li>
+      <li>MyBatis</li>
+      <li>MySQL (데이터베이스)</li>
+      <li>Java 11</li>
+    </ul>
+  </li>
+  <li>Frontend
+    <ul>
+      <li>JSP</li>
+      <li>HTML/CSS/JavaScript</li>
+      <li>jQuery(ajax사용)</li>
+      <li>Chart.js (차트 시각화)</li>
+    </ul>
+  </li>
+  <li>ETC
+    <ul>
+      <li>Apache Tomcat (서버)</li>
+      <li>Maven(의존성 관리)</li>
+    </ul>
+  </li>
+</ol>
+
+<h2>맡은 역할</h2>
+<ul>
+   <li>백엔드
+      <ul>
+         <li>회원가입/로그인</li>
+         <li>DB와 Java연결</li>
+      </ul>
+   </li>
+</ul>
+
+<hr>
 
 <h1>UI_Project (개인 프로젝트 + 두 번째 팀 프로젝트)</h1> 
 Spring Framework, MyBatis, Java, JSP, JSTL, MySQL, JavaScript, jQuery 등을 활용하여 구현된 웹 프로젝트입니다. 주요 기능은 회원 가입/로그인, 마이페이지, 데이터 분석 (Python 연동), 가스 대시보드 등으로 구성되어 있습니다.
@@ -236,4 +285,4 @@ UI_Project
   </li>
 </ol>
 
-<h1>Old_team_project3 (세 번째 팀 프로젝트)</h1> 
+<h1>Old_team_project3 (세 번째 팀 프로젝트)</h1>
