@@ -1,5 +1,30 @@
 <h1>DeveloperProject (첫 번째 팀 프로젝트)</h1> 
+Spring Framework를 활용한 공과금(가스) 요금 조회 및 납부 내역 관리 시스템입니다.
 
+<code>
+DeveloperProject
+├─ controller
+│  ├─ MainController.java        // 요금 조회
+│  ├─ MemberController.java      // 회원 관리
+│  └─ PaymentReceiptController.java  // 납부 내역
+├─ dto
+│  ├─ BillingDTO.java           // 요금 정보
+│  ├─ MemberDTO.java            // 회원 정보
+│  └─ PaymentReceiptDTO.java    // 납부 내역
+├─ dao
+│  ├─ BillingDAO.java
+│  ├─ MemberDAO.java
+│  └─ PaymentReceiptDAO.java
+└─ views
+   ├─ main
+   │  └─ main.jsp               // 메인 화면
+   ├─ member
+   │  ├─ login.jsp             // 로그인
+   │  ├─ join.jsp              // 회원가입
+   │  └─ header.jsp            // 공통 헤더
+   └─ detail
+      └─ PaymentReceipt.jsp    // 납부 내역 출력
+</code>
 
 
 <h1>UI_Project (개인 프로젝트 + 두 번째 팀 프로젝트)</h1> 
