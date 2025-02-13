@@ -46,7 +46,7 @@ Spring Boot, MyBatis, Java, JSP, JSTL, MySQL, JavaScript, jQuery 등을 활용�
     <ul>
       <li>Python (데이터 분석 및 머신러닝)</li>
       <li>Maven(의존성 관리)</li>
-      <li>Spring Tool Suite 3(사용 툴)</li>
+      <li>Spring Tool Suite 4(사용 툴)</li>
       <li>Visual Studio Code(사용 툴)</li>
     </ul>
   </li>
