@@ -1,0 +1,294 @@
+<table>
+    <tr>
+        <td>
+            <pre>
+package DAO;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
+import javax.servlet.ServletContext;
+import DTO.BoardDTO;
+import DTO.MemberDTO;
+import DataBaseUtils.JDBConnect;
+
+/**
+ * 게시판 관련 데이터베이스 작업을 전담하는 DAO 클래스
+ * JDBConnect를 상속받아 데이터베이스 연결 기능을 활용
+ */
+public class BoardDAO extends JDBConnect {
+    
+    /**
+     * ServletContext 객체로부터 데이터베이스 연결 정보를 얻어오는 생성자
+     * 
+     * @param application 웹 애플리케이션의 컨텍스트 객체
+     */
+    public BoardDAO(ServletContext application) {
+        super(application);
+    }
+    
+    /**
+     * 검색 조건에 맞는 게시물의 총 개수를 반환하는 메서드
+     * 
+     * @param map 검색 조건을 담은 Map 객체 (searchField: 검색필드, searchWord: 검색어)
+     * @return 조건에 맞는 게시물의 총 개수
+     */
+    public int selectCount(Map&lt;String, Object&gt; map) {
+        int totalCount = 0;
+        
+        // 기본 쿼리문 작성
+        String query = "SELECT COUNT(*) FROM board";
+        // 검색어가 있다면 WHERE절 추가
+        if(map.get("searchWord") != null) {
+            query += " WHERE " + map.get("searchField")
+                  + " LIKE '%" + map.get("searchWord") + "%'";
+        }
+        
+        try {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            rs.next();
+            totalCount = rs.getInt(1);
+        } catch (Exception e) {
+            System.out.println("게시물 수를 구하는 중 예외 발생");
+            e.printStackTrace();
+        }
+        
+        return totalCount;
+    }
+    
+    /**
+     * 검색 조건에 맞는 게시물 목록을 반환하는 메서드
+     * 
+     * @param map 검색 조건을 담은 Map 객체
+     * @return 게시물 목록을 담은 List 객체
+     */
+    public List&lt;BoardDTO&gt; selectList(Map&lt;String, Object&gt; map) {
+        List&lt;BoardDTO&gt; bbs = new Vector&lt;BoardDTO&gt;();
+        
+        // 기본 쿼리문 작성
+        String query = "SELECT * FROM board";
+        // 검색어가 있다면 WHERE절 추가
+        if(map.get("searchWord") != null) {
+            query += " WHERE " + map.get("searchField")
+                    + " LIKE '%" + map.get("searchWord") + "%'";
+        }
+        query += " ORDER BY num DESC";
+        
+        try {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            
+            // 결과를 DTO에 저장하고 리스트에 추가
+            while(rs.next()) {
+                BoardDTO dto = new BoardDTO();
+                dto.setNum(rs.getString("num"));
+                dto.setTitle(rs.getString("title"));
+                dto.setContent(rs.getString("content"));
+                dto.setPostdate(rs.getDate("postdate"));
+                dto.setId(rs.getString("id"));
+                dto.setVisitcount(rs.getString("visitcount"));
+                
+                bbs.add(dto);
+            }
+        } catch (Exception e) {
+            System.out.println("게시물 조회 중 예외 발생");
+            e.printStackTrace();
+        }
+        
+        return bbs;
+    }
+    
+    /**
+     * 특정 게시물의 상세 내용을 조회하는 메서드
+     * member 테이블과 JOIN하여 작성자 이름까지 가져옴
+     * 
+     * @param num 조회할 게시물의 일련번호
+     * @return 게시물 정보를 담은 DTO 객체
+     */
+    public BoardDTO selectView(String num) {
+        BoardDTO dto = new BoardDTO();
+        
+        // 쿼리문 작성 - 회원 테이블과 조인하여 이름까지 가져옴
+        String query = "SELECT B.*, M.name"
+                     + " FROM member M"
+                     + " INNER JOIN board B"
+                     + " ON M.id = B.id"
+                     + " WHERE num=?";
+        
+        try {
+            psmt = con.prepareStatement(query);
+            psmt.setString(1, num);    
+            rs = psmt.executeQuery();
+            
+            if(rs.next()) {
+                dto.setNum(rs.getString("num"));
+                dto.setTitle(rs.getString("title"));
+                dto.setContent(rs.getString("content"));
+                dto.setPostdate(rs.getDate("postdate"));
+                dto.setId(rs.getString("id"));
+                dto.setVisitcount(rs.getString("visitcount"));
+                dto.setName(rs.getString("name"));
+            }
+        } catch (Exception e) {
+            System.out.println("게시물 상세보기 중 예외 발생");
+            e.printStackTrace();
+        }
+        return dto;
+    }
+    
+    /**
+     * 게시물의 조회수를 1 증가시키는 메서드
+     * 
+     * @param num 조회수를 증가시킬 게시물의 일련번호
+     */
+    public void updateVisitCount(String num) {
+        String query = "UPDATE board SET"
+                     + " visitcount = visitcount + 1"
+                     + " WHERE num = ?";
+        
+        try {
+            psmt = con.prepareStatement(query);
+            psmt.setString(1, num);
+            psmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("게시물 조회수 증가 중 예외발생");
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * 새로운 게시물을 등록하는 메서드
+     * 
+     * @param dto 게시물 정보를 담은 DTO 객체
+     * @return 성공 시 1, 실패 시 0 반환
+     */
+    public int insertWrite(BoardDTO dto) {
+        int result = 0;
+        
+        try {
+            String query = "INSERT INTO board (title, content, id, postdate, visitcount)"
+                    + " VALUES (?, ?, ?, now(), 0)";
+            
+            psmt = con.prepareStatement(query);
+            psmt.setString(1, dto.getTitle());
+            psmt.setString(2, dto.getContent());
+            psmt.setString(3, dto.getId());
+            
+            result = psmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("게시물 입력 중 예외 발생");
+            e.printStackTrace();
+        }
+        
+        return result;
+    }
+    
+    /**
+     * 게시물을 수정하는 메서드
+     * 
+     * @param dto 수정할 게시물 정보를 담은 DTO 객체
+     * @return 성공 시 1, 실패 시 0 반환
+     */
+    public int updateEdit(BoardDTO dto) {
+        int result = 0;
+        
+        try {
+            String query = "UPDATE board SET "
+                         + " title=?, content=? "
+                         + " WHERE num=? ";
+            
+            psmt = con.prepareStatement(query);
+            psmt.setString(1, dto.getTitle());
+            psmt.setString(2, dto.getContent());
+            psmt.setString(3, dto.getNum());
+            
+            result = psmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("게시물 수정 중 예외 발생");
+            e.printStackTrace();
+        }
+        
+        return result;
+    }
+    
+    /**
+     * 지정한 게시물을 삭제하는 메서드
+     * 
+     * @param dto 삭제할 게시물 정보를 담은 DTO 객체
+     * @return 성공 시 1, 실패 시 0 반환
+     */
+    public int deletePost(BoardDTO dto) {
+        int result = 0;
+        try {
+            String query = "DELETE FROM board WHERE num=? ";
+            
+            psmt = con.prepareStatement(query);
+            psmt.setString(1, dto.getNum());
+            
+            result = psmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("게시물 삭제 중 예외 발생");
+            e.printStackTrace();
+        }
+        
+        return result;
+    }
+    
+    /**
+     * 페이징 처리된 게시물 목록을 반환하는 메서드
+     * 
+     * @param map 검색 조건과 페이징 정보를 담은 Map 객체
+     * @return 게시물 목록을 담은 List 객체
+     */
+    public List&lt;BoardDTO&gt; selectListPage(Map&lt;String, Object&gt; map) {
+        List&lt;BoardDTO&gt; bbs = new Vector&lt;BoardDTO&gt;();
+        
+        //Mysql에서 사용하는 RowNum
+		String query = 
+				"SELECT * " +
+				"FROM (" +
+				"	SELECT " +
+				"		@rownum := @rownum + 1 AS rownum, " +
+				"		b.* " +
+				"	FROM board b, (SELECT @rownum := 0) AS rowT " +
+				" ) AS boardrowT ";
+				// 검색 조건 추가
+			    if (map.get("searchWord") != null) {
+			        query += " WHERE " + map.get("searchField") + " " +
+			                 " LIKE '%" + map.get("searchWord") + "%' ";
+			    }
+		query+= " ORDER BY num DESC" +
+				" LIMIT ?, ? ";
+        
+        try {
+            psmt = con.prepareStatement(query);
+            psmt.setInt(1, (int) map.get("start"));
+            psmt.setInt(2, (int) map.get("end"));
+            
+            rs = psmt.executeQuery();
+            
+            while(rs.next()) {
+                BoardDTO dto = new BoardDTO();
+                dto.setNum(rs.getString("num"));
+                dto.setTitle(rs.getString("title"));
+                dto.setContent(rs.getString("content"));
+                dto.setPostdate(rs.getDate("postdate"));
+                dto.setId(rs.getString("id"));
+                dto.setVisitcount(rs.getString("visitcount"));
+                
+                bbs.add(dto);
+            }
+        } catch (Exception e) {
+            System.out.println("게시물 조회 중 예외 발생");
+            e.printStackTrace();
+        }
+        return bbs;
+    }
+}
+            </pre>
+            
+            <h4>이 DAO 클래스는 게시판 관리에 필요한 모든 데이터베이스 작업을 캡슐화하여 제공하며, 데이터베이스 연결과 쿼리 실행에 대한 안전성과 재사용성을 보장합니다.</h4>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,253 @@
+<table>
+    <tr>
+        <th>
+            <h2>상속(Inheritance)</h2>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <h3>제목 정의</h3>
+            <ul>
+                <li><b>상속</b>은 한 클래스가 다른 클래스로부터 속성과 메서드를 물려받는 기능입니다.</li>
+                <li>상속을 통해 코드의 재사용성을 높이고, 계층 구조를 만듭니다.</li>
+            </ul>
+
+            <h3>세부 정보 정의</h3>
+            <ol>
+                <li><b>클래스 상속</b>: 자식 클래스가 부모 클래스의 필드와 메서드를 상속받습니다.</li>
+                <li><b>부모 생성자 호출</b>: 자식 클래스의 생성자에서 부모 클래스의 생성자를 호출하여 부모의 초기화 작업을 수행합니다.</li>
+                <li><b>메소드 재정의</b>: 자식 클래스에서 부모 클래스의 메서드를 새롭게 정의하여 사용할 수 있습니다.</li>
+                <li><b>final 클래스와 final 메소드</b>: final 클래스를 상속할 수 없고, final 메소드는 재정의할 수 없습니다.</li>
+                <li><b>protected 접근 제한자</b>: protected로 선언된 필드와 메소드는 같은 패키지 내의 클래스와 자식 클래스에서 접근할 수 있습니다.</li>
+            </ol>
+
+            <h3>특징</h3>
+            <ol>
+                <li>상속은 코드의 중복을 줄이고 유지보수를 용이하게 합니다.</li>
+                <li>부모 클래스의 기능을 자식 클래스가 확장할 수 있습니다.</li>
+                <li>다형성을 통해 객체의 타입에 따라 서로 다른 행동을 할 수 있습니다.</li>
+            </ol>
+
+            <h3>사용 이유</h3>
+            <ol>
+                <li>코드의 재사용성을 높이고, 계층 구조를 명확하게 하기 위해 필요합니다.</li>
+                <li>기존 클래스의 기능을 확장하거나 수정할 필요가 있을 때 유용합니다.</li>
+                <li>객체지향 프로그래밍의 중요한 원칙 중 하나로, 설계의 유연성을 제공합니다.</li>
+            </ol>
+
+            <h3>예제 구문</h3>
+            <strong>
+                <pre>
+// 부모 클래스
+class Animal {
+    protected String name; // protected 필드
+
+    // 생성자
+    Animal(String name) {
+        this.name = name; // 필드 초기화
+    }
+
+    // 메서드
+    void makeSound() {
+        System.out.println("동물이 소리를 냅니다.");
+    }
+}
+
+// 자식 클래스
+class Dog extends Animal { // Animal 클래스를 상속
+    
+    // 생성자
+    Dog(String name) {
+        super(name); // 부모 생성자 호출
+    }
+    
+    // 메서드 재정의
+    @Override
+    void makeSound() {
+        System.out.println(name + "가 멍멍 소리를 냅니다."); // 재정의된 메서드
+    }
+}
+
+// 사용 예
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog("Buddy");
+        dog.makeSound(); // 출력: Buddy가 멍멍 소리를 냅니다.
+    }
+}
+                </pre>
+            </strong>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>
+            <h2>타입 변환과 다형성</h2>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <h3>제목 정의</h3>
+            <ul>
+                <li><b>타입 변환</b>은 하나의 데이터 타입을 다른 데이터 타입으로 변환하는 과정을 의미합니다.</li>
+                <li><b>다형성</b>은 같은 메서드가 다양한 형태로 동작할 수 있는 능력을 말합니다.</li>
+            </ul>
+
+            <h3>세부 정보 정의</h3>
+            <ol>
+                <li><b>자동 타입 변환</b>: 작은 데이터 타입에서 큰 데이터 타입으로 자동으로 변환되는 과정입니다. 예: int에서 double로.</li>
+                <li><b>필드의 다형성</b>: 상위 클래스 타입의 필드를 통해 하위 클래스 객체를 참조할 수 있습니다.</li>
+                <li><b>매개 변수의 다형성</b>: 메서드의 매개변수로 상위 클래스 타입을 사용하면 하위 클래스 객체를 전달할 수 있습니다.</li>
+                <li><b>강제 타입 변환</b>: 상위 클래스 타입을 하위 클래스 타입으로 변환할 때 사용하며, 이때는 명시적으로 캐스팅해야 합니다.</li>
+                <li><b>객체 타입 확인</b>: instanceof 연산자를 사용하여 객체가 특정 클래스의 인스턴스인지 확인할 수 있습니다.</li>
+            </ol>
+
+            <h3>특징</h3>
+            <ol>
+                <li>타입 변환을 통해 다양한 타입의 데이터를 유연하게 처리할 수 있습니다.</li>
+                <li>다형성을 통해 코드의 재사용성과 유연성을 높일 수 있습니다.</li>
+                <li>강제 타입 변환 시, 잘못된 변환으로 인해 런타임 오류가 발생할 수 있으므로 주의가 필요합니다.</li>
+            </ol>
+
+            <h3>사용 이유</h3>
+            <ol>
+                <li>타입 변환을 통해 서로 다른 데이터 타입 간의 호환성을 확보할 수 있습니다.</li>
+                <li>다형성은 객체 지향 프로그래밍의 중요한 원칙으로, 코드의 확장성을 높입니다.</li>
+                <li>유연한 코드 작성을 통해 유지보수를 용이하게 합니다.</li>
+            </ol>
+
+            <h3>예제 구문</h3>
+            <strong>
+                <pre>
+// 상위 클래스
+class Animal {
+    void makeSound() {
+        System.out.println("동물이 소리를 냅니다.");
+    }
+}
+
+// 하위 클래스
+class Dog extends Animal {
+    @Override
+    void makeSound() {
+        System.out.println("멍멍 소리를 냅니다.");
+    }
+}
+
+// 메인 클래스
+public class Main {
+    public static void main(String[] args) {
+
+        // 자동 타입 변환
+        Animal animal = new Dog(); // Dog 객체를 Animal 타입으로 참조
+        animal.makeSound(); // 멍멍 소리를 냅니다. 출력
+
+        // 매개 변수의 다형성
+        makeAnimalSound(animal); // Animal 타입의 매개변수에 Dog 객체 전달
+
+        // 객체 타입 확인
+        if (animal instanceof Dog) {
+            System.out.println("animal은 Dog 타입입니다."); // 출력
+        }
+
+        // 강제 타입 변환
+        Dog dog = (Dog) animal; // Animal 타입을 Dog 타입으로 강제 변환
+        dog.makeSound(); // 멍멍 소리를 냅니다. 출력
+    }
+    static void makeAnimalSound(Animal animal) {
+        animal.makeSound(); // 다형성에 의해 재정의된 메서드 호출
+    }
+}
+                </pre>
+            </strong>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>
+            <h2>추상 클래스</h2>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <h3>제목 정의</h3>
+            <ul>
+                <li><b>추상 클래스</b>는 객체를 생성할 수 없는 클래스이며, 다른 클래스가 상속받아 사용할 수 있도록 정의된 클래스입니다.</li>
+                <li>추상 클래스는 일반 메서드와 추상 메서드를 포함할 수 있습니다.</li>
+            </ul>
+
+            <h3>세부 정보 정의</h3>
+            <ol>
+                <li><b>추상 클래스의 용도</b>: 공통된 속성과 메서드를 정의하여 관련된 클래스들 간의 구조를 통일하는 데 사용됩니다.</li>
+                <li><b>추상 클래스 선언</b>: 클래스 앞에 `abstract` 키워드를 사용하여 선언합니다.</li>
+                <li><b>추상 메소드와 재정의</b>: 추상 메소드는 본체가 없는 메서드로, 하위 클래스에서 반드시 재정의하여 구현해야 합니다.</li>
+            </ol>
+
+            <h3>특징</h3>
+            <ol>
+                <li>추상 클래스는 인스턴스를 생성할 수 없습니다.</li>
+                <li>하위 클래스에서 추상 메소드를 반드시 구현해야 합니다.</li>
+                <li>추상 클래스는 일반 메서드와 필드를 가질 수 있습니다.</li>
+            </ol>
+
+            <h3>사용 이유</h3>
+            <ol>
+                <li><b>공통된 필드</b>와 <b>메소드</b>의 이름을 통일할 목적</li>
+                <li><b>실체 클래스</b>를 작성할 때 시간 절약</li>
+                <li><b>필수 기능</b> 구현을 강제하여 <b>일관성</b> 유지</li>
+            </ol>
+
+            <h3>예제 구문</h3>
+            <strong>
+                <pre>
+// 추상 클래스 선언
+abstract class Animal {
+
+    // 추상 메소드
+    abstract void makeSound(); // 본체가 없는 메소드
+
+    // 일반 메소드
+    void eat() {
+        System.out.println("동물이 먹고 있습니다.");
+    }
+}
+
+// 하위 클래스
+class Dog extends Animal {
+    // 추상 메소드 재정의
+    @Override
+    void makeSound() {
+        System.out.println("멍멍 소리를 냅니다.");
+    }
+}
+
+// 하위 클래스
+class Cat extends Animal {
+
+    // 추상 메소드 재정의
+    @Override
+    void makeSound() {
+        System.out.println("야옹 소리를 냅니다.");
+    }
+}
+
+// 메인 클래스
+public class Main {
+    public static void main(String[] args) {
+        Animal dog = new Dog(); // Dog 객체 생성
+        dog.makeSound(); // 멍멍 소리를 냅니다. 출력
+        dog.eat(); // 동물이 먹고 있습니다. 출력
+        Animal cat = new Cat(); // Cat 객체 생성
+        cat.makeSound(); // 야옹 소리를 냅니다. 출력
+        cat.eat(); // 동물이 먹고 있습니다. 출력
+    }
+}
+                </pre>
+            </strong>
+        </td>
+    </tr>
+</table>

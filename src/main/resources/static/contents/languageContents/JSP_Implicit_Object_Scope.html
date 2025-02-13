@@ -1,0 +1,81 @@
+<table>
+    <tr>
+        <td> <!-- 목차 섹션 -->
+            <h2>목차</h2>
+            <ol>
+                <li><strong>내장 객체의 영역 개요</strong></li>
+                <li><strong>Application 영역</strong></li>
+                <li><strong>Session 영역</strong></li>
+                <li><strong>Request 영역</strong></li>
+                <li><strong>Page 영역</strong></li>
+                <li><strong>실제 사용 예시</strong></li>
+            </ol>
+            text
+            <!-- 세부 내용 섹션 -->
+            <h2>1. 내장 객체의 영역 개요</h2>
+            <p>JSP에서 내장 객체의 영역은 데이터를 저장하고 공유하는 범위를 정의합니다. 각 영역은 특정 목적과 수명을 가지며, 효율적인 웹 애플리케이션 개발에 중요한 역할을 합니다.</p>
+
+            <h2>2. Application 영역</h2>
+            <p><strong>Application 영역</strong>은 웹 애플리케이션의 전체 생명주기 동안 데이터를 유지합니다. 이는 마치 백화점 전체에 걸쳐 공유되는 정보와 같습니다.</p>
+            <h3>특징:</h3>
+            <ul>
+                <li>서버가 실행되는 동안 계속 유지됨</li>
+                <li>모든 사용자가 공유하는 정보 저장에 적합</li>
+                <li>예: 총 방문자 수, 전체 공지사항</li>
+            </ul>
+
+            <h2>3. Session 영역</h2>
+            <p><strong>Session 영역</strong>은 개별 사용자의 세션 동안 데이터를 유지합니다. 이는 백화점의 VIP 카드나 개인 장바구니와 유사합니다.</p>
+            <h3>특징:</h3>
+            <ul>
+                <li>사용자별로 독립적인 정보 저장</li>
+                <li>로그아웃하거나 브라우저를 닫을 때까지 유지</li>
+                <li>예: 로그인 정보, 장바구니 내용</li>
+            </ul>
+
+            <h2>4. Request 영역</h2>
+            <p><strong>Request 영역</strong>은 하나의 HTTP 요청 처리 동안만 데이터를 유지합니다. 이는 백화점에서 특정 상품을 구경하는 것과 비슷합니다.</p>
+            <h3>특징:</h3>
+            <ul>
+                <li>요청이 처리되는 동안만 데이터 유지</li>
+                <li>페이지 간 데이터 전달에 사용</li>
+                <li>예: 검색 결과, 상품 상세 정보</li>
+            </ul>
+
+            <h2>5. Page 영역</h2>
+            <p><strong>Page 영역</strong>은 하나의 JSP 페이지 내에서만 데이터를 유지합니다. 이는 쇼핑 중 사용하는 개인 메모장과 유사합니다.</p>
+            <h3>특징:</h3>
+            <ul>
+                <li>현재 페이지에서만 사용되는 임시 데이터 저장</li>
+                <li>페이지 처리가 끝나면 데이터 소멸</li>
+                <li>예: 페이지 로드 시간, 임시 계산 값</li>
+            </ul>
+
+            <!-- 예제 구문 섹션 -->
+            <h2>6. 실제 사용 예시</h2>
+            <pre><code>
+    
+    // 1. Application 영역 사용 예
+    application.setAttribute("방문자수", 현재방문자수 + 1); // 방문자 수 증가
+    // 2. Session 영역 사용 예
+    session.setAttribute("회원정보", "김철수"); // 로그인 정보 저장
+    // 3. Request 영역 사용 예
+    request.setAttribute("상품", "나이키 운동화"); // 상품 정보 설정
+    // 4. Page 영역 사용 예
+    pageContext.setAttribute("메모", "사이즈 265"); // 임시 메모 저장
+    // 각 영역의 데이터 조회
+    System.out.println("총 방문자 수: " + application.getAttribute("방문자수"));
+    System.out.println("로그인 사용자: " + session.getAttribute("회원정보"));
+    System.out.println("조회 중인 상품: " + request.getAttribute("상품"));
+    System.out.println("페이지 메모: " + pageContext.getAttribute("메모"));
+    </code></pre>
+            <p><strong>실행 결과:</strong></p>
+            <pre>
+    총 방문자 수: 1001
+    로그인 사용자: 김철수
+    조회 중인 상품: 나이키 운동화
+    페이지 메모: 사이즈 265
+    </pre>
+        </td>
+    </tr>
+</table>

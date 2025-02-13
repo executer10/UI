@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/CSS/languages.css">
+    <!-- XLSX 라이브러리를 HTML에 포함시켜야 합니다 -->
+    <script src="/JavaScript/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <!-- 헤더 -->
+    <div th:replace="parts/header :: header"></div>
+
+    <div id="CommandGrid">
+        <nav>
+            <section>
+                <p>MySQL</p>
+                <article>
+                    <ol>
+                        <li id="MySQL_CommandList">SQL 명령어 리스트</li>
+                        <li id="MySQL_DDL">데이터 정의어</li>
+                        <li id="MySQL_DML">데이터 조작어</li>
+                        <li id="MySQL_DCL_and_TCL">데이터, 트랜잭션 제어어</li>
+                        <li id="MySQL_DefaultCMD">기본 시스템 명령어</li>
+                    </ol>
+                </article>
+            </section>
+        </nav>
+        <main id="MySQL_main">
+
+        </main>
+    </div>
+
+    <!-- 푸터 -->
+    <div th:replace="parts/footer.html :: footer"></div>
+
+    <script src="/JavaScript/languages.js"></script>
+</body>
+
+</html>

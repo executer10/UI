@@ -1,0 +1,227 @@
+<table>
+    <tr>
+        <th>
+            <h2>공공데이터활용</h2>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <h3>목차</h3>
+            <ul>
+                <li>데이터 분석 > 인구통계 > 총인구수와 출생아수 분석</li>
+                <li>데이터 시각화 > 지리정보 > 공원정보 지도 표현</li>
+                <li>데이터 분석 > 인구통계 > 지역별 인구현황 분석</li>
+            </ul>
+
+            <h3>세부 내용</h3>
+            <ol>
+                <li>데이터 분석
+                    <ul>
+                        <li>인구통계
+                            <ol>
+                                <li>총인구수와 출생아수 분석
+                                    <ul>
+                                        <li>pandas.read_csv(): 통계청 데이터 로드</li>
+                                        <li>pandas.DataFrame.groupby(): 연도별 데이터 그룹화</li>
+                                        <li>matplotlib.pyplot: 차트 생성 및 시각화</li>
+                                        <li>데이터 전처리 및 결측치 처리 방법</li>
+                                    </ul>
+                                </li>
+                                <li>지역별 인구현황 분석
+                                    <ul>
+                                        <li>pandas.read_csv(): 인구현황 데이터 로드</li>
+                                        <li>pandas.DataFrame.dropna(): 결측치 제거</li>
+                                        <li>pandas.DataFrame.loc[]: 특정 지역 데이터 필터링</li>
+                                        <li>matplotlib.pyplot: 지역별 인구 차트 생성</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </li>
+                    </ul>
+                </li>
+                <li>데이터 시각화
+                    <ul>
+                        <li>지리정보
+                            <ol>
+                                <li>공원정보 지도 표현
+                                    <ul>
+                                        <li>folium.Map(): 기본 지도 생성</li>
+                                        <li>folium.Marker(): 위치 마커 추가</li>
+                                        <li>folium.Map.add_child(): 마커 및 레이어 추가</li>
+                                        <li>위도/경도 좌표 시스템 활용</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+
+
+            <h3>특징</h3>
+            <ol>
+                <li>실시간 데이터 분석: 공공 API를 통한 최신 데이터 접근</li>
+                <li>다양한 시각화: 차트, 지도 등 다중 시각화 도구 활용</li>
+                <li>데이터 전처리: 결측치 처리, 데이터 정제 기능 포함</li>
+                <li>사용자 상호작용: 지역 선택, 기간 설정 등 동적 분석 지원</li>
+            </ol>
+
+            <h3>사용 이유</h3>
+            <ol>
+                <li>정책 의사결정: 인구 통계 기반의 정책 수립 지원</li>
+                <li>자원 최적화: 공공시설 위치 선정 및 자원 배분 최적화</li>
+                <li>트렌드 분석: 인구 변화 추이 및 지역별 특성 파악</li>
+                <li>시각적 소통: 복잡한 데이터의 직관적 전달 가능</li>
+            </ol>
+
+            <h3>내장 함수/매개 변수</h3>
+            <ol>
+                <li>
+                    <pre>
+# 데이터 로드
+pd.read_csv(
+    filepath_or_buffer,          # 필수: 파일 경로 또는 URL
+    encoding='utf-8',            # 선택: 파일 인코딩 (기본값: 'utf-8')
+    sep=',',                     # 선택: 구분자 (기본값: ',')
+    header=0,                    # 선택: 헤더 행 번호 (기본값: 0)
+    index_col=None,             # 선택: 인덱스로 사용할 열
+    *args,                      # 추가 위치 인자
+    **kwargs                    # 추가 키워드 인자
+)
+                    </pre>
+                </li>
+                <li>
+                    <pre>
+# 데이터프레임 그룹화
+df.groupby(
+    by,                         # 필수: 그룹화 기준이 되는 열 이름
+    axis=0,                    # 선택: 그룹화 축 (기본값: 0)
+    level=None,               # 선택: 멀티인덱스 레벨
+    as_index=True,           # 선택: 그룹키를 인덱스로 사용 (기본값: True)
+    *args,                   # 추가 위치 인자
+    **kwargs                 # 추가 키워드 인자
+)
+                    </pre>
+                </li>
+                <li>
+                    <pre>
+# 지도 생성
+folium.Map(
+    location,                  # 필수: [위도, 경도] 형식의 중심 좌표
+    zoom_start=12,            # 선택: 초기 줌 레벨 (기본값: 12)
+    tiles='OpenStreetMap',    # 선택: 지도 스타일 (기본값: 'OpenStreetMap')
+    width='100%',            # 선택: 지도 너비 (기본값: '100%')
+    **kwargs                 # 추가 키워드 인자
+)
+                    </pre>
+                </li>
+                <li>
+                    <pre>
+# 시각화
+plt.plot(
+    x,                        # 필수: x축 데이터
+    y,                        # 필수: y축 데이터
+    color='blue',            # 선택: 선 색상 (기본값: 'blue')
+    linestyle='-',           # 선택: 선 스타일 (기본값: '-')
+    label=None,              # 선택: 범례 텍스트
+    *args,                   # 추가 위치 인자
+    **kwargs                 # 추가 키워드 인자
+)
+                    </pre>
+                </li>
+                <li>
+                    <pre>
+# 결측치 처리
+df.dropna(
+    axis=0,                  # 선택: 제거할 축 (기본값: 0)
+    how='any',              # 선택: 제거 방식 (기본값: 'any')
+    thresh=None,            # 선택: 최소 유효값 개수
+    subset=None,            # 선택: 처리할 열 목록
+    *args,                  # 추가 위치 인자
+    **kwargs               # 추가 키워드 인자
+)
+                    </pre>
+                </li>
+                <li>
+                    <pre>
+# 데이터 필터링
+df.loc[
+    row_indexer,            # 필수: 행 인덱서 (라벨/불리언)
+    col_indexer=None,       # 선택: 열 인덱서
+    *args,                  # 추가 위치 인자
+    **kwargs               # 추가 키워드 인자
+]
+                    </pre>
+                </li>
+            </ol>
+
+            <h3>예제 구문</h3>
+            <strong>
+                <pre>
+# 1. 인구 데이터 분석 예제
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# 데이터 로드
+population_data = pd.read_csv('population.csv', encoding='utf-8')
+
+# 연도별 총인구수 분석
+yearly_population = population_data.groupby('year')['total_population'].sum()
+
+# 시각화
+plt.figure(figsize=(10, 6))
+plt.plot(yearly_population.index, yearly_population.values, marker='o')
+plt.title('연도별 총인구수 추이')
+plt.xlabel('연도')
+plt.ylabel('총인구수')
+plt.grid(True)
+plt.show()
+
+# 2. 공원정보 지도 시각화 예제
+import folium
+
+# 서울시 중심 지도 생성
+seoul_map = folium.Map(
+    location=[37.5665, 126.9780],
+    zoom_start=12
+)
+
+# 공원 정보 추가
+parks_data = [
+    {"name": "서울숲", "location": [37.5447, 127.0374]},
+    {"name": "올림픽공원", "location": [37.5202, 127.1214]}
+]
+
+for park in parks_data:
+    folium.Marker(
+        location=park["location"],
+        popup=park["name"],
+        icon=folium.Icon(color='green')
+    ).add_to(seoul_map)
+
+# 지도 저장
+seoul_map.save('seoul_parks.html')
+
+# 3. 지역별 인구현황 분석 예제
+# 특정 지역 데이터 필터링
+seoul_data = population_data.loc[population_data['region'] == 'Seoul']
+
+# 결측치 제거
+seoul_data_clean = seoul_data.dropna()
+
+# 연령대별 인구 분포 시각화
+plt.figure(figsize=(12, 6))
+seoul_data_clean.plot(
+    kind='bar',
+    x='age_group',
+    y='population',
+    title='서울시 연령대별 인구 분포'
+)
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+                </pre>
+            </strong>
+        </td>
+    </tr>
+</table>

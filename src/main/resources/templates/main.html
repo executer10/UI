@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인페이지</title>
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <!-- 헤더 -->
+    <div th:replace="parts/header :: header"></div>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="main">
+        <div class="content">
+            <a href="/languages" class="box">
+                <h2>기록된 언어</h2>
+            </a>
+            <a href="/projects" class="box">
+                <h2>기록된 프로젝트</h2>
+            </a>
+        </div>
+    </main>
+
+    <!-- 푸터 -->
+    <div th:replace="parts/footer.html :: footer"></div>
+
+</body>
+
+</html>

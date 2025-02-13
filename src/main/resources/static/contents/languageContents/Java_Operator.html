@@ -1,0 +1,265 @@
+<table>
+    <caption>연산자 종류 및 특성</caption>
+    <thead>
+        <tr>
+            <th>연산자 종류</th>
+            <th>연산자</th>
+            <th>피연산자 수</th>
+            <th>산출값</th>
+            <th>기능</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>산술</td>
+            <td>+ - * / %</td>
+            <td>이항</td>
+            <td>숫자</td>
+            <td>사칙연산 및 나머지 계산</td>
+        </tr>
+        <tr>
+            <td>부호</td>
+            <td>+ -</td>
+            <td>단항</td>
+            <td>숫자</td>
+            <td>음수와 양수의 부호</td>
+        </tr>
+        <tr>
+            <td>문자열</td>
+            <td>+</td>
+            <td>이항</td>
+            <td>문자열</td>
+            <td>두 문자열을 연결</td>
+        </tr>
+        <tr>
+            <td>대입</td>
+            <td>= += -= *= /= %=</td>
+            <td>이항</td>
+            <td>다양</td>
+            <td>우변의 값을 좌변의 변수에 대입</td>
+        </tr>
+        <tr>
+            <td>증감</td>
+            <td>++ --</td>
+            <td>단항</td>
+            <td>숫자</td>
+            <td>1만큼 증가/감소</td>
+        </tr>
+        <tr>
+            <td>비교</td>
+            <td>== != &lt; &gt; &lt;= &gt;= instaanceof</td>
+            <td>이항</td>
+            <td>boolean</td>
+            <td>값의 비교</td>
+        </tr>
+        <tr>
+            <td>논리</td>
+            <td>! & | && ||</td>
+            <td>단항, 이항</td>
+            <td>boolean</td>
+            <td>논리 부정, 논리 곱, 논리 합</td>
+        </tr>
+        <tr>
+            <td>조건</td>
+            <td>(조건식) ? A : B</td>
+            <td>삼항</td>
+            <td>다양</td>
+            <td>조건식에 따라 A 또는 B중 하나를 선택</td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <caption>연산자 관련 용어 설명</caption>
+    <thead>
+        <tr>
+            <th>연산자</th>
+            <th>연산 방향</th>
+            <th>우선순위</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>증감(++, --), 부호(+,-), 논리(!)</td>
+            <td>←</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>산술(*, /, &)</td>
+            <td>→</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>산술(+, -)</td>
+            <td>→</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>비교(&lt;, &gt;, &lt;=, &gt;=, instaanceof)</td>
+            <td>→</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>비교(==, !=)</td>
+            <td>→</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>논리(&)</td>
+            <td>→</td>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td>논리(^)</td>
+            <td>→</td>
+            <td>7</td>
+        </tr>
+        <tr>
+            <td>논리(|)</td>
+            <td>→</td>
+            <td>8</td>
+        </tr>
+        <tr>
+            <td>논리(&&)</td>
+            <td>→</td>
+            <td>9</td>
+        </tr>
+        <tr>
+            <td>논리(||)</td>
+            <td>→</td>
+            <td>10</td>
+        </tr>
+        <tr>
+            <td>조건(?:)</td>
+            <td>→</td>
+            <td>11</td>
+        </tr>
+        <tr>
+            <td>대입(=, +=, -=, *=, /=, %=)</td>
+            <td>←</td>
+            <td>12</td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <caption>연산자 관련 용어 설명</caption>
+    <thead>
+        <tr>
+            <th>용어</th>
+            <th>설명</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>단항 연산자</td>
+            <td>
+                피연산자가 단 하나뿐인 연산자. 부호 연산자(+, -), 증감 연산자(++, --), 논리 부정 연산자(!)가 해당됨.
+            </td>
+        </tr>
+        <tr>
+            <td>부호 연산자</td>
+            <td>
+                양수 및 음수를 표시하는 +, -. boolean 타입과 char 타입을 제외한 나머지 기본 타입에 사용 가능.
+            </td>
+        </tr>
+        <tr>
+            <td>증감 연산자</td>
+            <td>
+                변수의 값을 1 증가(++)시키거나 1 감소(--)시키는 연산자. boolean 타입을 제외한 모든 기본 타입의 피연산자에 사용 가능.
+            </td>
+        </tr>
+        <tr>
+            <td>논리 부정 연산자(!)</td>
+            <td>
+                true를 false로, false를 true로 변경. boolean 타입에만 사용 가능.
+            </td>
+        </tr>
+        <tr>
+            <td>이항 연산자</td>
+            <td>
+                피연산자가 2개인 연산자. 산술 연산자, 문자열 결합 연산자(+), 비교 연산자, 논리 연산자, 대입 연산자 등이 해당됨.
+            </td>
+        </tr>
+        <tr>
+            <td>문자열 결합 연산자(+)</td>
+            <td>
+                문자열을 서로 결합하는 연산자. 피연산자 한쪽이 문자열이면 다른 피연산자를 문자열로 변환하고 서로 결합함.
+            </td>
+        </tr>
+        <tr>
+            <td>비교 연산자</td>
+            <td>
+                피연산자의 대소(&lt;, &lt;=, &gt;, &gt;=) 또는 등등(==, !=)을 비교해서 true/false를 산출.
+                주로 조건문(if), 반복문(for, while)에서 실행 흐름을 제어할 때 사용.
+            </td>
+        </tr>
+        <tr>
+            <td>삼항 연산자</td>
+            <td>
+                3개의 피연산자를 필요로 하는 연산자(?:). 조건식에 따라 콜론(:) 앞뒤의 피연산자가 선택됨.
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="2">
+                <h2>new 연산자</h2>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>정의</th>
+            <td>Java에서 객체를 생성하고 메모리를 할당하는 데 사용되는 연산자 입니다.</td>
+        </tr>
+        <tr>
+            <th>주요 기능</th>
+            <td>
+                <ul>
+                    <li>클래스의 새 인스턴스를 생성합니다.</li>
+                    <li>객체에 필요한 메모리를 동적으로 할당합니다.</li>
+                    <li>객체의 생성자를 호출합니다.</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th>사용법</th>
+            <td><code>ClassName objectName = new ClassName(parameters);</code></td>
+        </tr>
+        <tr>
+            <th>예시</th>
+            <td><code>
+                // 매개변수가 없는 생성자 호출                      <br>
+                Car myCar = new Car();                            <br>
+                                                                  <br>
+                // 매개변수가 있는 생성자 호출                      <br>
+                Student newStudent = new Student("John", 20);     <br>
+                                                                  <br>
+                // 배열 생성                                       <br>
+                int[] numbers = new int[5];                       <br>
+            </code></td>
+        </tr>
+        <tr>
+            <th>메모리 관리</th>
+            <td>
+                <ul>
+                    <li>객체는 힙(Heap) 메모리에 생성됩니다.</li>
+                    <li>더 이상 참조되지 않는 객체는 가비지 컬렉터에 의해 자동으로 메모리에서 제거됩니다.</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th>주의사항</th>
+            <td>
+                <ul>
+                    <li>객체 생성 실패 시 OutOfMemoryError가 발생할 수 있습니다.</li>
+                    <li>불필요한 객체 생성은 메모리 낭비를 초래할 수 있으므로 주의해야 합니다.</li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>

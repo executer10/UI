@@ -1,0 +1,112 @@
+<table>
+    <tr>
+        <th>CREATE</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 새 데이터베이스 만들기
+CREATE DATABASE 쇼핑몰;
+
+-- 회원 테이블 만들기
+CREATE TABLE 회원 (
+    번호 INT PRIMARY KEY AUTO_INCREMENT,  -- 자동번호
+    이름 VARCHAR(10) NOT NULL,            -- 필수입력
+    이메일 VARCHAR(50) UNIQUE,            -- 중복방지
+    가입일 TIMESTAMP DEFAULT NOW()        -- 현재시간
+);
+
+-- 검색 빠르게 하기
+CREATE INDEX 이메일찾기 ON 회원(이메일);
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <th>ALTER</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 새 정보 칸 추가
+ALTER TABLE 회원 ADD 전화번호 VARCHAR(20);
+
+-- 저장공간 늘리기
+ALTER TABLE 회원 MODIFY 이름 VARCHAR(20);
+
+-- 칸 이름 바꾸기
+ALTER TABLE 회원 CHANGE 전화번호 연락처 VARCHAR(20);
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <th>DROP</th>
+    </tr>
+    <tr>
+        <td>
+-- 테이블 완전 삭제
+DROP TABLE 회원;
+
+-- 연결된 것도 함께 삭제
+DROP TABLE 회원 CASCADE;
+        </td>
+    </tr>
+    <tr>
+        <th>VIEW</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 자주 보는 정보 저장
+CREATE VIEW 활동회원 AS
+SELECT * FROM 회원 
+WHERE 최근접속 > DATE_SUB(NOW(), INTERVAL 7 DAY);
+
+-- 저장된 뷰 내용 수정
+ALTER VIEW 활동회원 AS
+SELECT 번호, 이름 FROM 회원 
+WHERE 최근접속 > DATE_SUB(NOW(), INTERVAL 1 DAY);
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <th>파티션 관리</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 큰 테이블 나누기
+CREATE TABLE 주문 (
+    번호 INT,
+    주문일 DATE,
+    금액 INT
+)
+PARTITION BY RANGE (YEAR(주문일)) (
+    PARTITION p2023 VALUES LESS THAN (2024),
+    PARTITION p2024 VALUES LESS THAN (2025)
+);
+
+-- 새로운 구역 추가
+ALTER TABLE 주문 ADD PARTITION (
+    PARTITION p2025 VALUES LESS THAN (2026)
+);
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <th>제약조건 예시</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 안전한 테이블 만들기
+CREATE TABLE 상품 (
+    번호 INT PRIMARY KEY AUTO_INCREMENT,    -- 자동증가
+    이름 VARCHAR(50) NOT NULL,              -- 필수입력
+    가격 INT CHECK (가격 > 0),              -- 양수만
+    분류번호 INT,
+    FOREIGN KEY (칼럼이름) REFERENCES 테이블 이름(칼럼이름)  -- 연결키
+);
+            </pre>
+        </td>
+    </tr>
+</table>

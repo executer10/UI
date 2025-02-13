@@ -1,0 +1,116 @@
+<table>
+    <tr>
+        <td>
+            <!-- 목차 섹션 -->
+            <h2>목차</h2>
+            <ol>
+                <li><strong>쿠키의 기본 개념</strong>
+                    <ul>
+                        <li>쿠키란 무엇인가?</li>
+                        <li>HTTP 상태 유지의 필요성</li>
+                    </ul>
+                </li>
+                <li><strong>쿠키의 작동 원리</strong>
+                    <ul>
+                        <li>쿠키 생성 과정</li>
+                        <li>클라이언트-서버 간 데이터 교환</li>
+                    </ul>
+                </li>
+                <li><strong>쿠키의 주요 특징</strong>
+                    <ul>
+                        <li>장점과 활용</li>
+                        <li>제한사항</li>
+                    </ul>
+                </li>
+                <li><strong>쿠키 구현 방법</strong>
+                    <ul>
+                        <li>쿠키 생성 및 설정</li>
+                        <li>쿠키 읽기와 삭제</li>
+                    </ul>
+                </li>
+                <li><strong>실제 활용 시나리오</strong>
+                    <ul>
+                        <li>로그인 상태 유지</li>
+                        <li>사용자 설정 저장</li>
+                        <li>장바구니 기능</li>
+                    </ul>
+                </li>
+            </ol>
+            <!-- 세부 내용 섹션 -->
+            <h2>1. 쿠키의 기본 개념</h2>
+            <h3>1.1 쿠키란 무엇인가?</h3>
+            <p><strong>쿠키</strong>는 웹 서버가 클라이언트(브라우저)에 저장하는 작은 데이터 파일입니다. 주요 목적은 <strong>상태 정보 유지</strong>와 <strong>사용자 경험 개선</strong>입니다.</p>
+
+            <h3>1.2 HTTP 상태 유지의 필요성</h3>
+            <ul>
+                <li>HTTP 프로토콜은 본질적으로 <strong>비상태(Stateless)</strong> 프로토콜</li>
+                <li>페이지 이동 시 이전 상태 정보 손실 문제 해결</li>
+                <li>사용자 맞춤형 서비스 제공을 위한 필수 기술</li>
+            </ul>
+
+            <!-- 특징 섹션 -->
+            <h2>2. 쿠키의 주요 특징</h2>
+            <h3>2.1 장점</h3>
+            <ul>
+                <li>간편한 상태 정보 저장</li>
+                <li>클라이언트 측 데이터 유지 가능</li>
+                <li>개인화된 웹 서비스 구현</li>
+            </ul>
+
+            <h3>2.2 제한사항</h3>
+            <ul>
+                <li>쿠키당 최대 4KB 저장 가능</li>
+                <li>도메인당 최대 20개 쿠키 제한</li>
+                <li>보안에 취약할 수 있음</li>
+            </ul>
+
+            <!-- 예제 구문 섹션 -->
+            <h2>3. 쿠키 구현 예시</h2>
+            
+            <h3>3.1 쿠키 생성 예제</h3>
+            <pre><code>// 사용자 로그인 쿠키 생성
+Cookie 로그인쿠키 = new Cookie("회원아이디", "홍길동");
+로그인쿠키.setMaxAge(24 * 60 * 60); // 1일 유효 
+로그인쿠키.setHttpOnly(true);      // XSS 방지
+response.addCookie(로그인쿠키);
+
+// 실행 결과: 
+// - "회원아이디" 쿠키 생성
+// - 1일 동안 유효
+// - JavaScript 접근 차단</code></pre>
+
+            <h3>3.2 쿠키 읽기 예제</h3>
+            <pre><code>// 쿠키 배열 가져오기
+Cookie[] 쿠키목록 = request.getCookies();
+for (Cookie 단일쿠키 : 쿠키목록) {
+    if (단일쿠키.getName().equals("회원아이디")) {
+        String 회원정보 = 단일쿠키.getValue();
+        // 회원정보 처리
+    }
+}
+
+// 실행 결과:
+// - 모든 쿠키 순회
+// - "회원아이디" 쿠키 값 추출</code></pre>
+
+            <h2>4. 실제 활용 시나리오</h2>
+            <ul>
+                <li>로그인 상태 유지</li>
+                <li>장바구니 기능</li>
+                <li>사용자 언어/테마 설정</li>
+                <li>최근 본 상품 추적</li>
+            </ul>
+
+            <h2>5. 보안 주의사항</h2>
+            <div style="background-color: #f4f4f4; padding: 15px;">
+                <strong>🚨 보안 경고:</strong>
+                <p>
+                    - 개인정보는 절대 평문으로 쿠키에 저장하지 마세요
+                    - HttpOnly, Secure 속성 필수 설정
+                    - HTTPS 통신 강제
+                    - 쿠키 값은 항상 서버에서 검증
+                </p>
+            </div>
+        </td>
+    </tr>
+</table>

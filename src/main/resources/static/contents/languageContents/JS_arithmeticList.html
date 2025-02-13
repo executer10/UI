@@ -1,0 +1,280 @@
+<table>
+    <tr>
+        <th>산술 연산자</th>
+        <th>설명</th>
+        <th>수식</th>
+        <th>수식의 값</th>
+    </tr>
+    <tr>
+        <td>+</td>
+        <td>덧셈</td>
+        <td>x=3+2</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>-</td>
+        <td>뺄셈</td>
+        <td>x=3-2</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>*</td>
+        <td>곱셈</td>
+        <td>x=3*2</td>
+        <td>6</td>
+    </tr>
+    <tr>
+        <td>/</td>
+        <td>나눗셈</td>
+        <td>x=3/2</td>
+        <td>1.5</td>
+    </tr>
+    <tr>
+        <td>%</td>
+        <td>나머지</td>
+        <td>x=3%2</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>++</td>
+        <td>증가</td>
+        <td>++x (혹은 x++)</td>
+        <td>x의 값 3→4</td>
+    </tr>
+    <tr>
+        <td>--</td>
+        <td>감소</td>
+        <td>--x (혹은 x--)</td>
+        <td>x의 값 3→2</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>
+            할당 연산자
+            <br>
+            (x=10, y=5)
+        </th>
+        <th>수식</th>
+        <th>동일한 수식</th>
+        <th>결과</th>
+    </tr>
+    <tr>
+        <td>+=</td>
+        <td>x += y</td>
+        <td>x = x + y</td>
+        <td>x = 15</td>
+    </tr>
+    <tr>
+        <td>-=</td>
+        <td>x -= y</td>
+        <td>x = x - y</td>
+        <td>x = 5</td>
+    </tr>
+    <tr>
+        <td>*=</td>
+        <td>x *= y</td>
+        <td>x = x * y</td>
+        <td>x = 50</td>
+    </tr>
+    <tr>
+        <td>/=</td>
+        <td>x /= y</td>
+        <td>x = x / y</td>
+        <td>x = 2</td>
+    </tr>
+    <tr>
+        <td>%=</td>
+        <td>x %= y</td>
+        <td>x = x % y</td>
+        <td>x = 0</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>
+            비교 연산자
+            <br>
+            (x=1)
+        </th>
+        <th>설명</th>
+        <th>수식</th>
+        <th>수식의 값</th>
+    </tr>
+    <tr>
+        <td rowspan="2">==</td>
+        <td rowspan="2">값이 같으면 참</td>
+        <td>x==1</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>x==2</td>
+        <td>false</td>
+    </tr>
+    <tr>
+        <td rowspan="2">!=</td>
+        <td rowspan="2">값이 다르면 참</td>
+        <td>x!=2</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>x!=1</td>
+        <td>false</td>
+    </tr>
+    <tr>
+        <td>&gt;</td>
+        <td>크면 참</td>
+        <td>x&gt;2</td>
+        <td>false</td>
+    </tr>
+    <tr>
+        <td>&lt;</td>
+        <td>작으면 참</td>
+        <td>x&lt;2</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>&gt;=</td>
+        <td>크거나 같으면 참</td>
+        <td>x&gt;=2</td>
+        <td>false</td>
+    </tr>
+    <tr>
+        <td>&lt;=</td>
+        <td>작거나 같으면 참</td>
+        <td>x&lt;=2</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td rowspan="2">===</td>
+        <td rowspan="2">값과 타입이 모두 같으면 참</td>
+        <td>x===1</td>
+        <td>true(값도 같고 타입도 같다.)</td>
+    </tr>
+    <tr>
+        <td>x==="1"</td>
+        <td>false(값은 같으나 타입이 다르다.)</td>
+    </tr>
+    <tr>
+        <td rowspan="2">!==</td>
+        <td rowspan="2">값과 타입이 다르면 참</td>
+        <td>x!==1</td>
+        <td>false(값도 같고 타입도 같다.)</td>
+    </tr>
+    <tr>
+        <td>x==="1"</td>
+        <td>true(값은 같으나 타입이 다르다.)</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>논리 연산자 기호</th>
+        <th>사용 방법</th>
+        <th>의미</th>
+    </tr>
+    <tr>
+        <td>&&</td>
+        <td>x && y</td>
+        <td>AND 연산. x와 y가 모두 참이면 true, 그렇지 않으면 false</td>
+    </tr>
+    <tr>
+        <td>||</td>
+        <td>x || y</td>
+        <td>OR 연산. x나 y중에 하나라도 참이면 true, 모두 거짓이면 false</td>
+    </tr>
+    <tr>
+        <td>!</td>
+        <td>!x</td>
+        <td>NOT연산. x가 참이면 flase, x가 거짓이면 true</td>
+    </tr>
+    <tr>
+        <td>조건 연산자</td>
+        <td>max_value = (x>y) ? x : y;</td>
+        <td>x가 y보다 크면 수식의 결과는 x가 되고, 그렇지 않으면 y</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>우선 순위</th>
+        <th>연산자</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>. [] new</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>()</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>++ --</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>! ~ + - typeof void delete</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>* / %</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>+ -</td>
+    </tr>
+    <tr>
+        <td rowspan="2">7</td>
+        <td>&lt;&lt; &gt;&gt; </td>
+    </tr>
+    <tr>
+        <td>&lt;&lt;&lt;</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>&lt; &lt;= &gt; &gt;= in instanceof</td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td>== != === !===</td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td>&</td>
+    </tr>
+    <tr>
+        <td>11</td>
+        <td>^</td>
+    </tr>
+    <tr>
+        <td>12</td>
+        <td>|</td>
+    </tr>
+    <tr>
+        <td>13</td>
+        <td>&&</td>
+    </tr>
+    <tr>
+        <td>14</td>
+        <td>||</td>
+    </tr>
+    <tr>
+        <td>15</td>
+        <td>?:</td>
+    </tr>
+    <tr>
+        <td>16</td>
+        <td>yield</td>
+    </tr>
+    <tr>
+        <td>17</td>
+        <td>= += -= *= /= %= &lt;&lt;= &gt;&gt;= &= ^= |=</td>
+    </tr>
+    <tr>
+        <td>18</td>
+        <td>,</td>
+    </tr>
+</table>

@@ -1,0 +1,91 @@
+/* Main Language Section Styling */
+.languageSection {
+    margin: 2rem auto;
+    display: grid;
+    max-width: 1200px;
+    gap: 2rem;
+    padding: 0 1rem;
+}
+
+/* Language Box Container */
+.languageBox {
+    border: none;
+    border-radius: 12px;
+    width: 300px;
+    height: 300px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.languageBox:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Language Images */
+.languageBox > img {
+    width: 200px;
+    height: 200px;
+    transition: all 0.3s ease-in-out;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.languageBox > img:hover {
+    transform: scale(1.5);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+/* Responsive Design */
+@media (max-width: 767px) {
+    .languageSection {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .languageBox {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .languageSection {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .languageSection {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Animation for Loading */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.languageBox {
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Ensure proper spacing between rows */
+.languageSection {
+    grid-auto-rows: minmax(300px, auto);
+}

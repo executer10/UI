@@ -1,0 +1,522 @@
+<table>
+    <tr>
+        <th>
+            <h2>변수 (Variables)</h2>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <h3>제목 정의</h3>
+            <ul>
+                <li><b>변수</b>는 데이터를 저장하는 공간입니다.</li>
+                <li>변수는 프로그래밍에서 중요한 역할을 합니다.</li>
+            </ul>
+
+            <h3>세부 정보 정의</h3>
+            <ol>
+                <li><b>변수 선언</b>: 변수를 사용하기 전에 이름과 데이터 타입을 정합니다.</li>
+                <li><b>값 저장</b>: 선언된 변수에 값을 할당합니다.</li>
+                <li><b>변수 사용</b>: 저장된 값을 참조하여 사용합니다.</li>
+                <li><b>변수 사용 범위</b>: 변수가 유효한 영역을 의미합니다. 변수가 선언된 위치에 따라 다릅니다.</li>
+            </ol>
+
+            <h3>특징</h3>
+            <ol>
+                <li>변수는 이름을 통해 쉽게 식별할 수 있습니다.</li>
+                <li>변수의 값은 필요에 따라 변경할 수 있습니다.</li>
+                <li>변수는 프로그램의 메모리에서 공간을 차지합니다.</li>
+            </ol>
+
+            <h3>사용 이유</h3>
+            <ol>
+                <li><b>데이터 관리</b>: 프로그램 내 데이터를 효율적으로 관리하기 위해서입니다.</li>
+                <li><b>코드 가독성</b>: 변수를 사용하여 코드를 더 이해하기 쉽게 만듭니다.</li>
+                <li><b>연산 수행</b>: 변수를 통해 수학적 연산을 수행할 수 있습니다.</li>
+                <li><b>동적 처리</b>: 변수를 사용하여 사용자 입력에 따라 동적으로 값을 변경할 수 있습니다.</li>
+            </ol>
+
+            <h3>예제 구문</h3>
+            <strong>
+                <pre>
+// 변수 선언
+int number; // 정수형 변수 선언
+// 값 저장
+number = 10; // 변수에 값 저장
+// 변수 사용
+System.out.println(number); // 변수의 값 출력
+                </pre>
+            </strong>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>
+            <h2>기본 타입</h2>
+        </th>
+    </tr>
+    <tr>
+        <td>
+
+            <h3>제목 정의</h3>
+            <ul>
+                <li><b>기본 타입</b>은 프로그래밍에서 데이터를 저장하는 기본적인 형식입니다.</li>
+                <li>주로 <b>정수 타입</b>, <b>실수 타입</b>, <b>논리 타입</b>으로 나누어집니다.</li>
+            </ul>
+
+            <h3>세부 정보 정의</h3>
+            <ol>
+                <li><b>정수 타입</b>: 정수 값을 저장합니다. 예: 1, 2, -3</li>
+                <li><b>실수 타입</b>: 소수점을 포함한 값을 저장합니다. 예: 1.5, -2.3</li>
+                <li><b>논리 타입</b>: 참(true) 또는 거짓(false) 값을 저장합니다.</li>
+            </ol>
+
+            <h3>특징</h3>
+            <ol>
+                <li>각 기본 타입은 특정한 메모리 크기를 차지합니다.</li>
+                <li>타입에 따라 저장할 수 있는 값의 범위가 다릅니다.</li>
+                <li>타입에 맞게 변수를 선언하여 데이터를 저장합니다.</li>
+            </ol>
+
+            <h3>사용 이유</h3>
+            <ol>
+                <li>효율적인 데이터 관리를 위해 필요합니다.</li>
+                <li>프로그램의 성능을 최적화할 수 있습니다.</li>
+                <li>각 타입에 맞는 연산을 수행하기 위해 사용됩니다.</li>
+            </ol>
+
+            <h3>예제 구문</h3>
+            <strong>
+                <pre>
+// 정수 타입 변수 선언
+int age = 25; // 나이를 저장
+// 실수 타입 변수 선언
+double height = 1.75; // 키를 저장
+// 논리 타입 변수 선언
+boolean isStudent = true; // 학생 여부 저장
+                </pre>
+            </strong>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <thead>
+        <tr>
+            <td colspan="5">
+                <p>기본 타입에는 다음과 같은 것들이 있습니다.</p>
+                <ul>
+                    <li>정수형: byte, char, short, int, long</li>
+                    <li>실수형: float, double</li>
+                    <li>문자형: char</li>
+                    <li>논리형: boolean</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="5">정수 Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Type</th>
+            <th colspan="2">메모리 사용 크기</th>
+            <th colspan="2">저장되는 값의 허용 범위</th>
+        </tr>
+        <tr>
+            <td>byte</td>
+            <td>1byte</td>
+            <td>8bit</td>
+            <td>-2⁷ ~ (2⁷-1)</td>
+            <td>-128 ~ 127</td>
+        </tr>
+        <tr>
+            <td>short</td>
+            <td>2byte</td>
+            <td>16bit</td>
+            <td>-2¹⁵~ (2¹⁵-1)</td>
+            <td>-32768 ~ 32767</td>
+        </tr>
+        <tr>
+            <td>char</td>
+            <td>2byte</td>
+            <td>16bit</td>
+            <td>0 ~ (2¹⁶-1)</td>
+            <td>0~65535(유니코드)</td>
+        </tr>
+        <tr>
+            <td>int</td>
+            <td>4byte</td>
+            <td>32bit</td>
+            <td>-2³¹ ~ (2³¹-1)</td>
+            <td>-2,147,484,648 ~ 2,147,484,647</td>
+        </tr>
+        <tr>
+            <td>long</td>
+            <td>8byte</td>
+            <td>64bit</td>
+            <td>-2⁶³ ~ (2⁶³-1)</td>
+            <td>-9,223,372,036,854,775,808 ~ 9,223,372,036,854,775,807</td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="3">실수 Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Type</th>
+            <th>메모리 사용 크기</th>
+            <th>저장되는 값의 허용 범위</th>
+        </tr>
+        <tr>
+            <td>float</td>
+            <td>4byte(32bit)</td>
+            <td>±(1.40129846432481707e-45 ~ 3.40282346638528860e+38)</td>
+        </tr>
+        <tr>
+            <td>double</td>
+            <td>8byte(64bit)</td>
+            <td>±(4.94065645841246544e-324d ~ 1.79769313486231570e+308d)</td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="3">논리 Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Type</th>
+            <th>메모리 사용 크기</th>
+            <th>저장되는 값의 허용 범위</th>
+        </tr>
+        <tr>
+            <td>boolean</td>
+            <td>1byte(8bit)</td>
+            <td>true, false</td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <tr>
+        <th>
+            <h3>참조 타입(Reference Types)</h3>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            참조 타입은 객체의 주소를 저장하며, 다음과 같은 것들이 있습니다:
+            <ul>
+                <li>클래스(Class)</li>
+                <li>인터페이스(Interface)</li>
+                <li>배열(Array)</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <thead>
+        <tr>
+            <th>종류</th>
+            <th>설명</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                클래스(Class)
+            </td>
+            <td>
+                <ul>
+                    <li>객체를 생성하기 위한 탬플릿</li>
+                    <li>필드(데이터)와 메소드(행위)를 포함</li>
+                    <li>
+                        예: String name = new String("name");<br>
+                        ArrayList&lt;String&gt; a = new ArrayList&lt;&gt;();<br>
+                        사용자 정의 클래스 등
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                인터페이스(Interface)
+            </td>
+            <td>
+                <ul>
+                    <li>메소드의 선언만을 포함하는 추상 타입</li>
+                    <li>다중 상속을 구현하는 방법을 제공</li>
+                    <li>예: List, Runnable, Comparable 등</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>배열(Array)</td>
+            <td>
+                <ul>
+                    <li>같은 타입의 여러 변수를 하나의 이름으로 그룹화</li>
+                    <li>인덱스를 통해 개별 요소에 접근</li>
+                    <li>예: int[], String[], Object[] 등</li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="2">
+                <h3>참조 타입의 특징</h3>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>메모리 사용</td>
+            <td>
+                <ul>
+                    <li>32비트 JVM: 4byte</li>
+                    <li>64비트 JVM: 8byte</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>null 값</td>
+            <td>참조 타입 변수는 null 값을 가질 수 있음 (어떤 객체도 참조하지 않음을 의미)</td>
+        </tr>
+        <tr>
+            <td>가비지 컬렉션</td>
+            <td>더 이상 참조되지 않는 객체는 자동으로 메모리에서 제거됨</td>
+        </tr>
+        <tr>
+            <td>다형성</td>
+            <td>상위 클래스 타입의 변수로 하위 클래스의 객체를 참조할 수 있음</td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <caption>
+        <h2>Java 출력 메소드</h2>
+    </caption>
+    <thead>
+        <tr>
+            <th>메소드</th>
+            <th>설명</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>println(내용);</code></td>
+            <td>괄호 안의 내용을 출력하고 행을 바꿈</td>
+        </tr>
+        <tr>
+            <td><code>print(내용);</code></td>
+            <td>괄호 안의 내용을 출력함</td>
+        </tr>
+        <tr>
+            <td><code>printf(내용);</code></td>
+            <td>괄호 안의 첫 번째 문자열 형식대로 내용을 출력함</td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <caption>
+        <h2>형식화된 문자열 사용법</h2>
+    </caption>
+    <thead>
+        <tr>
+            <th>데이터 타입</th>
+            <th>형식 지정자</th>
+            <th>설명</th>
+            <th>출력</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="4">정수</td>
+            <td>%d</td>
+            <td>정수</td>
+            <td>123</td>
+        </tr>
+        <tr>
+            <td>%6d</td>
+            <td>6자리 정수. 왼쪽 빈 자리 공백</td>
+            <td>_ _ _123</td>
+        </tr>
+        <tr>
+            <td>%-6d</td>
+            <td>6자리 정수. 오른쪽 빈 자리 공백</td>
+            <td>123_ _ _</td>
+        </tr>
+        <tr>
+            <td>%06d</td>
+            <td>6자리 정수. 왼쪽 빈 자리 0 채움</td>
+            <td>000123</td>
+        </tr>
+
+        <tr>
+            <td rowspan="3">실수</td>
+            <td>%10.2f</td>
+            <td>소수점 이상 7자리, 소수점이하 2자리, 왼쪽 빈 자리 공백</td>
+            <td>_ _ _ _123.45</td>
+        </tr>
+        <tr>
+            <td>%-10.2f</td>
+            <td>소수점 이상 7자리, 소수점이하 2자리, 오른쪽 빈 자리 공백</td>
+            <td>123.45_ _ _ _</td>
+        </tr>
+        <tr>
+            <td>%010.2f</td>
+            <td>소수점 이상 7자리, 소수점이하 2자리, 왼쪽 빈 자리 0 채움</td>
+            <td>0000123.45</td>
+        </tr>
+        <tr>
+            <td rowspan="3">문자열</td>
+            <td>%s</td>
+            <td>문자열</td>
+            <td>abc</td>
+        </tr>
+        <tr>
+            <td>%6s</td>
+            <td>6자리 문자열. 왼쪽 빈 자리 공백</td>
+            <td>_ _ _abc</td>
+        </tr>
+        <tr>
+            <td>%-6s</td>
+            <td>6자리 문자열. 오른쪽 빈 자리 공백</td>
+            <td>abc_ _ _</td>
+        </tr>
+        <tr>
+            <td rowspan="3">특수 문자</td>
+            <td>\t</td>
+            <td>탭(tab)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>\n</td>
+            <td>줄바꿈</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>%%</td>
+            <td>%</td>
+            <td>%</td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <caption>
+        <h2>Java Scanner 클래스 사용법</h2>
+    </caption>
+    <thead>
+        <tr>
+            <th>입력 객체</th>
+            <th>사용법</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Scanner</td>
+            <td>
+                <code>
+                    Scanner scanner = new Scanner(System.in);<br>
+                    String str = scanner.nextLine();
+                </code>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <caption>
+        <h2>Scanner Class Mathod</h2>
+    </caption>
+    <thead>
+        <tr>
+            <th>메소드</th>
+            <th>설명</th>
+            <th>반환 타입</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>nextLine()</td>
+            <td>
+                한 줄 전체를 읽음(공백 포함) <br>
+                print나 printf를 사용할 때 주의할 것
+            </td>
+            <td>String</td>
+        </tr>
+        <tr>
+            <td>next()</td>
+            <td>공백으로 구분된 토큰(단어)을 읽음</td>
+            <td>String</td>
+        </tr>
+        <tr>
+            <td>nextInt()</td>
+            <td>정수를 읽음</td>
+            <td>int</td>
+        </tr>
+        <tr>
+            <td>nextLong()</td>
+            <td>long 타입의 정수를 읽음</td>
+            <td>long</td>
+        </tr>
+        <tr>
+            <td>nextFloat()</td>
+            <td>float 타입의 실수를 읽음</td>
+            <td>float</td>
+        </tr>
+        <tr>
+            <td>nextDouble()</td>
+            <td>double 타입의 실수를 읽음</td>
+            <td>double</td>
+        </tr>
+        <tr>
+            <td>nextBoolean()</td>
+            <td>boolean 값을 읽음("true" 또는 "false") </td>
+            <td>boolean</td>
+        </tr>
+        <tr>
+            <td>nextByte()</td>
+            <td>byte 타입의 값을 읽음</td>
+            <td>byte</td>
+        </tr>
+        <tr>
+            <td>nextShort()</td>
+            <td>short 타입의 값을 읽음</td>
+            <td>short</td>
+        </tr>
+        <tr>
+            <td>hasNext()</td>
+            <td>다음에 읽을 토큰이 있는지 확인</td>
+            <td>boolean</td>
+        </tr>
+        <tr>
+            <td>hasNextLine()</td>
+            <td>다음에 읽을 줄이 있는지 확인</td>
+            <td>boolean</td>
+        </tr>
+        <tr>
+            <td>useDelimiter(String pattern)</td>
+            <td>구분자를 설정</td>
+            <td>Scanner</td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/CSS/languages.css">
+    <!-- XLSX 라이브러리를 HTML에 포함시켜야 합니다 -->
+    <script src="/JavaScript/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <!-- 헤더 -->
+    <div th:replace="parts/header :: header"></div>
+
+    <div id="CommandGrid">
+        <nav>
+            <section>
+                <p>HTML</p>
+                <article>
+                    <ol>
+
+                    </ol>
+                </article>
+            </section>
+        </nav>
+        <main id="HTML_main">
+
+        </main>
+    </div>
+
+    <!-- 푸터 -->
+    <div th:replace="parts/footer.html :: footer"></div>
+
+    <script src="/JavaScript/languages.js"></script>
+</body>
+
+</html>

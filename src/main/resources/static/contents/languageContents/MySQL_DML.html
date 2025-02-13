@@ -1,0 +1,136 @@
+<table>
+    <tr>
+        <th>SELECT</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 회원 정보 조회 (중복 제거, 별칭 사용)
+SELECT DISTINCT 이름 AS 회원명 FROM 회원;
+
+-- 여러 테이블 결과 합치기
+SELECT 이름 FROM 정회원
+UNION
+SELECT 이름 FROM 준회원;
+
+-- 조건별 결과 표시
+SELECT 이름,
+    CASE 
+        WHEN 나이 >= 20 THEN '성인'
+        ELSE '미성년'
+    END AS 구분
+FROM 회원;
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <th>INSERT</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 새 회원 추가
+INSERT INTO 회원 (이름, 나이) VALUES ('김철수', 25);
+
+-- 중복 회원 처리
+INSERT IGNORE INTO 회원 VALUES ('김철수', 25);
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <th>UPDATE</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 회원 정보 수정
+UPDATE 회원 SET 나이 = 26 WHERE 이름 = '김철수';
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <th>DELETE</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 회원 삭제
+DELETE FROM 회원 WHERE 이름 = '김철수';
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <th>집계 함수</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 전체 회원 수, 평균 나이, 최고/최저 나이
+SELECT 
+    COUNT(*) AS 총회원,
+    AVG(나이) AS 평균나이,
+    MAX(나이) AS 최고령,
+    MIN(나이) AS 최연소,
+    SUM(구매액) AS 총구매액
+FROM 회원;
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <th>조건절 활용</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 다양한 조건으로 검색
+SELECT * FROM 회원 
+WHERE 나이 BETWEEN 20 AND 30           -- 20~30세
+    AND 이름 LIKE '김%'                -- '김'씨
+    AND 지역 IN ('서울', '경기')       -- 특정 지역
+    AND 전화번호 IS NOT NULL;          -- 전화번호 있음
+
+-- 그룹별 통계
+SELECT 지역, COUNT(*) AS 회원수
+FROM 회원
+GROUP BY 지역
+HAVING COUNT(*) >= 10                  -- 10명 이상인 지역만
+ORDER BY 회원수 DESC                   -- 많은 순서로
+LIMIT 5;                              -- 상위 5개만
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <th>테이블 JOIN</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 회원과 주문 정보 결합
+SELECT 회원.이름, 주문.상품명
+FROM 회원
+INNER JOIN 주문 ON 회원.번호 = 주문.회원번호;
+
+-- 모든 회원의 주문 정보 (없어도 표시)
+SELECT 회원.이름, 주문.상품명
+FROM 회원
+LEFT JOIN 주문 ON 회원.번호 = 주문.회원번호;
+
+-- 두 테이블 전체 결합
+SELECT *
+FROM 테이블1
+CROSS JOIN 테이블2;
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <th>성능 확인</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 쿼리 실행 계획 보기
+EXPLAIN SELECT * FROM 회원 WHERE 이름 = '김철수';
+            </pre>
+        </td>
+    </tr>
+</table>

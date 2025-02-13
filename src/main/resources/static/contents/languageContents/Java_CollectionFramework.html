@@ -1,0 +1,124 @@
+<table>
+    <tr>
+        <th>
+            <h2>컬렉션 프레임워크</h2>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <h3>제목 정의</h3>
+            <ul>
+                <li><b>컬렉션 프레임워크</b>는 데이터를 저장하고 조작하기 위한 다양한 클래스와 인터페이스의 집합입니다.</li>
+                <li>주요 컬렉션 타입으로는 <b>List</b>, <b>Set</b>, <b>Map</b>이 있습니다.</li>
+            </ul>
+
+            <h3>세부 정보 정의</h3>
+            <ol>
+                <li><b>List 컬렉션</b>:
+                    <ul>
+                        <li>순서가 있는 데이터의 집합으로, 중복된 요소를 허용합니다.</li>
+                        <li>예:
+                            <ul>
+                                <li><b>ArrayList</b>: 배열 기반의 리스트로, 요소의 인덱스를 통해 빠르게 접근할 수 있습니다.</li>
+                                <li><b>LinkedList</b>: 노드 기반의 리스트로, 요소의 추가 및 삭제가 용이합니다.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><b>Set 컬렉션</b>:
+                    <ul>
+                        <li>순서가 없고, 중복된 요소를 허용하지 않는 데이터의 집합입니다.</li>
+                        <li>예:
+                            <ul>
+                                <li><b>HashSet</b>: 해시 테이블을 사용하여 요소를 저장하며, 빠른 검색이 가능합니다.</li>
+                                <li><b>TreeSet</b>: 요소를 정렬된 순서로 저장하며, 이진 트리를 사용합니다.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><b>Map 컬렉션</b>:
+                    <ul>
+                        <li>키-값 쌍으로 데이터를 저장하며, 각 키는 유일해야 합니다.</li>
+                        <li>예:
+                            <ul>
+                                <li><b>HashMap</b>: 해시 테이블을 사용하여 키-값 쌍을 저장하며, 빠른 검색이 가능합니다.</li>
+                                <li><b>TreeMap</b>: 키를 정렬된 순서로 저장하며, 이진 트리를 사용합니다.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>특징</h3>
+            <ol>
+                <li><b>List</b>: 인덱스를 사용하여 요소에 접근할 수 있으며, 요소의 추가 및 삭제가 용이합니다.</li>
+                <li><b>Set</b>: 중복을 허용하지 않기 때문에, 유일한 값을 유지하는 데 유용합니다.</li>
+                <li><b>Map</b>: 키를 통해 빠르게 값을 조회할 수 있어, 데이터 검색에 효율적입니다.</li>
+            </ol>
+
+            <h3>사용 이유</h3>
+            <ol>
+                <li>데이터의 저장 및 관리가 용이하여, 다양한 데이터 구조를 제공하기 위해 필요합니다.</li>
+                <li>코드의 가독성을 높이고, 데이터 처리의 일관성을 유지합니다.</li>
+                <li>복잡한 데이터 구조를 간단하게 구현할 수 있어, 개발 시간을 단축합니다.</li>
+            </ol>
+
+            <h3>예제 구문</h3>
+            <strong>
+                <pre>
+import java.util.*;
+
+public class CollectionExample {
+    public static void main(String[] args) {
+        // List 예제
+        // ArrayList: 배열 기반의 리스트로, 요소의 인덱스를 통해 빠르게 접근할 수 있습니다.
+        List&lt;String&gt; list = new ArrayList&lt;&gt;();
+        list.add("Apple");
+        list.add("Banana");
+        list.add("Cherry");
+        System.out.println("List: " + list);
+
+        // LinkedList: 노드 기반의 리스트로, 요소의 추가 및 삭제가 용이합니다.
+        List&lt;String&gt; linkedList = new LinkedList&lt;&gt;();
+        linkedList.add("Apple");
+        linkedList.add("Banana");
+        linkedList.add("Cherry");
+        System.out.println("LinkedList: " + linkedList);
+
+        // Set 예제
+        // HashSet: 해시 테이블을 사용하여 요소를 저장하며, 빠른 검색이 가능합니다.
+        Set&lt;String&gt; set = new HashSet&lt;&gt;();
+        set.add("Apple");
+        set.add("Banana");
+        set.add("Cherry");
+        System.out.println("Set: " + set);
+
+        // TreeSet: 요소를 정렬된 순서로 저장하며, 이진 트리를 사용합니다.
+        Set&lt;String&gt; treeSet = new TreeSet&lt;&gt;();
+        treeSet.add("Apple");
+        treeSet.add("Banana");
+        treeSet.add("Cherry");
+        System.out.println("TreeSet: " + treeSet);
+
+        // Map 예제
+        // HashMap: 해시 테이블을 사용하여 키-값 쌍을 저장하며, 빠른 검색이 가능합니다.
+        Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+        map.put("Apple", 1);
+        map.put("Banana", 2);
+        map.put("Cherry", 3);
+        System.out.println("Map: " + map);
+
+        // TreeMap: 키를 정렬된 순서로 저장하며, 이진 트리를 사용합니다.
+        Map&lt;String, Integer&gt; treeMap = new TreeMap&lt;&gt;();
+        treeMap.put("Apple", 1);
+        treeMap.put("Banana", 2);
+        treeMap.put("Cherry", 3);
+        System.out.println("TreeMap: " + treeMap);
+    }
+}
+
+                </pre>
+            </strong>
+        </td>
+    </tr>
+</table>

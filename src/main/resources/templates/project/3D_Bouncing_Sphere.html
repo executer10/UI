@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactive Earth Globe</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.css" rel="stylesheet">
+    <style>
+        body { 
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        #map { 
+            width: 100vw;
+            height: 100vh;
+        }
+        #controls {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            padding: 10px;
+            color: white;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+        button {
+            padding: 5px 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <button id="reset">Reset View</button>
+        <button id="satellite">위성 지도</button>
+        <button id="streets">일반 지도</button>
+        <p>마우스 휠: 확대/축소<br>
+           드래그: 이동<br>
+           Shift + 드래그: 회전</p>
+    </div>
+    <div id="map"></div>
+
+    <script>
+        // 지도 레이어 정의
+        const osmLayer = new ol.layer.Tile({
+            source: new ol.source.OSM()
+        });
+
+        // 위성 지도 레이어
+        const satelliteLayer = new ol.layer.Tile({
+            source: new ol.source.XYZ({
+                url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+                maxZoom: 19
+            }),
+            visible: false
+        });
+
+        // 지도 뷰 설정
+        const view = new ol.View({
+            center: ol.proj.fromLonLat([127.0, 37.5]), // 서울 중심
+            zoom: 3,
+            maxZoom: 19,
+            minZoom: 2
+        });
+
+        // 지도 생성
+        const map = new ol.Map({
+            target: 'map',
+            layers: [osmLayer, satelliteLayer],
+            view: view,
+            controls: ol.control.defaults().extend([
+                new ol.control.FullScreen(),
+                new ol.control.ScaleLine(),
+                new ol.control.ZoomSlider()
+            ])
+        });
+
+        // 버튼 이벤트
+        document.getElementById('reset').addEventListener('click', () => {
+            view.animate({
+                center: ol.proj.fromLonLat([127.0, 37.5]),
+                zoom: 3,
+                duration: 1000
+            });
+        });
+
+        document.getElementById('satellite').addEventListener('click', () => {
+            osmLayer.setVisible(false);
+            satelliteLayer.setVisible(true);
+        });
+
+        document.getElementById('streets').addEventListener('click', () => {
+            osmLayer.setVisible(true);
+            satelliteLayer.setVisible(false);
+        });
+
+        // 드래그 회전 컨트롤 추가
+        map.addInteraction(new ol.interaction.DragRotate({
+            condition: ol.events.condition.shiftKeyOnly
+        }));
+
+        // 창 크기 변경 시 지도 크기 조정
+        window.addEventListener('resize', () => {
+            map.updateSize();
+        });
+    </script>
+</body>
+</html>

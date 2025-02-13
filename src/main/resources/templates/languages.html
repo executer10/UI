@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/languages-main.css">
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            //이미지 크기 변화
+            let HTML_ONOFF = document.querySelector('.HTML');
+            handleBoxOnOff(HTML_ONOFF);
+
+            let CSS_ONOFF = document.querySelector('.CSS');
+            handleBoxOnOff(CSS_ONOFF);
+
+            let JavaScript_ONOFF = document.querySelector('.JavaScript');
+            handleBoxOnOff(JavaScript_ONOFF);
+
+            let JAVA_ONOFF = document.querySelector('.JAVA');
+            handleBoxOnOff(JAVA_ONOFF);
+
+            let MySQL_ONOFF = document.querySelector('.MySQL');
+            handleBoxOnOff(MySQL_ONOFF);
+
+            let Github_ONOFF = document.querySelector('.Github');
+            handleBoxOnOff(Github_ONOFF);
+
+            let JSP_ONOFF = document.querySelector('.JSP');
+            handleBoxOnOff(JSP_ONOFF);
+
+            let Spring_ONOFF = document.querySelector('.Spring');
+            handleBoxOnOff(Spring_ONOFF);
+
+            let Python_ONOFF = document.querySelector('.Python');
+            handleBoxOnOff(Python_ONOFF);
+
+
+            function handleBoxOnOff(element) {
+                element.onmouseover = function () {
+                    this.style.width = '300px';
+                    this.style.height = '300px';
+                }
+                element.onmouseout = function () {
+                    this.style.width = '200px';
+                    this.style.height = '200px';
+                }
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <!-- 헤더 -->
+    <div th:replace="parts/header :: header"></div>
+
+    <main class="languageSection">
+        <a class="languageBox" href="/languages/HTML"><img class="HTML" src="/img/HTML.jpg"></a>
+        <a class="languageBox" href="/languages/CSS"><img class="CSS" src="/img/CSS.jpg"></a>
+        <a class="languageBox" href="/languages/JS"><img class="JavaScript" src="/img/JavaScript.jpg"></a>
+        <a class="languageBox" href="/languages/Java"><img class="JAVA" src="/img/Java.jpg"></a>
+        <a class="languageBox" href="/languages/Python"><img class="Python" src="/img/Python.png"></a>
+        <a class="languageBox" href="/languages/MySQL"><img class="MySQL" src="/img/MySql.png"></a>
+        <a class="languageBox" href="/languages/JSP"><img class="JSP" src="/img/JSP.png"></a>
+        <a class="languageBox" href="/languages/Github"><img class="Github" src="/img/Github.png"></a>
+        <a class="languageBox" href="/languages/Spring"><img class="Spring" src="/img/Spring.png"></a>
+    </main>
+
+    <!-- 푸터 -->
+    <div th:replace="parts/footer.html :: footer"></div>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<table>
+    <tr>
+        <td>
+            <pre>
+&lt;%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;!-- 문서의 문자 인코딩을 UTF-8로 설정 --&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Navigation Header&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- 네비게이션 메뉴를 포함하는 테이블 --&gt;
+    &lt;!-- width를 90%로 설정하여 화면 크기에 반응형으로 동작 --&gt;
+    &lt;table border="1" style="width: 90%"&gt;
+        &lt;tr&gt;
+            &lt;!-- 모든 메뉴 항목을 중앙 정렬 --&gt;
+            &lt;td align="center"&gt;
+                &lt;%-- 로그인 상태에 따른 조건부 메뉴 렌더링 --%&gt;
+                &lt;%-- session의 UserId 속성을 검사하여 로그인 상태 확인 --%&gt;
+                &lt;%
+                if(session.getAttribute("UserId") == null){ 
+                    // 로그인하지 않은 상태: 로그인 링크 표시
+                %&gt;
+                    &lt;a href="../Process/LoginProcess.jsp"&gt;로그인&lt;/a&gt;
+                &lt;% } else { 
+                    // 로그인한 상태: 로그아웃 링크 표시
+                %&gt;
+                    &lt;a href="../Process/LogoutProcess.jsp"&gt;로그아웃&lt;/a&gt;
+                &lt; }
+                %&gt;
+                
+                &lt;%-- 메뉴 항목 간 간격을 위한 공백 --%&gt;
+                &amp;nbsp;&amp;nbsp;&amp;nbsp;
+                
+                &lt;%-- 페이징이 없는 게시판으로 이동하는 링크 --%&gt;
+                &lt;a href="../Main/BoardList.jsp"&gt;게시판(페이징X)&lt;/a&gt;
+                
+                &lt;%-- 메뉴 항목 간 간격을 위한 공백 --%&gt;
+                &amp;nbsp;&amp;nbsp;&amp;nbsp;
+                
+                &lt;%-- 페이징이 있는 게시판으로 이동하는 링크 --%&gt;
+                &lt;a href="../Main/BoardPageHandlerList.jsp"&gt;게시판(페이징O)&lt;/a&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/body&gt;
+            </pre>
+
+            <h4>이 JSP 파일은 웹 애플리케이션의 상단 네비게이션 메뉴를 제공하며, 사용자의 로그인 상태에 따라 동적으로 메뉴를 변경하는 헤더 컴포넌트로 사용됩니다.</h4>
+        </td>
+    </tr>
+</table>

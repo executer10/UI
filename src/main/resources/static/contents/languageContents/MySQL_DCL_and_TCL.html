@@ -1,0 +1,105 @@
+<table>
+    <tr>
+        <th>권한 관리</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 새 사용자 생성
+CREATE USER '김대리'@'localhost' IDENTIFIED BY '비밀번호123';
+
+-- 특정 테이블 권한 부여
+GRANT SELECT, INSERT ON 회사DB.직원테이블 TO '김대리'@'localhost';
+
+-- 모든 권한 부여
+GRANT ALL PRIVILEGES ON 회사DB.* TO '김대리'@'localhost';
+
+-- 권한 회수
+REVOKE INSERT ON 회사DB.직원테이블 FROM '김대리'@'localhost';
+
+-- 사용자 정보 변경 (비밀번호 변경)
+ALTER USER '김대리'@'localhost' IDENTIFIED BY '새비밀번호456';
+
+-- 사용자 삭제
+DROP USER '김대리'@'localhost';
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <th>트랜잭션 관리</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 거래 시작
+START TRANSACTION;
+
+-- 계좌 이체 예시
+UPDATE 계좌 SET 잔액 = 잔액 - 10000 WHERE 계좌번호 = 'A001';
+UPDATE 계좌 SET 잔액 = 잔액 + 10000 WHERE 계좌번호 = 'B001';
+
+-- 중간저장점 생성
+SAVEPOINT 이체완료;
+
+-- 추가 작업
+INSERT INTO 거래내역 (계좌, 금액, 날짜) VALUES ('A001', 10000, NOW());
+
+-- 성공시 확정
+COMMIT;
+
+-- 실패시 취소 (전체)
+ROLLBACK;
+
+-- 특정 지점까지만 취소
+ROLLBACK TO 이체완료;
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <th>실무 활용 예시</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 급여 지급 트랜잭션
+START TRANSACTION;
+
+-- 중간 저장점 설정
+SAVEPOINT 급여계산;
+
+UPDATE 직원계좌 SET 잔액 = 잔액 + 급여
+WHERE 직원번호 IN (
+    SELECT 직원번호 
+    FROM 급여대상
+    WHERE 지급월 = CURRENT_DATE
+);
+
+-- 문제없으면 완료
+COMMIT;
+
+-- 문제있으면 취소
+ROLLBACK;
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <th>권한 설정 실전 예시</th>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+-- 신입 개발자 권한 설정
+CREATE USER '신입개발'@'%' IDENTIFIED BY 'dev1234';
+
+-- 개발용 DB 접근 권한
+GRANT SELECT, INSERT, UPDATE ON 개발DB.* TO '신입개발'@'%';
+
+-- 운영 DB는 조회만 가능
+GRANT SELECT ON 운영DB.* TO '신입개발'@'%';
+
+-- 권한 즉시 적용
+FLUSH PRIVILEGES;
+            </pre>
+        </td>
+    </tr>
+</table>

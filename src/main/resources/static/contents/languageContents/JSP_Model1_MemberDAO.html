@@ -1,0 +1,120 @@
+<table>
+    <tr>
+        <td>
+            <pre>
+//MemberDAO.java
+package DAO;    // Data Access Object 패키지
+
+import javax.servlet.ServletContext;    // 서블릿 컨텍스트 객체를 위한 임포트
+import DTO.MemberDTO;                  // 회원 정보 데이터 전송 객체
+import DataBaseUtils.JDBConnect;       // 데이터베이스 연결 유틸리티
+
+/**
+ * 회원 정보에 대한 데이터베이스 접근 객체(DAO)
+ * 회원과 관련된 데이터베이스 작업을 전담하는 클래스
+ * JDBConnect를 상속받아 데이터베이스 연결 기능을 사용
+ */
+public class MemberDAO extends JDBConnect {
+    
+    /**
+     * 데이터베이스 연결 정보를 매개변수로 받는 생성자
+     * 
+     * @param drv 데이터베이스 드라이버 클래스명
+     * @param url 데이터베이스 접속 URL
+     * @param id 데이터베이스 접속 아이디
+     * @param pw 데이터베이스 접속 비밀번호
+     */
+    public MemberDAO(String drv, String url, String id, String pw) {
+        super(drv, url, id, pw);    // 부모 클래스의 생성자 호출
+    }
+    
+    /**
+     * ServletContext 객체로부터 데이터베이스 연결 정보를 얻어오는 생성자
+     * 
+     * @param application 웹 애플리케이션의 컨텍스트 객체
+     */
+    public MemberDAO(ServletContext application) {
+        super(application);    // 부모 클래스의 생성자 호출
+    }
+    
+    /**
+     * 새로운 회원을 데이터베이스에 추가하는 메서드
+     * 
+     * @param dto 추가할 회원 정보가 담긴 MemberDTO 객체
+     * @return 성공시 1, 실패시 0 반환
+     */
+    public int insertMember(MemberDTO dto) {
+        int result = 0;    // 쿼리 실행 결과를 저장할 변수
+        
+        try {
+            // 회원 정보 삽입을 위한 INSERT 쿼리문 작성
+            String query = "INSERT INTO member(id, pw, name, gender, home_tel, phone_tel, email)"
+                         + " VALUES (?, ?, ?, ?, ?, ?, ?)";    // 동적 파라미터를 사용
+            
+            // PreparedStatement 객체 생성 및 파라미터 설정
+            psmt = con.prepareStatement(query);    // 동적 쿼리문 준비
+            psmt.setString(1, dto.getId());        // 아이디
+            psmt.setString(2, dto.getPw());        // 비밀번호
+            psmt.setString(3, dto.getName());      // 이름
+            psmt.setString(4, dto.getGender());    // 성별
+            psmt.setString(5, dto.getHome_tel());  // 집 전화번호
+            psmt.setString(6, dto.getPhone_tel()); // 휴대폰 번호
+            psmt.setString(7, dto.getEmail());     // 이메일
+            
+            // 쿼리 실행 및 결과 저장
+            result = psmt.executeUpdate();
+            
+        } catch (Exception e) {
+            System.out.println("회원 가입 중 예외 발생");
+            e.printStackTrace();    // 예외 상세 정보 출력
+        }
+        
+        return result;    // 쿼리 실행 결과 반환
+    }
+    
+    /**
+     * 로그인을 위해 아이디와 비밀번호로 회원 정보를 조회하는 메서드
+     * 
+     * @param id 로그인할 회원의 아이디
+     * @param pw 로그인할 회원의 비밀번호
+     * @return 일치하는 회원 정보를 담은 MemberDTO 객체
+     */
+    public MemberDTO getMemberDTO(String id, String pw) {
+        MemberDTO dto = new MemberDTO();    // 회원 정보를 담을 DTO 객체 생성
+        
+        // 아이디와 비밀번호가 일치하는 회원을 찾는 쿼리문
+        String query = "SELECT * FROM member WHERE id=? AND pw=?";
+        
+        try {
+            // DB 연결 상태 확인 (디버깅용)
+            System.out.println("DB 연결 상태: " + (con != null ? "성공" : "실패"));
+            
+            // PreparedStatement 객체 생성 및 쿼리 실행 준비
+            psmt = con.prepareStatement(query);    // 동적 쿼리문 준비
+            psmt.setString(1, id);    // 첫 번째 파라미터에 아이디 설정
+            psmt.setString(2, pw);    // 두 번째 파라미터에 비밀번호 설정
+            
+            // 쿼리 실행 및 결과셋 받기
+            rs = psmt.executeQuery();
+            
+            // 결과 처리
+            if (rs.next()) {    // 결과가 있으면 (로그인 성공)
+                // 찾은 회원 정보를 DTO 객체에 저장
+                dto.setId(rs.getString("id"));          // 아이디
+                dto.setPw(rs.getString("pw"));          // 비밀번호
+                dto.setName(rs.getString("name"));      // 이름
+                dto.setReg_date(rs.getString("reg_date")); // 가입일
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();    // 예외 상세 정보 출력
+        }
+        
+        return dto;    // 조회된 회원 정보 반환
+    }
+}
+            </pre>
+            <h4>이 DAO 클래스는 회원 관리에 필요한 데이터베이스 작업을 캡슐화하여 제공하며, 데이터베이스 연결과 쿼리 실행에 대한 안전성과 재사용성을 보장합니다.</h4>
+        </td>
+    </tr>
+</table>

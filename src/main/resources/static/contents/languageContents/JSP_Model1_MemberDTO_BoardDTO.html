@@ -1,0 +1,292 @@
+<table>
+    <tr>
+        <td>
+            <h2>MemberDTO</h2>
+            <pre>
+//MemberDTO.java
+package DTO;    // Data Transfer Object 패키지
+
+/**
+ * 회원 정보를 저장하고 전달하기 위한 데이터 전송 객체(DTO)
+ * 데이터베이스의 member 테이블과 매핑되는 클래스
+ */
+public class MemberDTO {
+    // 회원 정보를 저장하기 위한 private 멤버 변수들
+    private String id;          // 회원 아이디
+    private String pw;          // 회원 비밀번호
+    private String name;        // 회원 이름
+    private String gender;      // 성별 (ENUM 타입을 String으로 처리)
+    private String home_tel;    // 집 전화번호
+    private String phone_tel;   // 휴대폰 번호
+    private String email;       // 이메일 주소
+    private String reg_date;    // 가입일 (날짜 타입을 String으로 처리)
+    
+    // getter/setter 메서드들
+    /**
+     * 회원 아이디를 반환
+     * @return 회원 아이디
+     */
+    public String getId() {
+        return id;
+    }
+    
+    /**
+     * 회원 아이디를 설정
+     * @param id 설정할 회원 아이디
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    /**
+     * 비밀번호를 반환
+     * @return 회원 비밀번호
+     */
+    public String getPw() {
+        return pw;
+    }
+    
+    /**
+     * 비밀번호를 설정
+     * @param pw 설정할 비밀번호
+     */
+    public void setPw(String pw) {
+        this.pw = pw;
+    }
+    
+    /**
+     * 회원 이름을 반환
+     * @return 회원 이름
+     */
+    public String getName() {
+        return name;
+    }
+    
+    /**
+     * 회원 이름을 설정
+     * @param name 설정할 회원 이름
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    /**
+     * 성별 정보를 반환
+     * @return 성별 정보
+     */
+    public String getGender() {
+        return gender;
+    }
+    
+    /**
+     * 성별 정보를 설정
+     * @param gender 설정할 성별 정보
+     */
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+    
+    /**
+     * 집 전화번호를 반환
+     * @return 집 전화번호
+     */
+    public String getHome_tel() {
+        return home_tel;
+    }
+    
+    /**
+     * 집 전화번호를 설정
+     * @param home_tel 설정할 집 전화번호
+     */
+    public void setHome_tel(String home_tel) {
+        this.home_tel = home_tel;
+    }
+    
+    /**
+     * 휴대폰 번호를 반환
+     * @return 휴대폰 번호
+     */
+    public String getPhone_tel() {
+        return phone_tel;
+    }
+    
+    /**
+     * 휴대폰 번호를 설정
+     * @param phone_tel 설정할 휴대폰 번호
+     */
+    public void setPhone_tel(String phone_tel) {
+        this.phone_tel = phone_tel;
+    }
+    
+    /**
+     * 이메일 주소를 반환
+     * @return 이메일 주소
+     */
+    public String getEmail() {
+        return email;
+    }
+    
+    /**
+     * 이메일 주소를 설정
+     * @param email 설정할 이메일 주소
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    /**
+     * 가입일을 반환
+     * @return 가입일
+     */
+    public String getReg_date() {
+        return reg_date;
+    }
+    
+    /**
+     * 가입일을 설정
+     * @param reg_date 설정할 가입일
+     */
+    public void setReg_date(String reg_date) {
+        this.reg_date = reg_date;
+    }
+}
+            </pre>
+            <h2>BoardDTO</h2>
+            <pre>
+//BoardDTO.java
+package DTO;    // Data Transfer Object 패키지
+
+import java.sql.Date;    // SQL 날짜 처리를 위한 임포트
+
+/**
+ * 게시판 글 정보를 저장하고 전달하기 위한 데이터 전송 객체(DTO)
+ * 데이터베이스의 board 테이블과 매핑되는 클래스
+ */
+public class BoardDTO {
+    // 게시글 정보를 저장하기 위한 private 멤버 변수들
+    private String num;         // 게시글 번호
+    private String title;       // 게시글 제목
+    private String content;     // 게시글 내용
+    private String id;         // 작성자 아이디
+    private Date postdate;     // 작성일자 (java.sql.Date 타입 사용)
+    private String visitcount;  // 조회수
+    private String name;       // 작성자 이름 (회원 테이블과 조인시 사용)
+    
+    // getter/setter 메서드들
+    /**
+     * 게시글 번호를 반환
+     * @return 게시글 번호
+     */
+    public String getNum() {
+        return num;
+    }
+    
+    /**
+     * 게시글 번호를 설정
+     * @param num 설정할 게시글 번호
+     */
+    public void setNum(String num) {
+        this.num = num;
+    }
+    
+    /**
+     * 게시글 제목을 반환
+     * @return 게시글 제목
+     */
+    public String getTitle() {
+        return title;
+    }
+    
+    /**
+     * 게시글 제목을 설정
+     * @param title 설정할 게시글 제목
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
+    /**
+     * 게시글 내용을 반환
+     * @return 게시글 내용
+     */
+    public String getContent() {
+        return content;
+    }
+    
+    /**
+     * 게시글 내용을 설정
+     * @param content 설정할 게시글 내용
+     */
+    public void setContent(String content) {
+        this.content = content;
+    }
+    
+    /**
+     * 작성자 아이디를 반환
+     * @return 작성자 아이디
+     */
+    public String getId() {
+        return id;
+    }
+    
+    /**
+     * 작성자 아이디를 설정
+     * @param id 설정할 작성자 아이디
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    /**
+     * 작성일자를 반환
+     * @return 작성일자
+     */
+    public Date getPostdate() {
+        return postdate;
+    }
+    
+    /**
+     * 작성일자를 설정
+     * @param postdate 설정할 작성일자
+     */
+    public void setPostdate(Date postdate) {
+        this.postdate = postdate;
+    }
+    
+    /**
+     * 조회수를 반환
+     * @return 조회수
+     */
+    public String getVisitcount() {
+        return visitcount;
+    }
+    
+    /**
+     * 조회수를 설정
+     * @param visitcount 설정할 조회수
+     */
+    public void setVisitcount(String visitcount) {
+        this.visitcount = visitcount;
+    }
+    
+    /**
+     * 작성자 이름을 반환
+     * @return 작성자 이름
+     */
+    public String getName() {
+        return name;
+    }
+    
+    /**
+     * 작성자 이름을 설정
+     * @param name 설정할 작성자 이름
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+            </pre>
+            <h4>이러한 DTO 클래스들은 데이터베이스와 애플리케이션 간의 데이터 전송을 담당하며, 데이터의 안전한 캡슐화와 타입 안정성을 제공합니다.</h4>
+        </td>
+    </tr>
+</table>

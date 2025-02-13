@@ -1,0 +1,547 @@
+<table>
+    <tr>
+        <th>Spring Tool Suite 3 프로젝트 설정 가이드</th>
+    </tr>
+    <tr>
+        <td>
+            <h3>목차</h3>
+            <ol>
+                <li>자바 버전 설정 <ul>
+                        <li>STS에서 자바 버전 변경하기</li>
+                    </ul>
+                </li>
+                <li>pom.xml 설정 <ul>
+                        <li>주요 버전 설정</li>
+                        <li>Maven 컴파일러 플러그인 설정</li>
+                    </ul>
+                </li>
+                <li>프로젝트 구조 <ul>
+                        <li>폴더별 용도</li>
+                    </ul>
+                </li>
+                <li>서버 주소 설정 <ul>
+                        <li>기본 주소 형식</li>
+                        <li>Path 주소 변경 방법</li>
+                        <li>실행 시 주의사항</li>
+                    </ul>
+                </li>
+                <li>스프링 설정 파일 <ul>
+                        <li>servlet-context.xml</li>
+                        <li>root-context.xml</li>
+                    </ul>
+                </li>
+                <li>MyBatis 설정 파일 이해하기 <ul>
+                        <li>파일 위치</li>
+                        <li>코드 설명</li>
+                    </ul>
+                </li>
+                <li>데이터베이스 연결 설정 비교 <ul>
+                        <li>JSP에서 DB 연결 방법</li>
+                        <li>Spring에서 DB 연결할 때</li>
+                    </ul>
+                </li>
+                <li>MyBatis와 스프링 연동 <ul>
+                        <li>MyBatis 특징</li>
+                        <li>MyBatis 관련 라이브러리 추가</li>
+                        <li>SQLSessionFactory</li>
+                        <li>스프링과의 연동 처리</li>
+                        <li>log4jdbc-log4j2 설정</li>
+                    </ul>
+                </li>
+                <li>스프링 MVC 아키텍처의 계층별 연결 가이드<ul>
+                        <li>1. JSP (View) ↔ Controller 연결</li>
+                        <li>2. Controller ↔ DAO(Service) 연결</li>
+                        <li>3. DAO ↔ MyBatis 연결</li>
+                        <li>통합 흐름</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>세부 내용</h3>
+            <ol>
+                <li>프로젝트 생성
+                    <ul>
+                        <li>STS3 실행 후 File → New → Spring Legacy Project 선택</li>
+                        <li>프로젝트명 입력 및 Spring MVC Project 템플릿 선택</li>
+                        <li>패키지명 입력 (예: com.myapp.www)</li>
+                    </ul>
+                </li>
+                <li>초기 설정
+                    <ul>
+                        <li>STS에서 Java 버전 변경하기
+                            <ul>
+                                <li>프로젝트 우클릭 → Properties → Java Build Path → Java 11 선택</li>
+                                <li>프로젝트 우클릭 → Properties → Project Facets → Java 버전 11로 변경</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>pom.xml 설정
+                    <ul>
+                        <li>주요 버전 설정
+                            <ul>
+                                <li>
+                                    <pre><code>
+&lt;properties&gt;
+    &lt;!-- 자바 버전 --&gt;
+    &lt;java-version&gt;11&lt;/java-version&gt;
+    &lt;!-- 스프링 프레임워크 버전 --&gt;
+    &lt;org.springframework-version&gt;5.0.7.RELEASE&lt;/org.springframework-version&gt;
+    &lt;!-- AspectJ 버전 --&gt;
+    &lt;org.aspectj-version&gt;1.6.10&lt;/org.aspectj-version&gt;
+    &lt;!-- 로깅 관련 버전 --&gt;
+    &lt;org.slf4j-version&gt;1.6.10&lt;/org.slf4j-version&gt;
+&lt;/properties&gt;
+                                </code></pre>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Maven Compiler Plugin 설정</li>
+                        <ul>
+                            <li>
+                                <pre><code>
+&lt;plugin&gt;
+    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+    &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+    &lt;version&gt;2.5.1&lt;/version&gt;
+    &lt;configuration&gt;
+        &lt;!-- 자바 버전은 properties의 버전과 동일하게 설정 --&gt;
+        &lt;source&gt;${java-version}&lt;/source&gt;
+        &lt;target&gt;${java-version}&lt;/target&gt;
+
+        &lt;!-- 컴파일 옵션 --&gt;
+        &lt;compilerArgument&gt;-Xlint:all&lt;/compilerArgument&gt;
+        &lt;showWarnings&gt;true&lt;/showWarnings&gt;
+        &lt;showDeprecation&gt;true&lt;/showDeprecation&gt;
+    &lt;/configuration&gt;
+&lt;/plugin&gt;
+                                </code></pre>
+                            </li>
+                        </ul>
+                    </ul>
+                </li>
+                <li>프로젝트 구조
+                    <ul>
+                        <li>폴더별 용도</li>
+                        <ul>
+                            <li>
+                                <pre><code>
+- src\main\webapp\WEB-INF\views = 프론트엔드 작업
+- src\main\webapp\resources = 프론트엔드 CSS, JS파일 저장소
+- src\main\java\패키지명 = 백엔드 작업
+- src\main\resources = 백엔드 작업
+- src\test\java = 백엔드 테스트 코드
+                                </code></pre>
+                            </li>
+                        </ul>
+                    </ul>
+                </li>
+                <li>서버 주소 설정 <ul>
+                        <li>기본 주소 형식</li>
+                        <ul>
+                            <li>
+                                <pre><code>
+- localhost:포트번호/Path주소/Controller(페이지)주소
+                                </code></pre>
+                            </li>
+                        </ul>
+                        <li>Path 주소 변경 방법</li>
+                        <ul>
+                            <li>
+                                <pre><code>
+- Servers 창 → 톰캣 더블클릭 → Modules 탭 → Edit 클릭 → Path 값을 원하는 주소로 변경
+                                </code></pre>
+                            </li>
+                        </ul>
+                        <li>실행 시 주의사항</li>
+                        <ul>
+                            <li>
+                                <pre><code>
+- 설정 변경 후 서버 재시작 필수
+- Path 설정이 웹 주소에 직접 영향
+- 자바 버전은 모든 곳에서 동일하게 맞춰야 함
+                                </code></pre>
+                            </li>
+                        </ul>
+                    </ul>
+                </li>
+                <li>스프링 설정 파일
+                    <ul>
+                        <li>servlet-context.xml 설정
+                            <ul>
+                                <li>
+                                    <pre><code>
+&lt;!-- servlet-context.xml이란? --&gt;
+&lt;!-- 웹 화면과 관련된 설정을 담는 파일 --&gt;
+&lt;!-- 화면 표시, 디자인 요소 관리를 담당 --&gt;
+
+&lt;!-- 이 파일에서 하는 일 --&gt;
+&lt;!-- 화면 파일(JSP)이 어디 있는지 설정 --&gt;
+&lt;!-- 디자인 파일(이미지, CSS 등)이 어디 있는지 설정 --&gt;
+&lt;!-- 사용자가 웹 주소를 입력했을 때 어떻게 처리할지 설정 --&gt;
+
+&lt;!-- 디자인 파일 위치 설정 --&gt;
+&lt;resources mapping="/resources/**" location="/resources/" /&gt;
+&lt;!-- 이미지, CSS, JS 등 디자인 파일은 resources 폴더에 저장 --&gt;
+
+&lt;!-- 화면 파일 위치 설정 --&gt;
+&lt;beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"&gt;
+    &lt;beans:property name="prefix" value="/WEB-INF/views/" /&gt;
+    &lt;beans:property name="suffix" value=".jsp" /&gt;
+&lt;/beans:bean&gt;
+                                </code></pre>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>root-context.xml 설정
+                            <ul>
+                                <li>
+                                    <pre><code>
+&lt;!-- root-context.xml이란? --&gt;
+&lt;!-- 프로젝트 전체에서 사용할 설정을 담는 파일 --&gt;
+&lt;!-- DB 연결, 보안 등 중요한 설정을 관리 --&gt;
+
+&lt;!-- 이 파일에서 하는 일 --&gt;
+&lt;!-- 데이터베이스 연결 및 관리 설정 --&gt;
+&lt;!-- MyBatis 프레임워크 설정 --&gt;
+&lt;!-- 트랜잭션 관리 --&gt;
+&lt;!-- 공통 컴포넌트 스캔 설정 --&gt;
+
+&lt;!-- DB 접속 정보 설정 --&gt;
+&lt;bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig"&gt;
+    &lt;property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" /&gt;
+    &lt;property name="jdbcUrl" value="jdbc:log4jdbc:mysql://localhost:3306/mvc_db?serverTimezone=Asia/Seoul" /&gt;
+    &lt;property name="username" value="root" /&gt;
+    &lt;property name="password" value="1234" /&gt;
+&lt;/bean&gt;
+
+&lt;!-- DB 연결 관리자 설정 --&gt;
+&lt;bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close"&gt;
+    &lt;constructor-arg ref="hikariConfig" /&gt;
+&lt;/bean&gt;
+
+&lt;!-- SQL 작성 도구 설정 --&gt;
+&lt;bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"&gt;
+    &lt;property name="dataSource" ref="dataSource" /&gt;
+    &lt;property name="configLocation" value="classpath:mybatis-config.xml" /&gt;
+    &lt;property name="mapperLocations" value="classpath:mapper/*Mapper.xml" /&gt;
+&lt;/bean&gt;
+
+&lt;!-- DB 작업 관리자 설정 --&gt;
+&lt;bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"&gt;
+    &lt;constructor-arg ref="sqlSessionFactory" /&gt;
+&lt;/bean&gt;
+
+&lt;!-- 자동으로 매퍼 파일 찾기 --&gt;
+&lt;mybatis-spring:scan base-package="org.zerock.mapper"/&gt;
+
+&lt;!-- 자동으로 스프링 파일 찾기 --&gt;
+&lt;context:component-scan base-package="org.zerock"/&gt;
+                                </code></pre>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>MyBatis 설정 파일 이해하기
+                    <ul>
+                        <li>파일 위치
+                            <ul>
+                                <li>
+                                    <pre><code>
+- 위치: src\main\resources\mybatis-config.xml
+- 역할: MyBatis의 기본 동작 방식을 설정하는 중요한 설정 파일
+                                </code></pre>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>코드 설명
+                            <ul>
+                                <li>
+                                    <pre><code>
+&lt;configuration&gt;
+    &lt;!-- 1. settings 설정 --&gt;
+    &lt;settings&gt;
+        &lt;setting name="cacheEnabled" value="false" /&gt; &lt;!-- 임시저장 사용 안 함 --&gt;
+        &lt;setting name="jdbcTypeForNull" value="NULL" /&gt; &lt;!-- 빈 값을 NULL로 처리 --&gt;
+    &lt;/settings&gt;
+
+    &lt;!-- 2. typeAliases 설정 --&gt;
+    &lt;typeAliases&gt;
+        &lt;typeAlias alias="UserDTO" type="com.UI.domain.UserDTO" /&gt;
+        &lt;typeAlias alias="BoardDTO" type="com.UI.domain.BoardDTO" /&gt;
+        &lt;typeAlias alias="CategoryDTO" type="com.UI.domain.CategoryDTO" /&gt;
+        &lt;typeAlias alias="PageHandler" type="com.UI.domain.PageHandler" /&gt;
+        &lt;typeAlias alias="SearchCondition" type="com.UI.domain.SearchCondition" /&gt;
+    &lt;/typeAliases&gt;
+&lt;/configuration&gt;
+                                </code></pre>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>데이터베이스 연결 설정 비교
+                    <ul>
+                        <li>JSP에서 DB 연결 방법
+                            <ul>
+                                <li>
+                                    <pre><code>
+1. lib 폴더에 직접 JDBC 드라이버 파일(.jar) 추가
+2. web.xml에 직접 연결 정보(driver, url, id, pw) 작성
+3. 매번 연결/닫기를 수동으로 관리
+4. 커넥션 풀 관리가 어려움
+                                </code></pre>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Spring에서 DB 연결할 때
+                            <ul>
+                                <li>
+                                    <pre><code>
+1. 필요한 도구 설치 (pom.xml에 추가)
+    &lt;!-- MySQL 사용을 위한 도구 --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;mysql&lt;/groupId&gt;
+        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+    &lt;!-- DB 연결 관리 도구 --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.zaxxer&lt;/groupId&gt;
+        &lt;artifactId&gt;HikariCP&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+2. DB 설정 파일 작성 (root-context.xml)
+    &lt;!-- DB 접속 정보 --&gt;
+    &lt;bean id="hikariConfig"&gt;
+        &lt;property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/&gt;
+        &lt;property name="jdbcUrl" value="jdbc:mysql://localhost:3306/db_name"/&gt;
+        &lt;property name="username" value="root"/&gt;
+        &lt;property name="password" value="1234"/&gt;
+    &lt;/bean&gt;
+
+    &lt;!-- DB 연결 관리자 설정 --&gt;
+    &lt;bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"&gt;
+        &lt;constructor-arg ref="hikariConfig"/&gt;
+    &lt;/bean&gt;
+
+3. DB 연결 확인하기 (필요한 경우만)
+    &lt;!-- 연결 테스트 코드 --&gt;
+    @Test
+    public void DB연결테스트() {
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/fileupload_db?serverTimezone=Asia/Seoul",
+                "root",
+                "1234"
+                )) {
+            System.out.println("DB 연결됨: " + con);
+        } catch (Exception e) {
+            System.out.println("DB 연결 실패: " + e.getMessage());
+        }
+    }
+                                </code></pre>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>MyBatis와 스프링 연동
+                    <ul>
+                        <li>MyBatis 특징
+                            <ul>
+                                <li>
+                                    <pre><code>
+- DB 연결/종료를 자동으로 관리
+- SQL 실행 준비 과정을 자동화
+- 데이터 처리를 위한 모든 작업을 쉽게 수행
+- 자바 객체로 쉽게 변환 가능
+                                </code></pre>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>MyBatis 관련 라이브러리 추가
+                            <ul>
+                                <li>
+                                    <pre><code>
+1. pom.xml에 필요한 도구 설치
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+        &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.mybatis.spring&lt;/groupId&gt;
+        &lt;artifactId&gt;mybatis-spring&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-tx&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+                                </code></pre>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>SQLSessionFactory
+                            <ul>
+                                <li>
+                                    <pre><code>
+- root-context.xml에 SQLSessionFactory 설정
+    &lt;bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"&gt;
+        &lt;property name="dataSource" ref="dataSource" /&gt;
+    &lt;/bean&gt;
+                                </code></pre>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>스프링과의 연동 처리
+                            <ul>
+                                <li>
+                                    <pre><code>
+- SQL 세션을 스프링에서 관리하도록 설정
+    &lt;bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"&gt;
+        &lt;constructor-arg ref="sqlSessionFactory" /&gt;
+    &lt;/bean&gt;
+                                </code></pre>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>log4jdbc-log4j2 설정
+                            <ul>
+                                <li>
+                                    <pre><code>
+1. pom.xml에 로그 확인 도구 추가
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.bgee.log4jdbc-log4j2&lt;/groupId&gt;
+        &lt;artifactId&gt;log4jdbc-log4j2-jdbc4.1&lt;/artifactId&gt;
+        &lt;version&gt;1.16&lt;/version&gt;
+    &lt;/dependency&gt;
+
+2. 로그 설정 파일 생성 (log4jdbc.log4j2.properties)
+    log4jdbc.spylogdelegator.name=net.sf.log4jdbc.log.slf4j.Slf4jSpyLogDelegator
+
+3. DB 연결 정보 수정 (SQL 로그 확인용)
+    &lt;bean id="hikariConfig"&gt;
+        &lt;property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/&gt;
+        &lt;property name="jdbcUrl" value="jdbc:log4jdbc:mysql://localhost:3306/mvc_db"/&gt;
+        &lt;property name="username" value="root"/&gt;
+        &lt;property name="password" value="1234"/&gt;
+    &lt;/bean&gt;
+                                </code></pre>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>스프링 MVC 아키텍처의 계층별 연결 가이드
+                    <ol>
+                        <li>JSP (View) ↔ Controller 연결
+                            <ul>
+                                <li>핵심 포인트
+                                    <ul>
+                                        <li>@RequestMapping 애노테이션으로 URL 매핑</li>
+                                        <li>Model 객체로 데이터 전달</li>
+                                        <li>뷰 이름 직접 반환</li>
+                                    </ul>
+                                </li>
+                                <li>예제 코드
+                                    <pre><code>
+@Controller
+public class UserController {
+    @GetMapping("/userList")
+    public String getUserList(Model model) {
+        // 비즈니스 로직 처리
+        List&lt;User&gt; users = userService.findAll();
+        model.addAttribute("users", users);
+        return "user/list";  // /WEB-INF/views/user/list.jsp
+    }
+}
+                                    </code></pre>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Controller ↔ DAO(Service) 연결
+                            <ul>
+                                <li>핵심 포인트
+                                    <ul>
+                                        <li>@Service 애노테이션으로 서비스 계층 정의</li>
+                                        <li>@Autowired로 의존성 주입</li>
+                                        <li>비즈니스 로직 처리</li>
+                                    </ul>
+                                </li>
+                                <li>예제 코드
+                                    <pre><code>
+@Controller
+public class UserController {
+    @Autowired
+    private UserService userService;
+
+    @PostMapping("/user/create")
+    public String createUser(User user) {
+        userService.register(user);
+        return "redirect:/userList";
+    }
+}
+
+@Service
+public class UserService {
+    @Autowired
+    private UserDAO userDAO;
+
+    public void register(User user) {
+        userDAO.insert(user);
+    }
+}
+                                    </code></pre>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>DAO ↔ MyBatis 연결
+                            <ul>
+                                <li>핵심 포인트
+                                    <ul>
+                                        <li>@Mapper 인터페이스로 MyBatis 매퍼 정의</li>
+                                        <li>XML 매퍼 파일에 SQL 작성</li>
+                                        <li>자동으로 구현체 생성</li>
+                                    </ul>
+                                </li>
+                                <li>MyBatis 매퍼 인터페이스(UserDAO.java)
+                                    <pre><code>
+@Mapper
+public interface UserDAO {
+    void insert(User user);
+    User findById(Long id);
+    List&lt;User&gt; findAll();
+}
+                                    </code></pre>
+                                </li>
+                                <li>대응되는 XML 매퍼 파일 (UserMapper.xml)
+                                    <pre><code>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"&gt;
+&lt;mapper namespace="패키지.UserDAO"&gt;
+    &lt;insert id="insert" parameterType="User"&gt;
+        INSERT INTO users (name, email) VALUES (#{name}, #{email})
+    &lt;/insert&gt;
+
+    &lt;select id="findAll" resultType="User"&gt;
+        SELECT * FROM users
+    &lt;/select&gt;
+&lt;/mapper&gt;
+                                    </code></pre>
+                                </li>
+                            </ul>
+                        </li>
+                    </ol>
+                </li>
+                
+            </ol>
+        </td>
+    </tr>
+</table>
