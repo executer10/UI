@@ -1,5 +1,6 @@
 <h1>UI_Project (개인 프로젝트 + 두 번째 팀 프로젝트)</h1> 
-Spring Framework, MyBatis, Java, JSP, JSTL, MySQL, JavaScript, jQuery 등을 활용하여 구현된 웹 프로젝트입니다. 주요 기능은 회원 가입/로그인, 마이페이지, 데이터 분석 (Python 연동), 가스 대시보드 등으로 구성되어 있습니다.
+Spring Boot, MyBatis, Java, JSP, JSTL, MySQL, JavaScript, jQuery 등을 활용하여 구현된 웹 프로젝트입니다. <br>
+주요 기능은 회원 가입/로그인, 마이페이지, 데이터 분석 (Python 연동), 가스 대시보드 등으로 구성되어 있습니다.
 
 <hr>
 <h2>프로젝트 개요</h2>
@@ -35,7 +36,7 @@ Spring Framework, MyBatis, Java, JSP, JSTL, MySQL, JavaScript, jQuery 등을 활
   </li>
   <li>Frontend
     <ul>
-      <li>JSP</li>
+      <li>HTML(Thymeleaf)</li>
       <li>HTML/CSS/JavaScript</li>
       <li>jQuery(ajax사용)</li>
       <li>Chart.js (차트 시각화)</li>
@@ -44,7 +45,6 @@ Spring Framework, MyBatis, Java, JSP, JSTL, MySQL, JavaScript, jQuery 등을 활
   <li>ETC
     <ul>
       <li>Python (데이터 분석 및 머신러닝)</li>
-      <li>Apache Tomcat (서버)</li>
       <li>Maven(의존성 관리)</li>
       <li>Spring Tool Suite 3(사용 툴)</li>
       <li>Visual Studio Code(사용 툴)</li>
