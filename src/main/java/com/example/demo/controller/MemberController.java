@@ -74,7 +74,7 @@ public class MemberController {
         int loginResult = memberService.login(memberDTO);
         if (loginResult != 1) {
             model.addAttribute("msg", "아이디 혹은 비밀번호가 일치하지 않습니다.");
-            model.addAttribute("url", "login");
+            model.addAttribute("url", "/login");
             return "alertPrint";
         }
 
@@ -115,13 +115,13 @@ public class MemberController {
     }
 
     // -----------------------------회원 수정------------------------------//
-    @GetMapping("memberModify")
+    @GetMapping("/memberModify")
     public String getMemberModify(HttpSession session, Model model) {
         // 세션에서 UserId 가져옴
         String userId = (String) session.getAttribute("userId");
         if (userId == null) {
             model.addAttribute("msg", "로그인이 필요합니다.");
-            model.addAttribute("url", "login");
+            model.addAttribute("url", "/login");
             return "alertPrint";
         }
 
@@ -137,7 +137,7 @@ public class MemberController {
             model.addAttribute("url", "/index");
             return "alertPrint";
         }
-        return "memberModify";
+        return "/member/memberModify";
     }
 
     @PostMapping("/memberModify")
