@@ -15,7 +15,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
-import org.deeplearning4j.models.word2vec.Word2Vec;
+import org.deeplearning4j.models.embeddings.learning.impl.elements.SkipGram;
+import org.deeplearning4j.models.paragraphvectors.ParagraphVectors;
 import org.deeplearning4j.text.sentenceiterator.BasicLineIterator;
 import org.deeplearning4j.text.tokenization.tokenizer.preprocessor.CommonPreprocessor;
 import org.deeplearning4j.text.tokenization.tokenizerfactory.DefaultTokenizerFactory;
@@ -30,8 +31,8 @@ import org.springframework.stereotype.Component;
 public class DatabaseManager {
     private final JdbcTemplate jdbcTemplate;
     private final String dbUrl;
-    private volatile Word2Vec word2Vec; // volatile 추가
-    private final Object word2VecLock = new Object(); // 락 객체 추가
+    private volatile ParagraphVectors paragraphVectors;
+    private final Object pvLock = new Object();
     private Map<String, INDArray> tableEmbeddings;
     private Map<String, List<String>> tableColumns;
     private Map<String, INDArray> columnEmbeddings;
@@ -47,18 +48,18 @@ public class DatabaseManager {
         this.tableColumns = new HashMap<>();
     }
 
-    private Word2Vec getWord2Vec() {
-        if (word2Vec == null) {
-            synchronized (word2VecLock) {
-                if (word2Vec == null) {
-                    initializeWord2Vec();
+    private ParagraphVectors getParagraphVectors() {
+        if (paragraphVectors == null) {
+            synchronized (pvLock) {
+                if (paragraphVectors == null) {
+                    initializeParagraphVectors();
                 }
             }
         }
-        return word2Vec;
+        return paragraphVectors;
     }
 
-    private void initializeWord2Vec() {
+    private void initializeParagraphVectors() {
         try {
             // Create temporary vocabulary file
             File tempFile = File.createTempFile("vocab", ".txt");
@@ -77,19 +78,15 @@ public class DatabaseManager {
                 try (var connection = dataSource.getConnection()) {
                     DatabaseMetaData metaData = connection.getMetaData();
 
-                    // Add table names to vocabulary
                     try (ResultSet tables = metaData.getTables(null, null, "%", new String[] { "TABLE" })) {
                         while (tables.next()) {
                             String tableName = tables.getString("TABLE_NAME");
-                            // Split table name by common separators and add each part
                             vocabularyWords.addAll(Arrays.asList(tableName.split("[_\\s]")));
 
-                            // Add columns for each table
                             try (ResultSet columns = metaData.getColumns(null, null, tableName, null)) {
                                 while (columns.next()) {
                                     String columnName = columns.getString("COLUMN_NAME");
                                     String typeName = columns.getString("TYPE_NAME");
-                                    // Split column name and type by common separators and add each part
                                     vocabularyWords.addAll(Arrays.asList(columnName.split("[_\\s]")));
                                     vocabularyWords.addAll(Arrays.asList(typeName.split("[_\\s]")));
                                 }
@@ -101,35 +98,38 @@ public class DatabaseManager {
                 throw new RuntimeException("Failed to extract schema vocabulary", e);
             }
 
-            // Remove duplicates and clean vocabulary
             vocabularyWords = vocabularyWords.stream()
                     .map(String::toLowerCase)
                     .distinct()
                     .filter(word -> !word.isEmpty())
                     .collect(Collectors.toList());
 
-            // Write vocabulary to temp file
             FileUtils.writeLines(tempFile, vocabularyWords);
 
-            // Initialize tokenizer
             TokenizerFactory tokenizerFactory = new DefaultTokenizerFactory();
             tokenizerFactory.setTokenPreProcessor(new CommonPreprocessor());
 
-            // Build and train Word2Vec model
-            Word2Vec initializedModel = new Word2Vec.Builder()
+            ParagraphVectors initializedModel = new ParagraphVectors.Builder()
                     .minWordFrequency(1)
                     .iterations(5)
                     .layerSize(EMBEDDING_SIZE)
-                    .seed(42)
-                    .windowSize(5)
+                    .learningRate(0.025)
+                    .minLearningRate(0.001)
+                    .epochs(1)
                     .iterate(new BasicLineIterator(tempFile))
+                    .trainWordVectors(true)
                     .tokenizerFactory(tokenizerFactory)
+                    .useAdaGrad(false)
+                    .negativeSample(5)
+                    .sampling(0)
+                    .elementsLearningAlgorithm(new SkipGram<>())
                     .build();
 
             initializedModel.fit();
-            this.word2Vec = initializedModel; // 완전히 초기화된 후에 할당
+            this.paragraphVectors = initializedModel;
+
         } catch (Exception e) {
-            throw new RuntimeException("Word2Vec initialization failed", e);
+            throw new RuntimeException("ParagraphVectors initialization failed", e);
         }
     }
 
@@ -142,7 +142,7 @@ public class DatabaseManager {
             try (var connection = dataSource.getConnection()) {
                 DatabaseMetaData metaData = connection.getMetaData();
                 processSchema(metaData, schema);
-                getWord2Vec(); // initializeWord2Vec() 대신 getWord2Vec() 사용
+                getParagraphVectors();
                 generateEmbeddings();
             }
         } catch (Exception e) {
@@ -246,13 +246,13 @@ public class DatabaseManager {
         INDArray embedding = Nd4j.zeros(EMBEDDING_SIZE);
         int count = 0;
 
-        Word2Vec w2v = getWord2Vec(); // getWord2Vec() 사용
+        ParagraphVectors PV = getParagraphVectors();
         for (String word : words) {
             // Handle compound words
             String[] subWords = word.split("[_\\s]");
             for (String subWord : subWords) {
-                if (w2v.hasWord(subWord)) {
-                    embedding.addi(Nd4j.create(w2v.getWordVector(subWord)));
+                if (PV.hasWord(subWord)) {
+                    embedding.addi(Nd4j.create(PV.getWordVector(subWord)));
                     count++;
                 }
             }
