@@ -17,14 +17,14 @@
             display: block;
             padding: 20px;
             position: relative;
-            min-height: 150vh;
+            min-height: 250vh;
             width: 100%;
             box-sizing: border-box;
         }
 
         .box {
-            min-width: 200px;
-            max-width: 400px;
+            min-width: 300px;
+            max-width: 300px;
             min-height: 200px;
             width: auto;
             height: auto;
@@ -69,6 +69,54 @@
         .box p {
             margin: 10px 0;
             line-height: 1.5;
+        }
+
+        /* 로봇 시스템 및 특수 박스 스타일 */
+        .robot-box {
+            background-color: #f8f9fa;
+            border-color: #e74c3c;
+        }
+
+        .robot-box h4 {
+            color: #c0392b;
+        }
+
+        .system-box {
+            background-color: #eefbff;
+            border-color: #3498db;
+        }
+
+        .system-box h4 {
+            color: #2980b9;
+        }
+
+        .robot-grid {
+            min-width: 400px;
+            max-width: 400px;
+            background-color: #f5f5f5;
+            border: 2px solid #7f8c8d;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 10px;
+            padding: 15px;
+        }
+
+        .robot-cell {
+            min-height: 60px;
+            background: white;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .robot-cell:hover {
+            background-color: #ecf0f1;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .connector {
@@ -197,650 +245,902 @@
 
 <body>
     <div class="boxs" id="container">
-        <div class="box" style="top: 0px; left: 0px;" data-id="customer">
+        <!-- 기본 프로세스 박스 -->
+        <div class="box" style="top: 0px; left: 0px;">
             <h4>고객 주문</h4>
-            <p>고객이 자동차 주문을 하면 옵션, 색상, 모델 등 정보가 시스템에 등록</p>
-            <p>울산공장은 교대별 약 5,000여대 자동차 생산 (연간 약 140만대)</p>
         </div>
 
-        <div class="box" style="top: 600px; left: 0px;" data-id="body">
-            <h4>차체(Body)</h4>
-            <ul>
-                <li>모듈 공급사로부터 부품을 공급받아 차체 작업을 진행</li>
-                <li>1~5공장은 각각 아반떼, 쏘나타, 아이오닉, 포터/스타렉스, 투싼/싼타페 등 차종별로 생산</li>
-                <li>프레스 → 차체(Body) → 도장 → 의장(조립) → 품질검사 순으로 작업 진행</li>
-                <li>1개 차체당 약 4,000개 이상의 부품이 조립되며, 약 4,000~5,000개의 용접 포인트 존재</li>
-            </ul>
-        </div>
-
-        <div class="box" style="top: 300px; left: 500px;" data-id="module-supplier">
-            <h4>모듈 공급사</h4>
-            <ul>
-                <li>글로비스로부터 생산 계획을 접수하고 분석</li>
-                <li>서열납입 방식으로 생산 라인 순서에 맞춘 부품 공급을 준비</li>
-                <li>라인별 작업 지시를 수행</li>
-                <li>현대모비스, 현대위아 등 협력사가 30여개 모듈을 조립 공급</li>
-                <li>JIS(Just In Sequence) 시스템으로 조립순서에 맞게 부품 공급</li>
-            </ul>
-        </div>
-
-        <div class="box" style="top: 0px; left: 1000px;" data-id="production-management">
+        <div class="box" style="top: 0px; left: 500px;">
             <h4>생산 관리부</h4>
             <ul>
-                <li>주문 정보를 취합하여 주간/월간 생산계획을 수립</li>
-                <li>각 공장별 생산목표를 설정(1공장: ~1,200대, ... 5공장: ~1,100대 등)</li>
-                <li>생산능력을 분석하고 공정을 최적화</li>
-                <li>BTO(Build To Order)와 BTS(Build To Stock) 주문 방식 모두 수용</li>
+                <li>1~5공장</li>
+                <li>생산계획</li>
             </ul>
         </div>
 
-        <div class="box" style="top: 300px; left: 1000px;" data-id="hyundai-glovis">
-            <h4>현대 글로비스</h4>
-            <ul>
-                <li>생산 관리부로부터 생산 계획을 수신</li>
-                <li>협력사에 부품 발주 및 편성 지시를 내림</li>
-                <li>글로벌 물류 네트워크를 통해 부품 조달과 완성차 물류를 총괄</li>
-                <li>울산 공장별 서열 정보 연계 시스템 운영</li>
-                <li>밀크런(Milk-Run) 방식의 효율적 부품 운송 체계 구축</li>
-            </ul>
+        <div class="box" style="top: 300px; left: 0px;">
+            <h4>Glovis</h4>
         </div>
 
-        <div class="box" style="top: 600px; left: 1000px;" data-id="inventory-management">
-            <h4>부품 재고 관리</h4>
-            <ul>
-                <li>차체/도장/의장 부품 재고를 관리</li>
-                <li>JIT(Just-In-Time)기반으로 안전 재고 수준을 유지</li>
-                <li>부품의 서열화 작업을 준비</li>
-                <li>RFID 기반 실시간 재고 추적 시스템 운영</li>
-                <li>부품별 FIFO(First In First Out) 관리 철저</li>
-            </ul>
+        <div class="box" style="top: 300px; left: 500px;">
+            <h4>실행사</h4>
         </div>
 
-        <div class="box" style="top: 900px; left: 1000px;" data-id="sequencing">
-            <h4>서열작업</h4>
-            <ul>
-                <li>통합 생산 관리 시스템(MES)을 활용하여 생산 라인 순서에 맞게 작업을 배열</li>
-                <li>차종별 서열 배치, 작업 난이도 분산, 부품 공급 일정 조정, 라인 밸런싱을 수행</li>
-                <li>평균적으로 58초 택트 타임(Tact Time)을 유지</li>
-                <li>주문 순서에 관계없이 생산 효율성에 따라 서열 최적화 수행</li>
-            </ul>
+        <div class="box" style="top: 0px; left: 1000px;">
+            <h4>제조사</h4>
         </div>
 
-        <div class="box" style="top: 1200px; left: 1000px;" data-id="work-order">
+        <div class="box" style="top: 600px; left: 0px;">
+            <h4>서열 작업</h4>
+        </div>
+
+        <div class="box" style="top: 600px; left: 500px;">
             <h4>서열지 출력</h4>
-            <ul>
-                <li>차량 모델 및 옵션 정보, 사용 부품 리스트, 작업 순서 및 지침, 품질 체크 포인트가 포함된 작업 지시서를 바코드/QR코드와 함께 출력</li>
-                <li>로봇/수작업 라인별로 서열지를 배포</li>
-                <li>차량별 고유 VIN 번호와 연계된 이력 관리 시스템 운영</li>
-            </ul>
         </div>
 
-        <div class="box" style="top: 900px; left: 1500px;" data-id="manual-work">
+        <div class="box" style="top: 300px; left: 1000px;">
             <h4>수작업</h4>
-            <ul>
-                <li>서열지 기반으로 정밀 용접 부위, 특수 부품 장착, 마감 처리, 품질 검사 등을 숙련공이 수행</li>
-                <li>작업자 평균 경력 15년 이상의 전문인력으로 구성</li>
-                <li>디지털 작업 지시장치(DID)로 작업 지시 확인</li>
-                <li>에러 프루핑(Error Proofing) 시스템으로 작업 오류 방지</li>
-            </ul>
         </div>
 
-        <div class="box" style="top: 1200px; left: 1500px;" data-id="robot-work">
+        <div class="box robot-box" style="top: 600px; left: 1000px;">
             <h4>로봇 작업</h4>
+            <p>자동화 로봇 시스템</p>
+        </div>
+
+        <!-- RR FLR 로봇 시스템 -->
+        <div class="box robot-box" style="top: 900px; left: 0px;">
+            <h4>RR FLR</h4>
+            <div class="robot-grid">
+                <div class="robot-cell">1</div>
+                <div class="robot-cell">2</div>
+                <div class="robot-cell">3</div>
+                <div class="robot-cell">4</div>
+                <div class="robot-cell">5</div>
+                <div class="robot-cell">6</div>
+                <div class="robot-cell">7</div>
+                <div class="robot-cell">출고</div>
+            </div>
+            <p>로봇 작업 스테이션</p>
+        </div>
+
+        <!-- PBS 시스템 -->
+        <div class="box system-box" style="top: 900px; left: 500px;">
+            <h4>PBS</h4>
+            <p>생산 관리 시스템</p>
+        </div>
+
+        <!-- 컨베이어 시스템 -->
+        <div class="box system-box" style="top: 900px; left: 1000px;">
+            <h4>컨베이어(CTS)</h4>
+            <p>자동 부품 이송 시스템</p>
+        </div>
+
+        <!-- PLC 컨트롤러 -->
+        <div class="box system-box" style="top: 900px; left: 1500px;">
+            <h4>PLC</h4>
+            <p>프로그래머블 로직 컨트롤러</p>
+        </div>
+
+        <!-- PC 시스템 -->
+        <div class="box system-box" style="top: 1200px; left: 500px;">
+            <h4>PC</h4>
+            <p>제어 시스템</p>
+        </div>
+
+        <!-- FAC 시스템 -->
+        <div class="box system-box" style="top: 1200px; left: 1000px;">
+            <h4>FAC</h4>
+            <p>공장 자동화 제어</p>
             <ul>
-                <li>대량 스팟 용접, 반복 정밀 작업, 무거운 부품 조립, 유해 환경 작업을 1000여대 이상의 산업용 로봇이 수행</li>
-                <li>자동화 제어 시스템으로 운영됨</li>
-                <li>비전 시스템으로 용접 품질 실시간 모니터링</li>
-                <li>자가 진단 및 예지 정비 시스템 적용</li>
+                <li>FTP 전송 프로그램</li>
+                <li>서열정보 출력</li>
+                <li>작업 일시 기록 모듈</li>
             </ul>
         </div>
 
-        <div class="box" style="top: 600px; left: 500px;" data-id="parts-receiving">
-            <h4>부품 입고</h4>
+        <div class="legend">
+            <h4>차체공정 프레스</h4>
             <ul>
-                <li>원자재 검수 및 부품 품질 검사</li>
-                <li>바코드 스캔으로 입고 등록</li>
-                <li>자동 창고 관리 시스템(WMS)을 통해 적재 위치를 할당</li>
-                <li>재고관리시스템과 실시간 연동</li>
-                <li>부품 추적성(Traceability) 확보를 위한 로트 관리</li>
+                <li>수신 단계</li>
+                <li>편성 단계</li>
+                <li>재고 단계</li>
+                <li>서열지 출력 단계</li>
+                <li>로봇 작업 단계</li>
+                <li>시스템 연동 단계</li>
             </ul>
         </div>
 
-        <div class="box" style="top: 1200px; left: 500px;" data-id="fac">
-            <h4>FAC(수신 프로그램)</h4>
-            <ul>
-                <li>서열지 데이터를 수신하여 서열 정보를 디코딩하고, 생산 기기별 명령어로 변환</li>
-                <li>장비별 프로토콜 매핑 및 작업 실행 스케줄링을 수행</li>
-                <li>무결성 검증 및 데이터 백업 시스템 운영</li>
-            </ul>
+        <div class="controls">
+            <button id="resetBtn" class="control-button">레이아웃 초기화</button>
+            <button id="resetConnectionsBtn" class="control-button">연결 초기화</button>
         </div>
-
-        <div class="box" style="top: 1500px; left: 500px;" data-id="plc">
-            <h4>PLC 시스템</h4>
-            <ul>
-                <li>생산 라인을 제어하고 모니터링</li>
-                <li>컨베이어 속도 제어, 작업 스테이션 동기화, 안전 인터락 관리, 세션 데이터 수집을 담당</li>
-                <li>필드버스/이더넷 기반 네트워크로 통신</li>
-                <li>비상상황 대응 시스템과 통합 안전 제어 시스템 운영</li>
-            </ul>
-        </div>
-
-        <div class="box" style="top: 1500px; left: 1000px;" data-id="robot-controller">
-            <h4>로봇 컨트롤러</h4>
-            <ul>
-                <li>다수의 산업용 로봇을 제어</li>
-                <li>용접 로봇, 핸들링 로봇, 실런트 로봇, 검사 로봇 등 유형별 제어를 담당</li>
-                <li>정밀 위치 제어와 작업 경로 생성 기능을 수행</li>
-                <li>작업 패턴 학습 및 최적화 알고리즘 적용</li>
-            </ul>
-        </div>
-
-        <div class="box" style="top: 1500px; left: 1500px;" data-id="execution-system">
-            <h4>작업 실행 시스템</h4>
-            <ul>
-                <li>작업 로봇 지령, 공구 교체 신호, 비전 시스템 연동, 품질 검사 피드백을 처리</li>
-                <li>실시간 작업 상태를 추적하고 품질 데이터를 수집 및 분석</li>
-                <li>공정별 스마트팩토리 솔루션과 연계</li>
-            </ul>
-        </div>
-
-        <div class="box" style="top: 1800px; left: 1000px;" data-id="data-management">
-            <h4>생산 데이터 관리</h4>
-            <ul>
-                <li>타워 모니터링 시스템, 품질 관리 시스템(OMS), 공정이상 관리 시스템, 설비 보전 시스템으로 구성</li>
-                <li>통합 MES 시스템과 연계하여 실시간으로 분석을 수행</li>
-                <li>생산 데이터를 바탕으로 공정 최적화 및 품질 향상 활동을 지속</li>
-                <li>빅데이터 분석으로 공정 개선 포인트 도출</li>
-            </ul>
-        </div>
-
-        <div class="box" style="top: 300px; left: 0px;" data-id="press-shop">
-            <h4>프레스공장</h4>
-            <ul>
-                <li>2,400~5,400톤급 대형 프레스 설비 운영</li>
-                <li>강판을 차체 외부 패널로 성형하는 공정</li>
-                <li>자동화 라인으로 연속 생산되는 부품은 시간당 약 100~120타 생산</li>
-                <li>차체 도어, 후드, 트렁크, 펜더 등 주요 패널 제작</li>
-            </ul>
-        </div>
-
-        <div class="box" style="top: 900px; left: 0px;" data-id="paint-shop">
-            <h4>도장공장</h4>
-            <ul>
-                <li>전처리→전착→중도→상도→가열건조의 5단계 도장 공정</li>
-                <li>로봇 자동도장과 수작업 도장 병행</li>
-                <li>친환경 수용성 도료 사용 및 VOC 저감 시스템 운영</li>
-                <li>도장 품질 자동 검사 시스템으로 미세한 결함까지 감지</li>
-            </ul>
-        </div>
-
-        <div class="box" style="top: 1200px; left: 0px;" data-id="assembly-shop">
-            <h4>의장(조립)공장</h4>
-            <ul>
-                <li>트림→섀시→파이널→검사 4개 라인으로 구성</li>
-                <li>차체에 내외장재, 엔진, 변속기 등 부품 장착</li>
-                <li>모듈 방식으로 사전 조립된 부품 서열납입</li>
-                <li>1분에 1대씩 완성차가 생산되는 흐름 생산방식</li>
-            </ul>
-        </div>
-
-        <div class="box" style="top: 1500px; left: 0px;" data-id="quality-control">
-            <h4>품질검사</h4>
-            <ul>
-                <li>기능/외관/주행 종합 검사 실시</li>
-                <li>차량 전자제어장치 진단기로 모든 전장품 검사</li>
-                <li>롤러 테스터, 브레이크 테스트, 방수 테스트 등 진행</li>
-                <li>검사 합격 후 PDI(Pre-Delivery Inspection) 과정 수행</li>
-            </ul>
-        </div>
-
-        <div class="tooltip" id="tooltip"></div>
     </div>
-
-    <div class="legend">
-        <h4>공정 범례</h4>
-        <ul>
-            <li>고객 주문 → 생산계획 → 부품조달 → 생산 → 품질검사 → 출하</li>
-            <li>프레스 → 차체 → 도장 → 조립 → 검사 (기본 자동차 생산 흐름)</li>
-            <li>연결점을 드래그하여 프로세스 간 연결 생성 가능</li>
-            <li>박스를 드래그하여 위치 이동 가능</li>
-        </ul>
-    </div>
-
-    <div class="controls">
-        <button id="resetBtn" class="control-button">레이아웃 초기화</button>
-        <button id="resetConnectionsBtn" class="control-button">연결 초기화</button>
-    </div>
-
     <script>
+        /**
+         * 현대자동차 울산공장 프로세스 연결 시스템 
+         * 클래스 기반으로 리팩토링된 코드
+         */
         (() => {
-            // 전역 상태 관리
-            const state = {
-                connections: new Map(),
-                dragStart: null,
-                tempLine: null,
-                isDraggingBox: false,
-                draggedBox: null,
-                initialMouseX: 0,
-                initialMouseY: 0,
-                initialBoxX: 0,
-                initialBoxY: 0,
-                tooltip: document.getElementById('tooltip'),
-                initialBoxPositions: new Map()
-            };
-
-            // 모바일 기기 감지
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-            // 초기 박스 위치 저장
-            const saveInitialBoxPositions = () => {
-                document.querySelectorAll('.box').forEach(box => {
-                    const title = box.querySelector('h4').textContent.trim();
-                    state.initialBoxPositions.set(title, {
-                        top: box.offsetTop,
-                        left: box.offsetLeft
-                    });
-                });
-            };
-
-            const resetBoxPositions = () => {
-                document.querySelectorAll('.box').forEach(box => {
-                    const title = box.querySelector('h4').textContent.trim();
-                    const position = state.initialBoxPositions.get(title);
-                    if (position) {
-                        box.style.top = `${position.top}px`;
-                        box.style.left = `${position.left}px`;
-                    }
-                });
-                // 연결선 위치 업데이트
-                state.connections.forEach(conn => conn.line.position());
-            };
-
-            // 툴팁 표시 함수
-            const showTooltip = (text, x, y) => {
-                state.tooltip.textContent = text;
-                state.tooltip.style.left = `${x}px`;
-                state.tooltip.style.top = `${y}px`;
-                state.tooltip.style.opacity = '1';
-            };
-
-            // 툴팁 숨기기 함수
-            const hideTooltip = () => {
-                state.tooltip.style.opacity = '0';
-            };
-
-            // 커넥터 초기화 함수 (이벤트 델리게이션 적용)
-            const initConnectors = () => {
-                document.querySelectorAll('.box').forEach(box => {
-                    ['top', 'right', 'bottom', 'left'].forEach(pos => {
-                        const connector = document.createElement('div');
-                        connector.className = `connector connector-${pos}`;
-                        connector.dataset.socket = pos;
-                        connector.dataset.parent = box.dataset.id;
-                        connector.title = `${box.querySelector('h4').textContent} ${pos} 연결점`;
-                        box.appendChild(connector);
-                    });
-                });
-            };
-
-            // 연결 생성 함수
-            const createConnection = (start, end) => {
-                // 중복 연결 확인
-                const connectionKey = `${start.dataset.parent}-${start.dataset.socket}-${end.dataset.parent}-${end.dataset.socket}`;
-                if (state.connections.has(connectionKey)) {
-                    return null;
+            /**
+             * 프로세스 맵 색상 설정 클래스
+             * 각 그룹별 색상 관리
+             */
+            class ColorScheme {
+                constructor() {
+                    this.colors = {
+                        'process': '#205295',  // 기본 프로세스 색상
+                        'robot': '#c0392b',     // 로봇 관련 색상
+                        'system': '#2980b9'     // 시스템 관련 색상
+                    };
                 }
 
-                const startBox = document.querySelector(`.box[data-id="${start.dataset.parent}"]`);
-                const endBox = document.querySelector(`.box[data-id="${end.dataset.parent}"]`);
+                /**
+                 * 그룹에 해당하는 색상 반환
+                 * @param {string} group - 색상을 조회할 그룹명
+                 * @returns {string} 색상 코드
+                 */
+                getColor(group) {
+                    return this.colors[group] || '#205295'; // 기본 색상
+                }
 
-                const line = new LeaderLine(
-                    LeaderLine.pointAnchor(start, { x: '50%', y: '50%' }),
-                    LeaderLine.pointAnchor(end, { x: '50%', y: '50%' }),
-                    {
-                        path: 'straight',
-                        color: '#205295',
-                        size: 2,
-                        startPlug: 'disc',
-                        endPlug: 'arrow1',
-                        startPlugSize: 1.5,
-                        endPlugSize: 1.5
+                /**
+                 * 박스 유형에 따른 그룹 결정
+                 * @param {HTMLElement} box - 그룹을 확인할 박스 요소
+                 * @returns {string} 그룹명
+                 */
+                getBoxGroup(box) {
+                    if (box.classList.contains('robot-box')) {
+                        return 'robot';
+                    } else if (box.classList.contains('system-box')) {
+                        return 'system';
                     }
-                );
+                    return 'process';
+                }
+            }
 
-                state.connections.set(connectionKey, {
-                    line,
-                    start,
-                    end,
-                    startBoxId: start.dataset.parent,
-                    endBoxId: end.dataset.parent
-                });
+            /**
+             * 프로세스 맵 상태 관리 클래스
+             * 전체 애플리케이션의 상태를 관리
+             */
+            class ProcessMapState {
+                constructor() {
+                    this.connections = new Map();
+                    this.dragStart = null;
+                    this.tempLine = null;
+                    this.isDraggingBox = false;
+                    this.draggedBox = null;
+                    this.initialMouseX = 0;
+                    this.initialMouseY = 0;
+                    this.initialBoxX = 0;
+                    this.initialBoxY = 0;
+                    this.tooltip = null;
+                    this.initialBoxPositions = new Map();
+                    this.resizeTimeout = null;
+                }
 
-                // 연결에 애니메이션 효과 추가
-                line.dash = { animation: true };
-                setTimeout(() => {
-                    line.dash = false;
-                }, 500);
-
-                return line;
-            };
-
-            // 커넥터로 연결 제거 함수
-            const removeConnectionByConnector = connector => {
-                [...state.connections.entries()].forEach(([key, conn]) => {
-                    if (conn.start === connector || conn.end === connector) {
-                        conn.line.remove();
-                        state.connections.delete(key);
-                    }
-                });
-            };
-
-            // 커넥터로 연결 찾기 함수
-            const getConnectionByConnector = connector => {
-                return [...state.connections.entries()].find(([, conn]) =>
-                    conn.start === connector || conn.end === connector
-                );
-            };
-
-            // 모든 연결 초기화 함수
-            const resetAllConnections = () => {
-                state.connections.forEach(conn => {
-                    conn.line.remove();
-                });
-                state.connections.clear();
-                createInitialConnections();
-            };
-
-            // 박스 드래깅 초기화 함수 (이벤트 델리게이션 적용)
-            const initBoxDragging = () => {
-                const container = document.getElementById('container');
-
-                // 이벤트 타입 결정 (모바일 vs 데스크톱)
-                const startEvent = isMobile ? 'touchstart' : 'mousedown';
-                const moveEvent = isMobile ? 'touchmove' : 'mousemove';
-                const endEvent = isMobile ? 'touchend' : 'mouseup';
-
-                // 마우스다운/터치스타트 이벤트 (델리게이션)
-                container.addEventListener(startEvent, e => {
-                    if (e.target.classList.contains('connector') || e.target.classList.contains('control-button')) {
-                        return;
-                    }
-
-                    const box = e.target.closest('.box');
-                    if (!box) return;
-
-                    e.preventDefault();
-
-                    state.isDraggingBox = true;
-                    state.draggedBox = box;
-
-                    const pageX = isMobile ? e.touches[0].clientX : e.clientX;
-                    const pageY = isMobile ? e.touches[0].clientY : e.clientY;
-
-                    state.initialMouseX = pageX;
-                    state.initialMouseY = pageY;
-                    state.initialBoxX = box.offsetLeft;
-                    state.initialBoxY = box.offsetTop;
-
-                    box.classList.add('dragging');
-                });
-
-                // 마우스무브/터치무브 이벤트
-                document.addEventListener(moveEvent, e => {
-                    if (state.isDraggingBox && state.draggedBox) {
-                        const pageX = isMobile ? e.touches[0].clientX : e.clientX;
-                        const pageY = isMobile ? e.touches[0].clientY : e.clientY;
-
-                        const deltaX = pageX - state.initialMouseX;
-                        const deltaY = pageY - state.initialMouseY;
-
-                        state.draggedBox.style.left = `${state.initialBoxX + deltaX}px`;
-                        state.draggedBox.style.top = `${state.initialBoxY + deltaY}px`;
-
-                        // 연결된 모든 선 업데이트
-                        state.connections.forEach(conn => conn.line.position());
-                    }
-                });
-
-                // 마우스업/터치엔드 이벤트
-                document.addEventListener(endEvent, () => {
-                    if (state.draggedBox) {
-                        state.draggedBox.classList.remove('dragging');
-                        state.draggedBox = null;
-                    }
-                    state.isDraggingBox = false;
-                });
-            };
-
-            // 이벤트 초기화 함수 (델리게이션 적용)
-            const initEvents = () => {
-                const container = document.getElementById('container');
-
-                // 커넥터 마우스다운/터치스타트 이벤트 (델리게이션)
-                container.addEventListener(isMobile ? 'touchstart' : 'mousedown', e => {
-                    const connector = e.target.closest('.connector');
-                    if (!connector) return;
-
-                    e.stopPropagation();
-                    state.dragStart = connector;
-
-                    // 기존 연결 제거
-                    const existingConn = getConnectionByConnector(state.dragStart);
-                    if (existingConn) {
-                        existingConn[1].line.remove();
-                        state.connections.delete(existingConn[0]);
-                    }
-
-                    // 시작점 좌표 가져오기
-                    const rect = connector.getBoundingClientRect();
-                    const startX = rect.left + rect.width / 2;
-                    const startY = rect.top + rect.height / 2;
-
-                    // 임시 연결선 생성
-                    const initialEnd = isMobile ? {
-                        x: e.touches[0].pageX,
-                        y: e.touches[0].pageY
-                    } : {
-                        x: e.pageX,
-                        y: e.pageY
-                    };
-
-                    state.tempLine = new LeaderLine(
-                        LeaderLine.pointAnchor(state.dragStart, { x: '50%', y: '50%' }),
-                        initialEnd,
-                        {
-                            path: 'straight',
-                            color: '#205295',
-                            size: 2,
-                            startPlug: 'disc',
-                            endPlug: 'arrow1',
-                            dash: true
-                        }
-                    );
-
-                    connector.classList.add('active');
-
-                    // 툴팁 표시
-                    const parentBox = connector.closest('.box');
-                    const parentTitle = parentBox.querySelector('h4').textContent;
-                    showTooltip(`${parentTitle}에서 연결 시작`, initialEnd.x + 15, initialEnd.y + 15);
-                });
-
-                // 마우스무브/터치무브 이벤트
-                document.addEventListener(isMobile ? 'touchmove' : 'mousemove', e => {
-                    if (state.tempLine) {
-                        const pageX = isMobile ? e.touches[0].pageX : e.pageX;
-                        const pageY = isMobile ? e.touches[0].pageY : e.pageY;
-
-                        state.tempLine.setOptions({ end: { x: pageX, y: pageY } });
-
-                        // 툴팁 위치 업데이트
-                        state.tooltip.style.left = `${pageX + 15}px`;
-                        state.tooltip.style.top = `${pageY + 15}px`;
-                    }
-                });
-
-                // 마우스업/터치엔드 이벤트
-                document.addEventListener(isMobile ? 'touchend' : 'mouseup', e => {
-                    if (!state.dragStart) return;
-
-                    // 모바일에서는 직접 target을 가져올 수 없으므로 좌표를 기반으로 요소 찾기
-                    let targetElement;
-                    if (isMobile && e.changedTouches && e.changedTouches.length > 0) {
-                        const touch = e.changedTouches[0];
-                        targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
-                    } else {
-                        targetElement = e.target;
-                    }
-
-                    const dragEnd = targetElement ? targetElement.closest('.connector') : null;
-
-                    if (dragEnd && state.dragStart !== dragEnd) {
-                        // 성공적으로 연결 생성
-                        createConnection(state.dragStart, dragEnd);
-
-                        // 성공 툴팁 표시
-                        const startBox = state.dragStart.closest('.box').querySelector('h4').textContent;
-                        const endBox = dragEnd.closest('.box').querySelector('h4').textContent;
-                        showTooltip(`${startBox}에서 ${endBox}로 연결됨`, e.pageX + 15, e.pageY + 15);
-                        setTimeout(hideTooltip, 1500);
-                    } else if (!dragEnd) {
-                        // 연결 삭제 또는 실패
-                        removeConnectionByConnector(state.dragStart);
-
-                        // 실패 툴팁 표시
-                        showTooltip('연결 취소됨', e.pageX + 15, e.pageY + 15);
-                        setTimeout(hideTooltip, 1500);
-                    }
-
-                    if (state.tempLine) {
-                        state.tempLine.remove();
-                        state.tempLine = null;
-                    }
-
-                    state.dragStart.classList.remove('active');
-                    state.dragStart = null;
-                });
-
-                // 컨텍스트 메뉴 이벤트 (연결 제거)
-                document.addEventListener('contextmenu', e => {
-                    const connector = e.target.closest('.connector');
-                    if (connector) {
-                        e.preventDefault();
-                        removeConnectionByConnector(connector);
-
-                        // 삭제 툴팁 표시
-                        showTooltip('연결이 삭제되었습니다', e.pageX + 15, e.pageY + 15);
-                        setTimeout(hideTooltip, 1500);
-                    }
-                });
-
-                // 창 크기 변경 이벤트
-                window.addEventListener('resize', () => {
-                    // 리사이즈 디바운스 적용
-                    if (state.resizeTimeout) {
-                        clearTimeout(state.resizeTimeout);
-                    }
-
-                    state.resizeTimeout = setTimeout(() => {
-                        state.connections.forEach(conn => conn.line.position());
-                    }, 100);
-                });
-
-                // 컨트롤 버튼 이벤트
-                document.getElementById('resetBtn').addEventListener('click', resetBoxPositions);
-                document.getElementById('resetConnectionsBtn').addEventListener('click', resetAllConnections);
-
-                // 커넥터에 호버 효과 추가
-                container.addEventListener('mouseover', e => {
-                    const connector = e.target.closest('.connector');
-                    if (connector && !state.dragStart) {
-                        const boxTitle = connector.closest('.box').querySelector('h4').textContent;
-                        const position = connector.dataset.socket;
-
-                        // 연결 수 확인
-                        let connectionCount = 0;
-                        state.connections.forEach(conn => {
-                            if (conn.start === connector || conn.end === connector) {
-                                connectionCount++;
-                            }
+                /**
+                 * 초기 박스 위치 저장
+                 */
+                saveInitialBoxPositions() {
+                    document.querySelectorAll('.box').forEach(box => {
+                        const title = box.querySelector('h4').textContent.trim();
+                        this.initialBoxPositions.set(title, {
+                            top: box.offsetTop,
+                            left: box.offsetLeft
                         });
+                    });
+                }
 
-                        const tooltip = connectionCount > 0
-                            ? `${boxTitle} ${position} 연결 (${connectionCount}개 연결됨)`
-                            : `${boxTitle} ${position} 연결점`;
+                /**
+                 * 박스 위치 초기화
+                 */
+                resetBoxPositions() {
+                    document.querySelectorAll('.box').forEach(box => {
+                        const title = box.querySelector('h4').textContent.trim();
+                        const position = this.initialBoxPositions.get(title);
+                        if (position) {
+                            box.style.top = `${position.top}px`;
+                            box.style.left = `${position.left}px`;
+                        }
+                    });
+                    // 연결선 위치 업데이트
+                    this.connections.forEach(conn => conn.line.position());
+                }
 
-                        const rect = connector.getBoundingClientRect();
-                        showTooltip(tooltip, rect.right + 10, rect.top);
-                    }
-                });
+                /**
+                 * 툴팁 표시
+                 * @param {string} text - 툴팁에 표시할 텍스트
+                 * @param {number} x - 툴팁 X 좌표
+                 * @param {number} y - 툴팁 Y 좌표
+                 */
+                showTooltip(text, x, y) {
+                    if (!this.tooltip) return;
+                    this.tooltip.textContent = text;
+                    this.tooltip.style.left = `${x}px`;
+                    this.tooltip.style.top = `${y}px`;
+                    this.tooltip.style.opacity = '1';
+                }
 
-                container.addEventListener('mouseout', e => {
-                    const connector = e.target.closest('.connector');
-                    if (connector && !state.dragStart) {
-                        hideTooltip();
-                    }
-                });
-            };
+                /**
+                 * 툴팁 숨기기
+                 */
+                hideTooltip() {
+                    if (!this.tooltip) return;
+                    this.tooltip.style.opacity = '0';
+                }
+            }
 
-            // 초기 연결 관계 생성 함수
-            const createInitialConnections = () => {
-                // 커넥터 찾기 헬퍼 함수 - h4 제목 기준
-                const findConnector = (boxTitle, position) => {
+            /**
+             * 커넥터 관리 클래스
+             * 박스 연결점 생성 및 관리
+             */
+            class ConnectorManager {
+                /**
+                 * @param {ProcessMapState} state - 상태 관리 객체
+                 * @param {ColorScheme} colorScheme - 색상 관리 객체
+                 */
+                constructor(state, colorScheme) {
+                    this.state = state;
+                    this.colorScheme = colorScheme;
+                }
+
+                /**
+                 * 모든 박스에 커넥터 초기화
+                 */
+                initConnectors() {
+                    document.querySelectorAll('.box').forEach(box => {
+                        const group = this.colorScheme.getBoxGroup(box);
+                        const connectorColor = this.colorScheme.getColor(group);
+
+                        ['top', 'right', 'bottom', 'left'].forEach(pos => {
+                            const connector = document.createElement('div');
+                            connector.className = `connector connector-${pos}`;
+                            connector.dataset.socket = pos;
+                            connector.dataset.parent = box.querySelector('h4').textContent.trim();
+                            connector.dataset.group = group;
+                            connector.title = `${box.querySelector('h4').textContent} ${pos} 연결점`;
+
+                            // 그룹별 커넥터 색상 적용
+                            connector.style.backgroundColor = connectorColor;
+
+                            box.appendChild(connector);
+                        });
+                    });
+                }
+
+                /**
+                 * 커넥터로 연결 찾기
+                 * @param {HTMLElement} connector - 연결을 찾을 커넥터 요소
+                 * @returns {Array} 커넥터와 관련된 연결 항목
+                 */
+                getConnectionByConnector(connector) {
+                    return [...this.state.connections.entries()].find(([, conn]) =>
+                        conn.start === connector || conn.end === connector
+                    );
+                }
+
+                /**
+                 * 특정 커넥터 찾기
+                 * @param {string} boxTitle - 박스 제목
+                 * @param {string} position - 커넥터 위치
+                 * @returns {HTMLElement|null} 찾은 커넥터 요소
+                 */
+                findConnector(boxTitle, position) {
                     const box = Array.from(document.querySelectorAll('.box')).find(
                         b => b.querySelector('h4').textContent.trim() === boxTitle
                     );
                     return box ? box.querySelector(`.connector-${position}`) : null;
-                };
+                }
+            }
 
-                // 모든 초기 연결 정의 (h4 제목 기반)
-                const initialConnections = [
-                    // 기존 연결
-                    [findConnector('고객 주문', 'right'), findConnector('생산 관리부', 'left')],
-                    [findConnector('모듈 공급사', 'left'), findConnector('차체(Body)', 'right')],
-                    [findConnector('현대 글로비스', 'left'), findConnector('모듈 공급사', 'right')],
-                    [findConnector('현대 글로비스', 'bottom'), findConnector('부품 재고 관리', 'top')],
-                    [findConnector('부품 재고 관리', 'bottom'), findConnector('서열작업', 'top')],
-                    [findConnector('부품 입고', 'right'), findConnector('부품 재고 관리', 'left')],
-                    [findConnector('서열작업', 'bottom'), findConnector('서열지 출력', 'top')],
-                    [findConnector('서열지 출력', 'right'), findConnector('수작업', 'left')],
-                    [findConnector('서열지 출력', 'right'), findConnector('로봇 작업', 'left')],
-                    [findConnector('서열지 출력', 'left'), findConnector('FAC(수신 프로그램)', 'right')],
-                    [findConnector('FAC(수신 프로그램)', 'bottom'), findConnector('PLC 시스템', 'top')],
-                    [findConnector('PLC 시스템', 'right'), findConnector('로봇 컨트롤러', 'left')],
-                    [findConnector('로봇 컨트롤러', 'right'), findConnector('작업 실행 시스템', 'left')],
-                    [findConnector('로봇 컨트롤러', 'bottom'), findConnector('생산 데이터 관리', 'top')],
-                    [findConnector('작업 실행 시스템', 'bottom'), findConnector('생산 데이터 관리', 'top')],
-                    [findConnector('생산 관리부', 'bottom'), findConnector('현대 글로비스', 'top')],
+            /**
+             * 연결선 관리 클래스
+             * 박스 간 연결선 생성 및 관리
+             */
+            class ConnectionManager {
+                /**
+                 * @param {ProcessMapState} state - 상태 관리 객체
+                 * @param {ConnectorManager} connectorManager - 커넥터 관리 객체
+                 * @param {ColorScheme} colorScheme - 색상 관리 객체
+                 */
+                constructor(state, connectorManager, colorScheme) {
+                    this.state = state;
+                    this.connectorManager = connectorManager;
+                    this.colorScheme = colorScheme;
+                }
 
-                    // 새로 추가된 생산 공정 연결
-                    [findConnector('프레스공장', 'bottom'), findConnector('차체(Body)', 'top')],
-                    [findConnector('차체(Body)', 'bottom'), findConnector('도장공장', 'top')],
-                    [findConnector('도장공장', 'bottom'), findConnector('의장(조립)공장', 'top')],
-                    [findConnector('의장(조립)공장', 'bottom'), findConnector('품질검사', 'top')],
-                    [findConnector('모듈 공급사', 'bottom'), findConnector('부품 입고', 'top')],
-                ];
+                /**
+                 * 임시 연결선 생성
+                 * @param {HTMLElement} connector - 시작 커넥터
+                 * @param {Object} endpoint - 끝점 좌표
+                 * @returns {LeaderLine} 생성된 임시 연결선
+                 */
+                createTempLine(connector, endpoint) {
+                    // 시작 커넥터의 그룹에 따른 색상 적용
+                    const group = connector.dataset.group || 'process';
+                    const lineColor = this.colorScheme.getColor(group);
 
-                // 각 연결 생성
-                initialConnections.forEach(([start, end]) => {
-                    if (start && end) {
-                        createConnection(start, end);
-                    } else {
-                        console.warn('연결점을 찾을 수 없습니다.', start, end);
+                    return new LeaderLine(
+                        LeaderLine.pointAnchor(connector, { x: '50%', y: '50%' }),
+                        endpoint,
+                        {
+                            path: 'straight',
+                            color: lineColor,
+                            size: 2,
+                            startPlug: 'disc',
+                            endPlug: 'arrow1',
+                            startPlugSize: 1.5,
+                            endPlugSize: 1.5,
+                            dash: true
+                        }
+                    );
+                }
+
+                /**
+                 * 연결선 생성
+                 * @param {HTMLElement} start - 시작 커넥터
+                 * @param {HTMLElement} end - 끝 커넥터
+                 * @returns {LeaderLine|null} 생성된 연결선
+                 */
+                createConnection(start, end) {
+                    // 연결 키 생성: 시작박스명-시작포지션-끝박스명-끝포지션
+                    const connectionKey = `${start.dataset.parent}-${start.dataset.socket}-${end.dataset.parent}-${end.dataset.socket}`;
+
+                    // 중복 연결 확인
+                    if (this.state.connections.has(connectionKey)) {
+                        return null;
                     }
-                });
-            };
 
-            // 페이지 로드 시 초기화
-            window.addEventListener('DOMContentLoaded', () => {
-                initConnectors();
-                initBoxDragging();
-                initEvents();
-                saveInitialBoxPositions();
+                    // 시작 커넥터의 그룹에 따른 색상 적용
+                    const group = start.dataset.group || 'process';
+                    const lineColor = this.colorScheme.getColor(group);
 
-                // 페이지 로드 후 1초 후에 초기 연결 생성 (DOM이 완전히 렌더링 된 후)
-                setTimeout(createInitialConnections, 1000);
-            });
+                    const line = new LeaderLine(
+                        LeaderLine.pointAnchor(start, { x: '50%', y: '50%' }),
+                        LeaderLine.pointAnchor(end, { x: '50%', y: '50%' }),
+                        {
+                            path: 'straight',
+                            color: lineColor,
+                            size: 2,
+                            startPlug: 'disc',
+                            endPlug: 'arrow1',
+                            startPlugSize: 1.5,
+                            endPlugSize: 1.5
+                        }
+                    );
+
+                    this.state.connections.set(connectionKey, {
+                        line,
+                        start,
+                        end,
+                        startBoxId: start.dataset.parent,
+                        endBoxId: end.dataset.parent,
+                        group: group
+                    });
+
+                    // 연결에 애니메이션 효과 추가
+                    line.dash = { animation: true };
+                    setTimeout(() => {
+                        line.dash = false;
+                    }, 500);
+
+                    return line;
+                }
+
+                /**
+                 * 연결 제거
+                 * @param {HTMLElement} connector - 연결을 제거할 커넥터
+                 */
+                removeConnectionByConnector(connector) {
+                    [...this.state.connections.entries()].forEach(([key, conn]) => {
+                        if (conn.start === connector || conn.end === connector) {
+                            conn.line.remove();
+                            this.state.connections.delete(key);
+                        }
+                    });
+                }
+
+                /**
+                 * 모든 연결 초기화
+                 */
+                resetAllConnections() {
+                    this.state.connections.forEach(conn => {
+                        conn.line.remove();
+                    });
+                    this.state.connections.clear();
+                    this.createInitialConnections();
+                }
+
+                /**
+                 * 초기 연결 관계 생성
+                 */
+                createInitialConnections() {
+                    // 초기 연결 정의 (박스 제목 기반)
+                    const initialConnections = [
+                        // 기본 프로세스 연결
+                        ['고객 주문', 'right', '생산 관리부', 'left'],
+                        ['생산 관리부', 'bottom', 'Glovis', 'top'],
+                        ['Glovis', 'right', '실행사', 'left'],
+                        ['제조사', 'left', '실행사', 'right'],
+                        ['실행사', 'bottom', '서열 작업', 'top'],
+                        ['서열 작업', 'right', '서열지 출력', 'left'],
+                        ['서열지 출력', 'right', '수작업', 'left'],
+
+                        // 로봇 작업 연결
+                        ['서열지 출력', 'right', '로봇 작업', 'left'],
+                        ['로봇 작업', 'bottom', 'RR FLR', 'top'],
+                        ['로봇 작업', 'bottom', 'FAC', 'top'],
+
+                        // RR FLR 시스템 연결
+                        ['RR FLR', 'right', 'PBS', 'left'],
+                        ['PBS', 'right', '컨베이어(CTS)', 'left'],
+                        ['컨베이어(CTS)', 'right', 'PLC', 'left'],
+                        ['컨베이어(CTS)', 'bottom', 'PC', 'top'],
+                        ['PLC', 'bottom', 'FAC', 'top'],
+                        ['PC', 'right', 'FAC', 'left'],
+                    ];
+
+                    // 각 연결 생성
+                    initialConnections.forEach(([startTitle, startPos, endTitle, endPos]) => {
+                        const start = this.connectorManager.findConnector(startTitle, startPos);
+                        const end = this.connectorManager.findConnector(endTitle, endPos);
+
+                        if (start && end) {
+                            this.createConnection(start, end);
+                        } else {
+                            console.warn('연결점을 찾을 수 없습니다.', startTitle, startPos, endTitle, endPos);
+                        }
+                    });
+                }
+            }
+
+            /**
+             * 박스 드래깅 관리 클래스
+             * 박스 이동 기능 관리
+             */
+            class BoxDragManager {
+                /**
+                 * @param {ProcessMapState} state - 상태 관리 객체
+                 */
+                constructor(state) {
+                    this.state = state;
+                    this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                }
+
+                /**
+                 * 박스 드래깅 초기화
+                 */
+                initBoxDragging() {
+                    const container = document.getElementById('container');
+
+                    // 이벤트 타입 결정 (모바일 vs 데스크톱)
+                    const startEvent = this.isMobile ? 'touchstart' : 'mousedown';
+                    const moveEvent = this.isMobile ? 'touchmove' : 'mousemove';
+                    const endEvent = this.isMobile ? 'touchend' : 'mouseup';
+
+                    // 마우스다운/터치스타트 이벤트 (델리게이션)
+                    container.addEventListener(startEvent, e => {
+                        if (e.target.classList.contains('connector') ||
+                            e.target.classList.contains('control-button') ||
+                            e.target.classList.contains('robot-cell')) {
+                            return;
+                        }
+
+                        const box = e.target.closest('.box');
+                        if (!box) return;
+
+                        e.preventDefault();
+
+                        this.state.isDraggingBox = true;
+                        this.state.draggedBox = box;
+
+                        const pageX = this.isMobile ? e.touches[0].clientX : e.clientX;
+                        const pageY = this.isMobile ? e.touches[0].clientY : e.clientY;
+
+                        this.state.initialMouseX = pageX;
+                        this.state.initialMouseY = pageY;
+                        this.state.initialBoxX = box.offsetLeft;
+                        this.state.initialBoxY = box.offsetTop;
+
+                        box.classList.add('dragging');
+                    });
+
+                    // 마우스무브/터치무브 이벤트
+                    document.addEventListener(moveEvent, e => {
+                        if (this.state.isDraggingBox && this.state.draggedBox) {
+                            const pageX = this.isMobile ? e.touches[0].clientX : e.clientX;
+                            const pageY = this.isMobile ? e.touches[0].clientY : e.clientY;
+
+                            const deltaX = pageX - this.state.initialMouseX;
+                            const deltaY = pageY - this.state.initialMouseY;
+
+                            this.state.draggedBox.style.left = `${this.state.initialBoxX + deltaX}px`;
+                            this.state.draggedBox.style.top = `${this.state.initialBoxY + deltaY}px`;
+
+                            // 연결된 모든 선 업데이트
+                            this.state.connections.forEach(conn => conn.line.position());
+                        }
+                    });
+
+                    // 마우스업/터치엔드 이벤트
+                    document.addEventListener(endEvent, () => {
+                        if (this.state.draggedBox) {
+                            this.state.draggedBox.classList.remove('dragging');
+                            this.state.draggedBox = null;
+                        }
+                        this.state.isDraggingBox = false;
+                    });
+                }
+            }
+
+            /**
+             * 로봇 셀 관리 클래스
+             * 로봇 셀 이벤트 및 기능 관리
+             */
+            class RobotCellManager {
+                /**
+                 * @param {ProcessMapState} state - 상태 관리 객체
+                 */
+                constructor(state) {
+                    this.state = state;
+                }
+
+                /**
+                 * 로봇 셀 초기화
+                 */
+                initRobotCells() {
+                    const robotCells = document.querySelectorAll('.robot-cell');
+
+                    robotCells.forEach(cell => {
+                        // 셀 클릭 이벤트
+                        cell.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const cellText = cell.textContent.trim();
+
+                            // 선택된 셀 강조 표시
+                            robotCells.forEach(c => c.style.backgroundColor = 'white');
+                            cell.style.backgroundColor = '#d6eaf8';
+
+                            // 셀 정보 툴팁 표시
+                            const rect = cell.getBoundingClientRect();
+                            this.showCellInfo(cellText, rect.right + 10, rect.top);
+                        });
+
+                        // 셀 호버 이벤트
+                        cell.addEventListener('mouseover', (e) => {
+                            const cellText = cell.textContent.trim();
+                            const rect = cell.getBoundingClientRect();
+
+                            let tooltipText = '';
+                            if (cellText === '출고') {
+                                tooltipText = 'PBS로 데이터 전송';
+                            } else {
+                                tooltipText = `로봇 스테이션 ${cellText}번`;
+                            }
+
+                            this.state.showTooltip(tooltipText, rect.right + 10, rect.top);
+                        });
+
+                        cell.addEventListener('mouseout', () => {
+                            this.state.hideTooltip();
+                        });
+                    });
+                }
+
+                /**
+                 * 셀 정보 표시
+                 * @param {string} cellText - 셀 텍스트
+                 * @param {number} x - 툴팁 X 좌표
+                 * @param {number} y - 툴팁 Y 좌표
+                 */
+                showCellInfo(cellText, x, y) {
+                    let infoText = '';
+
+                    if (cellText === '출고') {
+                        infoText = 'PBS 시스템으로 완료 데이터 전송';
+                    } else {
+                        infoText = `로봇 스테이션 ${cellText}번 - 작업 진행 중`;
+                    }
+
+                    this.state.showTooltip(infoText, x, y);
+                    setTimeout(() => this.state.hideTooltip(), 2000);
+                }
+            }
+
+            /**
+             * 이벤트 핸들러 클래스
+             * 사용자 인터랙션 이벤트 처리
+             */
+            class EventHandler {
+                /**
+                 * @param {ProcessMapState} state - 상태 관리 객체
+                 * @param {ConnectionManager} connectionManager - 연결선 관리 객체
+                 * @param {RobotCellManager} robotCellManager - 로봇 셀 관리 객체
+                 */
+                constructor(state, connectionManager, robotCellManager) {
+                    this.state = state;
+                    this.connectionManager = connectionManager;
+                    this.robotCellManager = robotCellManager;
+                    this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                }
+
+                /**
+                 * 모든 이벤트 초기화
+                 */
+                initEvents() {
+                    this.initConnectorEvents();
+                    this.initControlEvents();
+                    this.initResizeEvent();
+                    this.robotCellManager.initRobotCells();
+                }
+
+                /**
+                 * 커넥터 관련 이벤트 초기화
+                 */
+                initConnectorEvents() {
+                    const container = document.getElementById('container');
+
+                    // 이벤트 타입 결정
+                    const startEvent = this.isMobile ? 'touchstart' : 'mousedown';
+                    const moveEvent = this.isMobile ? 'touchmove' : 'mousemove';
+                    const endEvent = this.isMobile ? 'touchend' : 'mouseup';
+
+                    // 커넥터 마우스다운/터치스타트 이벤트 (델리게이션)
+                    container.addEventListener(startEvent, e => {
+                        const connector = e.target.closest('.connector');
+                        if (!connector) return;
+
+                        e.stopPropagation();
+                        this.state.dragStart = connector;
+
+                        // 기존 연결 제거
+                        const existingConn = this.connectionManager.connectorManager.getConnectionByConnector(this.state.dragStart);
+                        if (existingConn) {
+                            existingConn[1].line.remove();
+                            this.state.connections.delete(existingConn[0]);
+                        }
+
+                        // 시작점 좌표 가져오기
+                        const rect = connector.getBoundingClientRect();
+                        const startX = rect.left + rect.width / 2;
+                        const startY = rect.top + rect.height / 2;
+
+                        // 임시 연결선 생성
+                        const initialEnd = this.isMobile ? {
+                            x: e.touches[0].pageX,
+                            y: e.touches[0].pageY
+                        } : {
+                            x: e.pageX,
+                            y: e.pageY
+                        };
+
+                        this.state.tempLine = this.connectionManager.createTempLine(this.state.dragStart, initialEnd);
+
+                        connector.classList.add('active');
+
+                        // 툴팁 표시
+                        const parentBox = connector.closest('.box');
+                        const parentTitle = parentBox.querySelector('h4').textContent;
+                        this.state.showTooltip(`${parentTitle}에서 연결 시작`, initialEnd.x + 15, initialEnd.y + 15);
+                    });
+
+                    // 마우스무브/터치무브 이벤트
+                    document.addEventListener(moveEvent, e => {
+                        if (this.state.tempLine) {
+                            const pageX = this.isMobile ? e.touches[0].pageX : e.pageX;
+                            const pageY = this.isMobile ? e.touches[0].pageY : e.pageY;
+
+                            this.state.tempLine.setOptions({ end: { x: pageX, y: pageY } });
+
+                            // 툴팁 위치 업데이트
+                            this.state.tooltip.style.left = `${pageX + 15}px`;
+                            this.state.tooltip.style.top = `${pageY + 15}px`;
+                        }
+                    });
+
+                    // 마우스업/터치엔드 이벤트
+                    document.addEventListener(endEvent, e => {
+                        if (!this.state.dragStart) return;
+
+                        // 모바일에서는 직접 target을 가져올 수 없으므로 좌표를 기반으로 요소 찾기
+                        let targetElement;
+                        if (this.isMobile && e.changedTouches && e.changedTouches.length > 0) {
+                            const touch = e.changedTouches[0];
+                            targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
+                        } else {
+                            targetElement = e.target;
+                        }
+
+                        const dragEnd = targetElement ? targetElement.closest('.connector') : null;
+
+                        if (dragEnd && this.state.dragStart !== dragEnd) {
+                            // 성공적으로 연결 생성
+                            this.connectionManager.createConnection(this.state.dragStart, dragEnd);
+
+                            // 성공 툴팁 표시
+                            const startBox = this.state.dragStart.closest('.box').querySelector('h4').textContent;
+                            const endBox = dragEnd.closest('.box').querySelector('h4').textContent;
+                            this.state.showTooltip(`${startBox}에서 ${endBox}로 연결됨`, e.pageX + 15, e.pageY + 15);
+                            setTimeout(() => this.state.hideTooltip(), 1500);
+                        } else if (!dragEnd) {
+                            // 연결 삭제 또는 실패
+                            this.connectionManager.removeConnectionByConnector(this.state.dragStart);
+
+                            // 실패 툴팁 표시
+                            this.state.showTooltip('연결 취소됨', e.pageX + 15, e.pageY + 15);
+                            setTimeout(() => this.state.hideTooltip(), 1500);
+                        }
+
+                        if (this.state.tempLine) {
+                            this.state.tempLine.remove();
+                            this.state.tempLine = null;
+                        }
+
+                        this.state.dragStart.classList.remove('active');
+                        this.state.dragStart = null;
+                    });
+
+                    // 컨텍스트 메뉴 이벤트 (연결 제거)
+                    document.addEventListener('contextmenu', e => {
+                        const connector = e.target.closest('.connector');
+                        if (connector) {
+                            e.preventDefault();
+                            this.connectionManager.removeConnectionByConnector(connector);
+
+                            // 삭제 툴팁 표시
+                            this.state.showTooltip('연결이 삭제되었습니다', e.pageX + 15, e.pageY + 15);
+                            setTimeout(() => this.state.hideTooltip(), 1500);
+                        }
+                    });
+
+                    // 커넥터에 호버 효과 추가
+                    container.addEventListener('mouseover', e => {
+                        const connector = e.target.closest('.connector');
+                        if (connector && !this.state.dragStart) {
+                            const boxTitle = connector.closest('.box').querySelector('h4').textContent;
+                            const position = connector.dataset.socket;
+
+                            // 연결 수 확인
+                            let connectionCount = 0;
+                            this.state.connections.forEach(conn => {
+                                if (conn.start === connector || conn.end === connector) {
+                                    connectionCount++;
+                                }
+                            });
+
+                            const tooltip = connectionCount > 0
+                                ? `${boxTitle} ${position} 연결 (${connectionCount}개 연결됨)`
+                                : `${boxTitle} ${position} 연결점`;
+
+                            const rect = connector.getBoundingClientRect();
+                            this.state.showTooltip(tooltip, rect.right + 10, rect.top);
+                        }
+                    });
+
+                    container.addEventListener('mouseout', e => {
+                        const connector = e.target.closest('.connector');
+                        if (connector && !this.state.dragStart) {
+                            this.state.hideTooltip();
+                        }
+                    });
+                }
+
+                /**
+                 * 컨트롤 버튼 이벤트 초기화
+                 */
+                initControlEvents() {
+                    // 컨트롤 버튼 이벤트
+                    document.getElementById('resetBtn').addEventListener('click', () => this.state.resetBoxPositions());
+                    document.getElementById('resetConnectionsBtn').addEventListener('click', () => this.connectionManager.resetAllConnections());
+                }
+
+                /**
+                 * 창 크기 변경 이벤트 초기화
+                 */
+                initResizeEvent() {
+                    // 창 크기 변경 이벤트
+                    window.addEventListener('resize', () => {
+                        // 리사이즈 디바운스 적용
+                        if (this.state.resizeTimeout) {
+                            clearTimeout(this.state.resizeTimeout);
+                        }
+
+                        this.state.resizeTimeout = setTimeout(() => {
+                            this.state.connections.forEach(conn => conn.line.position());
+                        }, 100);
+                    });
+                }
+            }
+
+            /**
+             * 프로세스 맵 애플리케이션 클래스
+             * 전체 앱을 관리하는 메인 클래스
+             */
+            class ProcessMap {
+                constructor() {
+                    // 초기화 순서 중요
+                    this.state = new ProcessMapState();
+                    this.colorScheme = new ColorScheme();
+                    this.connectorManager = new ConnectorManager(this.state, this.colorScheme);
+                    this.connectionManager = new ConnectionManager(this.state, this.connectorManager, this.colorScheme);
+                    this.boxDragManager = new BoxDragManager(this.state);
+                    this.robotCellManager = new RobotCellManager(this.state);
+                    this.eventHandler = new EventHandler(this.state, this.connectionManager, this.robotCellManager);
+
+                    this.initialize();
+                }
+
+                /**
+                 * 앱 초기화
+                 */
+                initialize() {
+                    window.addEventListener('DOMContentLoaded', () => {
+                        this.initTooltip();
+                        this.initRobotCellInteractions();
+                        this.connectorManager.initConnectors();
+                        this.boxDragManager.initBoxDragging();
+                        this.eventHandler.initEvents();
+                        this.state.saveInitialBoxPositions();
+
+                        // 페이지 로드 후 1초 후에 초기 연결 생성 (DOM이 완전히 렌더링 된 후)
+                        setTimeout(() => this.connectionManager.createInitialConnections(), 1000);
+                    });
+                }
+
+                /**
+                 * 로봇 셀 상호작용 초기화
+                 */
+                initRobotCellInteractions() {
+                    // 로봇 셀을 클릭하면 PBS로 데이터가 전송되는 것을 시각적으로 표현
+                    document.querySelectorAll('.robot-cell').forEach(cell => {
+                        cell.addEventListener('dblclick', () => {
+                            // 출고 셀이 아닌 경우에만 처리
+                            if (cell.textContent.trim() !== '출고') return;
+
+                            const rrFlrBox = document.querySelector('.box h4').textContent.includes('RR FLR')
+                                ? document.querySelector('.box h4').closest('.box')
+                                : null;
+
+                            const pbsBox = document.querySelector('.box h4').textContent.includes('PBS')
+                                ? document.querySelector('.box h4').closest('.box')
+                                : null;
+
+                            if (rrFlrBox && pbsBox) {
+                                // 데이터 전송 시각화 - 깜빡임 효과
+                                pbsBox.style.transition = 'background-color 0.5s';
+                                pbsBox.style.backgroundColor = '#d4efdf';
+
+                                setTimeout(() => {
+                                    pbsBox.style.backgroundColor = '';
+                                }, 1000);
+
+                                // 툴팁 표시
+                                const rect = cell.getBoundingClientRect();
+                                this.state.showTooltip('PBS로 데이터 전송 완료', rect.right + 10, rect.top);
+                                setTimeout(() => this.state.hideTooltip(), 2000);
+                            }
+                        });
+                    });
+                }
+
+                /**
+                 * 툴팁 초기화
+                 */
+                initTooltip() {
+                    if (!document.getElementById('tooltip')) {
+                        const tooltip = document.createElement('div');
+                        tooltip.id = 'tooltip';
+                        tooltip.className = 'tooltip';
+                        document.body.appendChild(tooltip);
+                        this.state.tooltip = tooltip;
+                    } else {
+                        this.state.tooltip = document.getElementById('tooltip');
+                    }
+                }
+            }
+
+            // 애플리케이션 인스턴스 생성 및 시작
+            new ProcessMap();
         })();
     </script>
 </body>

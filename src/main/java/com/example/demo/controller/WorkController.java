@@ -16,4 +16,9 @@ public class WorkController {
         return "/work/carBody";
     }
 
+    @GetMapping("/carDGH")
+    public String getDGH() {
+        return "/work/carDGH";
+    }
+
 }
