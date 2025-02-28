@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>울산 자동차 공장 서열 관리 시스템</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #1a4a9f;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 20px;
+        }
+
+        .sidebar {
+            flex: 0 0 250px;
+            background: white;
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .content {
+            flex: 1;
+            background: white;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .menu-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .menu-item.active {
+            background-color: #e6eef9;
+            color: #1a4a9f;
+            font-weight: bold;
+        }
+
+        .filter-section {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background-color: #f5f5f5;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .status-pending {
+            background-color: #fff4e5;
+            color: #ff9800;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .status-active {
+            background-color: #e8f5e9;
+            color: #4caf50;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .status-completed {
+            background-color: #e3f2fd;
+            color: #2196f3;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary {
+            background-color: #1a4a9f;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0d3a8b;
+        }
+
+        .btn-secondary {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background-color: #ccc;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stats-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1a4a9f;
+            margin: 10px 0;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            width: 60%;
+            max-width: 600px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .tab.active {
+            border-bottom: 3px solid #1a4a9f;
+            font-weight: bold;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 7px;
+            border-radius: 50%;
+            background-color: #ff3d00;
+            color: white;
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+
+        #clock {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>울산 자동차 공장 서열 관리 시스템</h1>
+            <div id="clock"></div>
+            <div>
+                <span>관리자님, 안녕하세요!</span>
+                <button class="btn btn-secondary" onclick="logout()">로그아웃</button>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="menu-item active" onclick="showSection('dashboard')">대시보드</div>
+                <div class="menu-item" onclick="showSection('sequence')">서열 관리 <span class="badge">5</span></div>
+                <div class="menu-item" onclick="showSection('production')">생산 계획</div>
+                <div class="menu-item" onclick="showSection('inventory')">자재 현황</div>
+                <div class="menu-item" onclick="showSection('reports')">보고서</div>
+                <div class="menu-item" onclick="showSection('settings')">설정</div>
+            </div>
+
+            <div class="content">
+                <div id="dashboard-section">
+                    <h2>대시보드</h2>
+                    <div class="grid">
+                        <div class="stats-card">
+                            <h3>오늘 생산 목표</h3>
+                            <div class="stats-number">850</div>
+                            <p>목표 대비 <strong>92%</strong> 진행 중</p>
+                        </div>
+                        <div class="stats-card">
+                            <h3>현재 라인 상태</h3>
+                            <div class="stats-number">정상</div>
+                            <p>최근 장애: <strong>없음</strong></p>
+                        </div>
+                        <div class="stats-card">
+                            <h3>대기 중인 서열</h3>
+                            <div class="stats-number">42</div>
+                            <p>전일 대비 <strong>-5%</strong></p>
+                        </div>
+                        <div class="stats-card">
+                            <h3>자재 상태</h3>
+                            <div class="stats-number">양호</div>
+                            <p>경고: <strong>엔진 부품 2종</strong></p>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 30px;">오늘의 생산 현황</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>라인</th>
+                                <th>모델</th>
+                                <th>완성</th>
+                                <th>목표</th>
+                                <th>달성률</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>A 라인</td>
+                                <td>쏘나타</td>
+                                <td>215</td>
+                                <td>230</td>
+                                <td>93.5%</td>
+                            </tr>
+                            <tr>
+                                <td>B 라인</td>
+                                <td>아반떼</td>
+                                <td>310</td>
+                                <td>320</td>
+                                <td>96.9%</td>
+                            </tr>
+                            <tr>
+                                <td>C 라인</td>
+                                <td>싼타페</td>
+                                <td>145</td>
+                                <td>150</td>
+                                <td>96.7%</td>
+                            </tr>
+                            <tr>
+                                <td>D 라인</td>
+                                <td>투싼</td>
+                                <td>112</td>
+                                <td>150</td>
+                                <td>74.7%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="sequence-section" style="display: none;">
+                    <h2>서열 관리</h2>
+                    <div class="filter-section">
+                        <div style="display: flex; gap: 15px;">
+                            <div class="form-group" style="flex: 1;">
+                                <label for="line-filter">라인 선택</label>
+                                <select id="line-filter">
+                                    <option value="all">전체 라인</option>
+                                    <option value="a">A 라인</option>
+                                    <option value="b">B 라인</option>
+                                    <option value="c">C 라인</option>
+                                    <option value="d">D 라인</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="flex: 1;">
+                                <label for="model-filter">모델</label>
+                                <select id="model-filter">
+                                    <option value="all">전체 모델</option>
+                                    <option value="sonata">쏘나타</option>
+                                    <option value="avante">아반떼</option>
+                                    <option value="santafe">싼타페</option>
+                                    <option value="tucson">투싼</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="flex: 1;">
+                                <label for="status-filter">상태</label>
+                                <select id="status-filter">
+                                    <option value="all">전체 상태</option>
+                                    <option value="pending">대기 중</option>
+                                    <option value="active">진행 중</option>
+                                    <option value="completed">완료</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+                            <button class="btn btn-secondary" onclick="resetFilters()">필터 초기화</button>
+                            <button class="btn btn-primary" onclick="applyFilters()">적용</button>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                        <h3>서열 목록</h3>
+                        <button class="btn btn-primary" onclick="openAddSequenceModal()">+ 신규 서열 등록</button>
+                    </div>
+
+                    <table id="sequence-table">
+                        <thead>
+                            <tr>
+                                <th>서열 번호</th>
+                                <th>모델</th>
+                                <th>라인</th>
+                                <th>예상 시작</th>
+                                <th>상태</th>
+                                <th>특별 사항</th>
+                                <th>작업</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>SQ-2025-0284</td>
+                                <td>쏘나타</td>
+                                <td>A 라인</td>
+                                <td>10:30</td>
+                                <td><span class="status-active">진행 중</span></td>
+                                <td>선택 사양: 썬루프</td>
+                                <td>
+                                    <button class="btn btn-secondary"
+                                        onclick="viewSequenceDetails('SQ-2025-0284')">상세</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>SQ-2025-0285</td>
+                                <td>아반떼</td>
+                                <td>B 라인</td>
+                                <td>10:45</td>
+                                <td><span class="status-pending">대기 중</span></td>
+                                <td>수출용 (미국)</td>
+                                <td>
+                                    <button class="btn btn-secondary"
+                                        onclick="viewSequenceDetails('SQ-2025-0285')">상세</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>SQ-2025-0286</td>
+                                <td>싼타페</td>
+                                <td>C 라인</td>
+                                <td>11:00</td>
+                                <td><span class="status-pending">대기 중</span></td>
+                                <td>-</td>
+                                <td>
+                                    <button class="btn btn-secondary"
+                                        onclick="viewSequenceDetails('SQ-2025-0286')">상세</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>SQ-2025-0287</td>
+                                <td>투싼</td>
+                                <td>D 라인</td>
+                                <td>11:15</td>
+                                <td><span class="status-pending">대기 중</span></td>
+                                <td>특별 도색</td>
+                                <td>
+                                    <button class="btn btn-secondary"
+                                        onclick="viewSequenceDetails('SQ-2025-0287')">상세</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>SQ-2025-0283</td>
+                                <td>쏘나타</td>
+                                <td>A 라인</td>
+                                <td>10:15</td>
+                                <td><span class="status-completed">완료</span></td>
+                                <td>-</td>
+                                <td>
+                                    <button class="btn btn-secondary"
+                                        onclick="viewSequenceDetails('SQ-2025-0283')">상세</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="production-section" style="display: none;">
+                    <h2>생산 계획</h2>
+                    <div class="tabs">
+                        <div class="tab active" onclick="switchTab(this, 'daily-plan')">일간 계획</div>
+                        <div class="tab" onclick="switchTab(this, 'weekly-plan')">주간 계획</div>
+                        <div class="tab" onclick="switchTab(this, 'monthly-plan')">월간 계획</div>
+                    </div>
+
+                    <div id="daily-plan" class="tab-content">
+                        <div class="filter-section">
+                            <div style="display: flex; gap: 15px;">
+                                <div class="form-group" style="flex: 1;">
+                                    <label for="date-select">날짜 선택</label>
+                                    <input type="date" id="date-select" value="2025-02-20">
+                                </div>
+                                <div class="form-group" style="flex: 1;">
+                                    <label for="plan-line-filter">라인 선택</label>
+                                    <select id="plan-line-filter">
+                                        <option value="all">전체 라인</option>
+                                        <option value="a">A 라인</option>
+                                        <option value="b">B 라인</option>
+                                        <option value="c">C 라인</option>
+                                        <option value="d">D 라인</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="flex: 1;">
+                                    <label>&nbsp;</label>
+                                    <button class="btn btn-primary" style="width: 100%; margin-top: 5px;"
+                                        onclick="loadPlan()">계획 불러오기</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>2025년 02월 20일 생산 계획</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>시간</th>
+                                    <th>A 라인</th>
+                                    <th>B 라인</th>
+                                    <th>C 라인</th>
+                                    <th>D 라인</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>08:00 - 09:00</td>
+                                    <td>쏘나타 (25대)</td>
+                                    <td>아반떼 (35대)</td>
+                                    <td>싼타페 (18대)</td>
+                                    <td>투싼 (20대)</td>
+                                </tr>
+                                <tr>
+                                    <td>09:00 - 10:00</td>
+                                    <td>쏘나타 (25대)</td>
+                                    <td>아반떼 (35대)</td>
+                                    <td>싼타페 (18대)</td>
+                                    <td>투싼 (20대)</td>
+                                </tr>
+                                <tr>
+                                    <td>10:00 - 11:00</td>
+                                    <td>쏘나타 (25대)</td>
+                                    <td>아반떼 (35대)</td>
+                                    <td>싼타페 (18대)</td>
+                                    <td>투싼 (20대)</td>
+                                </tr>
+                                <tr>
+                                    <td>11:00 - 12:00</td>
+                                    <td>쏘나타 (25대)</td>
+                                    <td>아반떼 (35대)</td>
+                                    <td>싼타페 (18대)</td>
+                                    <td>투싼 (20대)</td>
+                                </tr>
+                                <tr>
+                                    <td>12:00 - 13:00</td>
+                                    <td colspan="4" style="text-align: center; background-color: #f5f5f5;">점심 시간</td>
+                                </tr>
+                                <tr>
+                                    <td>13:00 - 14:00</td>
+                                    <td>쏘나타 (25대)</td>
+                                    <td>아반떼 (35대)</td>
+                                    <td>싼타페 (18대)</td>
+                                    <td>투싼 (20대)</td>
+                                </tr>
+                                <tr>
+                                    <td>14:00 - 15:00</td>
+                                    <td>쏘나타 (25대)</td>
+                                    <td>아반떼 (35대)</td>
+                                    <td>싼타페 (18대)</td>
+                                    <td>투싼 (20대)</td>
+                                </tr>
+                                <tr>
+                                    <td>15:00 - 16:00</td>
+                                    <td>쏘나타 (25대)</td>
+                                    <td>아반떼 (35대)</td>
+                                    <td>싼타페 (18대)</td>
+                                    <td>투싼 (20대)</td>
+                                </tr>
+                                <tr>
+                                    <td>16:00 - 17:00</td>
+                                    <td>쏘나타 (25대)</td>
+                                    <td>아반떼 (35대)</td>
+                                    <td>싼타페 (18대)</td>
+                                    <td>투싼 (20대)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="weekly-plan" class="tab-content" style="display: none;">
+                        <h3>2025년 08주차 생산 계획</h3>
+                        <p>주간 계획 내용이 여기에 표시됩니다.</p>
+                    </div>
+
+                    <div id="monthly-plan" class="tab-content" style="display: none;">
+                        <h3>2025년 02월 생산 계획</h3>
+                        <p>월간 계획 내용이 여기에 표시됩니다.</p>
+                    </div>
+                </div>
+
+                <div id="inventory-section" style="display: none;">
+                    <h2>자재 현황</h2>
+                    <p>자재 현황 관리 화면입니다.</p>
+                </div>
+
+                <div id="reports-section" style="display: none;">
+                    <h2>보고서</h2>
+                    <p>보고서 생성 화면입니다.</p>
+                </div>
+
+                <div id="settings-section" style="display: none;">
+                    <h2>설정</h2>
+                    <p>시스템 설정 화면입니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 서열 상세 모달 -->
+    <div id="sequence-detail-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('sequence-detail-modal')">&times;</span>
+            <h2>서열 상세 정보</h2>
+            <div id="sequence-detail-content">
+                <!-- 상세 내용이 여기에 동적으로 추가됩니다 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 새 서열 추가 모달 -->
+    <div id="add-sequence-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('add-sequence-modal')">&times;</span>
+            <h2>신규 서열 등록</h2>
+            <form id="add-sequence-form">
+                <div class="form-group">
+                    <label for="model-select">모델</label>
+                    <select id="model-select" required>
+                        <option value="">모델 선택</option>
+                        <option value="sonata">쏘나타</option>
+                        <option value="avante">아반떼</option>
+                        <option value="santafe">싼타페</option>
+                        <option value="tucson">투싼</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="line-select">라인</label>
+                    <select id="line-select" required>
+                        <option value="">라인 선택</option>
+                        <option value="a">A 라인</option>
+                        <option value="b">B 라인</option>
+                        <option value="c">C 라인</option>
+                        <option value="d">D 라인</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="start-time">예상 시작 시간</label>
+                    <input type="time" id="start-time" required>
+                </div>
+                <div class="form-group">
+                    <label for="special-notes">특별 사항</label>
+                    <input type="text" id="special-notes" placeholder="특별 사항 입력 (선택사항)">
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+                    <button type="button" class="btn btn-secondary"
+                        onclick="closeModal('add-sequence-modal')">취소</button>
+                    <button type="submit" class="btn btn-primary">등록</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 현재 시간 표시
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const dateStr = `${now.getFullYear()}년 ${now.getMonth() + 1}월 ${now.getDate()}일`;
+            const timeStr = `${hours}:${minutes}:${seconds}`;
+            document.getElementById('clock').textContent = `${dateStr} ${timeStr}`;
+        }
+
+        // 페이지 로드 시 시간 업데이트 시작
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // 섹션 표시 함수
+        function showSection(sectionName) {
+            // 모든 메뉴 항목에서 active 클래스 제거
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // 클릭된 메뉴 항목에 active 클래스 추가
+            document.querySelector(`.menu-item[onclick="showSection('${sectionName}')"]`).classList.add('active');
+
+            // 모든 섹션 숨기기
+            document.querySelectorAll('[id$="-section"]').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // 선택한 섹션만 표시
+            document.getElementById(`${sectionName}-section`).style.display = 'block';
+        }
+
+        // 탭 전환 함수
+        function switchTab(tab, tabId) {
+            // 모든 탭에서 active 클래스 제거
+            document.querySelectorAll('.tab').forEach(t => {
+                t.classList.remove('active');
+            });
+
+            // 클릭된 탭에 active 클래스 추가
+            tab.classList.add('active');
+
+            // 모든 탭 콘텐츠 숨기기
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+
+            // 선택한 탭 콘텐츠만 표시
+            document.getElementById(tabId).style.display = 'block';
+        }
+
+        // 모달 제어 함수
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // 서열 상세 정보 보기
+        function viewSequenceDetails(sequenceId) {
+            // 실제 구현에서는 서버에서 데이터를 가져올 것입니다
+            // 여기서는 예시 데이터를 사용합니다
+            const sequenceInfo = {
+                id: sequenceId,
+                model: sequenceId === 'SQ-2025-0284' ? '쏘나타' : (sequenceId === 'SQ-2025-0285' ? '아반떼' : '싼타페'),
+                line: sequenceId === 'SQ-2025-0284' ? 'A 라인' : (sequenceId === 'SQ-2025-0285' ? 'B 라인' : 'C 라인'),
+                status: sequenceId === 'SQ-2025-0284' ? '진행 중' : (sequenceId === 'SQ-2025-0283' ? '완료' : '대기 중'),
+                startTime: sequenceId === 'SQ-2025-0284' ? '10:30' : (sequenceId === 'SQ-2025-0285' ? '10:45' : '11:00'),
+                specialNotes: sequenceId === 'SQ-2025-0284' ? '선택 사양: 썬루프' : (sequenceId === 'SQ-2025-0285' ? '수출용 (미국)' : '-'),
+                components: [
+                    { name: '엔진', status: '확인 완료', inspector: '김철수' },
+                    { name: '변속기', status: '확인 완료', inspector: '박지영' },
+                    { name: '차체', status: '확인 중', inspector: '이민호' },
+                    { name: '인테리어', status: '대기 중', inspector: '-' },
+                    { name: '전기 시스템', status: '대기 중', inspector: '-' }
+                ]
+            };
+
+            // 상세 정보 HTML 생성
+            let detailHTML = `
+                <div style="margin-bottom: 20px;">
+                    <p><strong>서열 번호:</strong> ${sequenceInfo.id}</p>
+                    <p><strong>모델:</strong> ${sequenceInfo.model}</p>
+                    <p><strong>라인:</strong> ${sequenceInfo.line}</p>
+                    <p><strong>상태:</strong> ${sequenceInfo.status}</p>
+                    <p><strong>예상 시작 시간:</strong> ${sequenceInfo.startTime}</p>
+                    <p><strong>특별 사항:</strong> ${sequenceInfo.specialNotes}</p>
+                </div>
+                
+                <h3>부품 확인 상태</h3>
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>부품</th>
+                            <th>상태</th>
+                            <th>검수자</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            sequenceInfo.components.forEach(component => {
+                detailHTML += `
+                    <tr>
+                        <td>${component.name}</td>
+                        <td>${component.status}</td>
+                        <td>${component.inspector}</td>
+                    </tr>
+                `;
+            });
+
+            detailHTML += `
+                    </tbody>
+                </table>
+                
+                <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+                    <button class="btn btn-secondary">상태 변경</button>
+                    <button class="btn btn-primary">수정</button>
+                </div>
+            `;
+
+            // 모달에 상세 정보 추가
+            document.getElementById('sequence-detail-content').innerHTML = detailHTML;
+
+            // 모달 열기
+            openModal('sequence-detail-modal');
+        }
+
+        // 신규 서열 등록 모달 열기
+        function openAddSequenceModal() {
+            openModal('add-sequence-modal');
+        }
+
+        // 필터 제어 함수
+        function resetFilters() {
+            document.getElementById('line-filter').value = 'all';
+            document.getElementById('model-filter').value = 'all';
+            document.getElementById('status-filter').value = 'all';
+        }
+
+        function applyFilters() {
+            // 실제 구현에서는 서버에 필터 조건을 보내고 결과를 받아올 것입니다
+            alert('필터가 적용되었습니다.');
+        }
+
+        // 생산 계획 불러오기
+        function loadPlan() {
+            const date = document.getElementById('date-select').value;
+            const line = document.getElementById('plan-line-filter').value;
+
+            // 실제 구현에서는 서버에서 데이터를 가져올 것입니다
+            alert(`${date} ${line === 'all' ? '전체 라인' : line.toUpperCase() + ' 라인'} 계획을 불러옵니다.`);
+        }
+
+        // 로그아웃 함수
+        function logout() {
+            if (confirm('로그아웃 하시겠습니까?')) {
+                // 실제 구현에서는 로그아웃 처리를 수행할 것입니다
+                alert('로그아웃 되었습니다.');
+            }
+        }
+
+        // 서열 등록 폼 제출 처리
+        document.getElementById('add-sequence-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const model = document.getElementById('model-select').value;
+            const line = document.getElementById('line-select').value;
+            const startTime = document.getElementById('start-time').value;
+            const specialNotes = document.getElementById('special-notes').value;
+
+            // 실제 구현에서는 서버에 데이터를 전송할 것입니다
+            alert(`새 서열이 등록되었습니다:\n모델: ${model}\n라인: ${line}\n시작 시간: ${startTime}\n특별 사항: ${specialNotes || '없음'}`);
+
+            closeModal('add-sequence-modal');
+        });
+
+        // 윈도우 클릭 이벤트 - 모달 외부 클릭 시 닫기
+        window.onclick = function (event) {
+            if (event.target.className === 'modal') {
+                event.target.style.display = 'none';
+            }
+        };
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>현대자동차 울산공장 의장공정 통합 프로세스 시스템</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .boxs {
+            display: block;
+            padding: 20px;
+            position: relative;
+            min-height: 250vh;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .box {
+            min-width: 200px;
+            max-width: 200px;
+            min-height: 200px;
+            width: auto;
+            height: auto;
+            border: 2px solid #2c3e50;
+            border-radius: 8px;
+            background: #ffffff;
+            position: absolute;
+            user-select: none;
+            cursor: move;
+            overflow: visible;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: box-shadow 0.3s ease, transform 0.1s ease;
+        }
+
+        .box:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .box.dragging {
+            transform: scale(1.02);
+            opacity: 0.9;
+            z-index: 1000;
+        }
+
+        .box h4 {
+            margin-top: 0;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            color: #205295;
+            font-size: 1.1em;
+        }
+
+        .box ul,
+        .box ol {
+            margin: 0;
+            padding-left: 20px;
+            line-height: 1.5;
+        }
+
+        .box p {
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        /* 프로세스 그룹별 색상 구분 - 의장공정은 밝은 색상 */
+        .receiving {
+            border-color: #66d9ff;
+            border-width: 3px;
+        }
+
+        .receiving h4 {
+            color: #0099cc;
+            font-weight: bold;
+        }
+
+        .sequencing {
+            border-color: #ffad33;
+            border-width: 3px;
+        }
+
+        .sequencing h4 {
+            color: #e67e22;
+            font-weight: bold;
+        }
+
+        .viewing {
+            border-color: #7aff7a;
+            border-width: 3px;
+        }
+
+        .viewing h4 {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .printing {
+            border-color: #d6a3ff;
+            border-width: 3px;
+        }
+
+        .printing h4 {
+            color: #8e44ad;
+            font-weight: bold;
+        }
+
+        .connector {
+            width: 14px;
+            height: 14px;
+            background: #3498db;
+            border-radius: 50%;
+            position: absolute;
+            cursor: crosshair;
+            z-index: 10;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .connector:hover {
+            background: #2980b9;
+            transform: scale(1.2);
+        }
+
+        .connector.active {
+            background: #e74c3c;
+            transform: scale(1.3);
+        }
+
+        .connector-top {
+            top: -7px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .connector-right {
+            right: -7px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .connector-bottom {
+            bottom: -7px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .connector-left {
+            left: -7px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 1001;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .control-button {
+            background: #205295;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s;
+        }
+
+        .control-button:hover {
+            background: #2c70b4;
+        }
+
+        .legend {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 900;
+        }
+
+        .legend h4 {
+            margin-top: 0;
+            color: #205295;
+            font-size: 1em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        .legend ul {
+            margin: 0;
+            padding-left: 15px;
+            font-size: 0.9em;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            cursor: pointer;
+            user-select: none;
+            padding: 3px;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+
+        .legend-item:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .legend-item.disabled {
+            opacity: 0.5;
+        }
+
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            margin-right: 8px;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 768px) {
+            .box {
+                max-width: 300px;
+                font-size: 14px;
+            }
+
+            .legend {
+                max-width: 250px;
+                font-size: 12px;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/leader-line@1.0.5/leader-line.min.js"></script>
+</head>
+
+<body>
+    <!-- 프로세스 범례 -->
+    <div class="legend">
+        <h4>의장공정 프로세스</h4>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #66d9ff;"></div>
+            <span>1. 수신 단계 (데이터 입수 및 검증)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #ffad33;"></div>
+            <span>2. 편성 단계 (데이터 구조화 및 작업 준비)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #7aff7a;"></div>
+            <span>3. 조회 단계 (작업 지시 확인 및 조정)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #d6a3ff;"></div>
+            <span>4. 서열지 출력/이종확인 단계 (실행 및 검증)</span>
+        </div>
+    </div>
+
+    <!-- 업무 프로세스 박스 구조 -->
+    <div class="boxs" id="container">
+        <!-- 1단계: 수신 단계 (메인 프로세스) -->
+        <div class="box receiving" style="top: 0px; left: 0px;">
+            <h4>1-1. 데이터 소스 연결</h4>
+            <p>TCP/IP 통신 채널 확립 및 통신 파라미터 설정, 수신 버퍼 초기화</p>
+        </div>
+
+        <div class="box receiving" style="top: 0px; left: 300px;">
+            <h4>1-2. 생산 데이터 수신</h4>
+            <p>TCP 통신을 통한 패킷 데이터 수신 (PBS OUT 데이터, 생산계획 데이터)</p>
+        </div>
+
+        <div class="box receiving" style="top: 0px; left: 600px;">
+            <h4>1-3. 데이터 검증 및 레이아웃</h4>
+            <p>Checksum 확인, 데이터 포맷 검증, TSQ011 트랜잭션 처리, 레이아웃 정보 추출 및 검증</p>
+        </div>
+
+        <div class="box receiving" style="top: 0px; left: 900px;">
+            <h4>1-4. ALC코드 참조 및 검증</h4>
+            <p>품목별 ALC코드 매핑, A품목 컬럼 데이터 참조, 코드 유효성 검증</p>
+        </div>
+
+        <div class="box receiving" style="top: 0px; left: 1200px;">
+            <h4>1-5. 수신 완료 통보</h4>
+            <p>소스 시스템에 ACK 전송, 수신 로그 기록, 관리자 알림</p>
+        </div>
+
+        <div class="box receiving" style="top: 0px; left: 1500px;">
+            <h4>1-6. 원본 데이터 백업</h4>
+            <p>수신원본 저장, 시간/일자별 아카이빙, 백업 이력 DB 업데이트</p>
+        </div>
+
+        <!-- 2단계: 편성 단계 (메인 프로세스) -->
+        <div class="box sequencing" style="top: 300px; left: 0px;">
+            <h4>2-1. 편성 프로그램 초기화</h4>
+            <p>전용 편성 프로그램 실행, 파라미터 설정 (차종, 라인, 작업일자)</p>
+        </div>
+
+        <div class="box sequencing" style="top: 300px; left: 300px;">
+            <h4>2-2. 마스터 데이터 로딩</h4>
+            <p>품목마스터 정보 로딩, BOM 정보 참조, 부품 정보 확인</p>
+        </div>
+
+        <div class="box sequencing" style="top: 300px; left: 600px;">
+            <h4>2-3. 데이터 편성 작업 수행</h4>
+            <p>품목마스터 매핑, 차대번호별 부품 리스트, 작업 우선순위 결정</p>
+        </div>
+
+        <div class="box sequencing" style="top: 300px; left: 900px;">
+            <h4>2-4. 배치(파레트) 편성</h4>
+            <p>배치 단위 설정, 품목-배치 연결, 생산 순서 최적화</p>
+        </div>
+
+        <div class="box sequencing" style="top: 300px; left: 1200px;">
+            <h4>2-5. 편성 결과 저장</h4>
+            <p>서열정보 DB 저장, 배치정보 구조화 (Head/Detail), 이력 관리</p>
+        </div>
+
+        <div class="box sequencing" style="top: 300px; left: 1500px;">
+            <h4>2-6. 편성 결과 검증</h4>
+            <p>작업 지시 유효성 검사, 리소스 충돌 검토, 오류 교정</p>
+        </div>
+
+        <!-- 3단계: 조회 단계 (메인 프로세스) -->
+        <div class="box viewing" style="top: 600px; left: 0px;">
+            <h4>3-1. 조회 시스템 접속</h4>
+            <p>사용자 인증 및 권한 확인, 조회 화면 초기화, 파라미터 설정</p>
+        </div>
+
+        <div class="box viewing" style="top: 600px; left: 300px;">
+            <h4>3-2. 편성 정보 로딩</h4>
+            <p>DB 쿼리 실행, 차종/라인별 필터링, 작업일자/교대조별 분류</p>
+        </div>
+
+        <div class="box viewing" style="top: 600px; left: 600px;">
+            <h4>3-3. 작업 지시 내용 확인</h4>
+            <p>서열 정보 시각화, KPI 표시, 작업량/부하 분석 확인</p>
+        </div>
+
+        <div class="box viewing" style="top: 600px; left: 900px;">
+            <h4>3-4. 오류 및 특이사항 점검</h4>
+            <p>데이터 불일치 확인, 부품 수급 상황 검토, 설비/인력 현황 확인</p>
+        </div>
+
+        <div class="box viewing" style="top: 600px; left: 1200px;">
+            <h4>3-5. 필요시 조정 작업</h4>
+            <p>수동 서열 조정, 우선순위 변경, 조정 이력 기록, 승인 진행</p>
+        </div>
+
+        <div class="box viewing" style="top: 600px; left: 1500px;">
+            <h4>3-6. 조정 결과 확정</h4>
+            <p>조정된 작업 지시 저장, 관련 부서 통보, 변경 이력 관리</p>
+        </div>
+
+        <!-- 4단계: 서열지 출력/이종확인 단계 (메인 프로세스) -->
+        <div class="box printing" style="top: 900px; left: 0px;">
+            <h4>4-1. 서열지 출력 준비</h4>
+            <p>출력 시스템 점검, 프린터 설정, 출력 양식 로딩</p>
+        </div>
+
+        <div class="box printing" style="top: 900px; left: 300px;">
+            <h4>4-2. 서열지 생성 및 출력</h4>
+            <p>작업 지시서 변환, 레이아웃 적용, 바코드/QR코드 생성, 출력</p>
+        </div>
+
+        <div class="box printing" style="top: 900px; left: 600px;">
+            <h4>4-3. 이종확인 작업 준비</h4>
+            <p>스캐너 초기화, 작업자 인증, 확인 대상 정보 로딩</p>
+        </div>
+
+        <div class="box printing" style="top: 900px; left: 900px;">
+            <h4>4-4. 부품과 서열지 정보 대조</h4>
+            <p>바코드/RFID 스캔, 일치 여부 확인, 불일치 경고 및 처리</p>
+        </div>
+
+        <div class="box printing" style="top: 900px; left: 1200px;">
+            <h4>4-5. 이력 저장 및 후속 처리</h4>
+            <p>확인 결과 DB 저장, 품질 시스템 연동, 조치 계획 수립</p>
+        </div>
+
+        <div class="box printing" style="top: 900px; left: 1500px;">
+            <h4>4-6. DCS 인터페이스 전송</h4>
+            <p>Distribution Control System 연결, 데이터 패키징, 전송 처리</p>
+        </div>
+
+        <div class="box printing" style="top: 900px; left: 1800px;">
+            <h4>4-7. 차종/라인별 유연 프로세스</h4>
+            <p>차종별 순서 조정, 특수 차종 프로세스, 실시간 최적화</p>
+        </div>
+
+        <div class="tooltip" id="tooltip"></div>
+
+        <div class="controls">
+            <button id="resetBtn" class="control-button">레이아웃 초기화</button>
+            <button id="resetConnectionsBtn" class="control-button">연결 초기화</button>
+        </div>
+    </div>
+    <script>
+        /**
+ * 현대자동차 울산공장 의장공정 통합 프로세스 시스템
+ * 클래스 기반으로 리팩토링된 코드
+ */
+        (() => {
+            /**
+             * 프로세스 맵 색상 설정 클래스
+             * 각 그룹별 색상 관리
+             */
+            class ColorScheme {
+                constructor() {
+                    this.colors = {
+                        'receiving': '#66d9ff',  // 수신 단계
+                        'sequencing': '#ffad33', // 편성 단계
+                        'viewing': '#7aff7a',    // 조회 단계
+                        'printing': '#d6a3ff'    // 서열지 출력/이종확인 단계
+                    };
+                }
+
+                /**
+                 * 그룹에 해당하는 색상 반환
+                 * @param {string} group - 색상을 조회할 그룹명
+                 * @returns {string} 색상 코드
+                 */
+                getColor(group) {
+                    return this.colors[group] || '#205295'; // 기본 색상
+                }
+            }
+
+            /**
+             * 프로세스 맵 상태 관리 클래스
+             * 전체 애플리케이션의 상태를 관리
+             */
+            class ProcessMapState {
+                constructor() {
+                    this.connections = new Map();
+                    this.dragStart = null;
+                    this.tempLine = null;
+                    this.isDraggingBox = false;
+                    this.draggedBox = null;
+                    this.initialMouseX = 0;
+                    this.initialMouseY = 0;
+                    this.initialBoxX = 0;
+                    this.initialBoxY = 0;
+                    this.tooltip = document.getElementById('tooltip');
+                    this.initialBoxPositions = new Map();
+                    this.visibleGroups = {
+                        'receiving': true,
+                        'sequencing': true,
+                        'viewing': true,
+                        'printing': true
+                    };
+                    this.resizeTimeout = null;
+                }
+
+                /**
+                 * 초기 박스 위치 저장
+                 */
+                saveInitialBoxPositions() {
+                    document.querySelectorAll('.box').forEach(box => {
+                        const title = box.querySelector('h4').textContent.trim();
+                        this.initialBoxPositions.set(title, {
+                            top: box.offsetTop,
+                            left: box.offsetLeft
+                        });
+                    });
+                }
+
+                /**
+                 * 박스 위치 초기화
+                 */
+                resetBoxPositions() {
+                    document.querySelectorAll('.box').forEach(box => {
+                        const title = box.querySelector('h4').textContent.trim();
+                        const position = this.initialBoxPositions.get(title);
+                        if (position) {
+                            box.style.top = `${position.top}px`;
+                            box.style.left = `${position.left}px`;
+                        }
+                    });
+                    this.connections.forEach(conn => conn.line.position());
+                }
+
+                /**
+                 * 툴팁 표시
+                 * @param {string} text - 툴팁에 표시할 텍스트
+                 * @param {number} x - 툴팁 X 좌표
+                 * @param {number} y - 툴팁 Y 좌표
+                 */
+                showTooltip(text, x, y) {
+                    this.tooltip.textContent = text;
+                    this.tooltip.style.left = `${x}px`;
+                    this.tooltip.style.top = `${y}px`;
+                    this.tooltip.style.opacity = '1';
+                }
+
+                /**
+                 * 툴팁 숨기기
+                 */
+                hideTooltip() {
+                    this.tooltip.style.opacity = '0';
+                }
+            }
+
+            /**
+             * 커넥터 관리 클래스
+             * 박스 연결점 생성 및 관리
+             */
+            class ConnectorManager {
+                /**
+                 * @param {ProcessMapState} state - 상태 관리 객체
+                 * @param {ColorScheme} colorScheme - 색상 관리 객체
+                 */
+                constructor(state, colorScheme) {
+                    this.state = state;
+                    this.colorScheme = colorScheme;
+                }
+
+                /**
+                 * 모든 박스에 커넥터 초기화
+                 */
+                initConnectors() {
+                    document.querySelectorAll('.box').forEach(box => {
+                        ['top', 'right', 'bottom', 'left'].forEach(pos => {
+                            const connector = document.createElement('div');
+                            connector.className = `connector connector-${pos}`;
+                            connector.dataset.socket = pos;
+                            connector.dataset.parent = box.querySelector('h4').textContent.trim();
+                            connector.title = `${box.querySelector('h4').textContent} ${pos} 연결점`;
+
+                            // 커넥터 색상 변경
+                            const boxGroup = this.getBoxGroup(box);
+                            if (this.colorScheme.colors[boxGroup]) {
+                                connector.style.backgroundColor = this.colorScheme.colors[boxGroup];
+                            }
+
+                            box.appendChild(connector);
+                        });
+                    });
+                }
+
+                /**
+                 * 박스의 그룹 반환
+                 * @param {HTMLElement} box - 그룹을 확인할 박스 요소
+                 * @returns {string} 박스의 그룹명
+                 */
+                getBoxGroup(box) {
+                    if (box.classList.contains('receiving')) return 'receiving';
+                    if (box.classList.contains('sequencing')) return 'sequencing';
+                    if (box.classList.contains('viewing')) return 'viewing';
+                    if (box.classList.contains('printing')) return 'printing';
+                    return 'unknown'; // 예상치 못한 경우
+                }
+
+                /**
+                 * 커넥터로 연결 찾기
+                 * @param {HTMLElement} connector - 연결을 찾을 커넥터 요소
+                 * @returns {Array} 커넥터와 관련된 연결 항목
+                 */
+                getConnectionByConnector(connector) {
+                    return [...this.state.connections.entries()].find(([, conn]) =>
+                        conn.start === connector || conn.end === connector
+                    );
+                }
+
+                /**
+                 * 특정 커넥터 찾기
+                 * @param {string} boxTitle - 박스 제목
+                 * @param {string} position - 커넥터 위치
+                 * @returns {HTMLElement|null} 찾은 커넥터 요소
+                 */
+                findConnector(boxTitle, position) {
+                    const box = Array.from(document.querySelectorAll('.box')).find(
+                        b => b.querySelector('h4').textContent.trim() === boxTitle
+                    );
+                    return box ? box.querySelector(`.connector-${position}`) : null;
+                }
+            }
+
+            /**
+             * 연결선 관리 클래스
+             * 박스 간 연결선 생성 및 관리
+             */
+            class ConnectionManager {
+                /**
+                 * @param {ProcessMapState} state - 상태 관리 객체
+                 * @param {ConnectorManager} connectorManager - 커넥터 관리 객체
+                 * @param {ColorScheme} colorScheme - 색상 관리 객체
+                 */
+                constructor(state, connectorManager, colorScheme) {
+                    this.state = state;
+                    this.connectorManager = connectorManager;
+                    this.colorScheme = colorScheme;
+                }
+
+                /**
+                 * 임시 연결선 생성
+                 * @param {HTMLElement} connector - 시작 커넥터
+                 * @param {Object} endpoint - 끝점 좌표
+                 * @returns {LeaderLine} 생성된 임시 연결선
+                 */
+                createTempLine(connector, endpoint) {
+                    // 시작 박스의 그룹 색상 적용
+                    const startBox = connector.closest('.box');
+                    const startGroup = this.connectorManager.getBoxGroup(startBox);
+                    const lineColor = this.colorScheme.getColor(startGroup);
+
+                    return new LeaderLine(
+                        LeaderLine.pointAnchor(connector, { x: '50%', y: '50%' }),
+                        endpoint,
+                        {
+                            path: 'straight',
+                            color: lineColor,
+                            size: 3,
+                            startPlug: 'disc',
+                            endPlug: 'arrow1',
+                            endPlugSize: 2.5,
+                            dash: true,
+                            startSocket: connector.dataset.socket
+                        }
+                    );
+                }
+
+                /**
+                 * 연결선 생성
+                 * @param {HTMLElement} start - 시작 커넥터
+                 * @param {HTMLElement} end - 끝 커넥터
+                 * @returns {LeaderLine|null} 생성된 연결선
+                 */
+                createConnection(start, end) {
+                    const connectionKey = `${start.dataset.parent}-${start.dataset.socket}-${end.dataset.parent}-${end.dataset.socket}`;
+                    if (this.state.connections.has(connectionKey)) return null;
+
+                    // 연결선의 그룹 결정
+                    const startBox = start.closest('.box');
+                    const endBox = end.closest('.box');
+
+                    // 시작점과 끝점의 그룹 확인
+                    const startGroup = this.connectorManager.getBoxGroup(startBox);
+                    const endGroup = this.connectorManager.getBoxGroup(endBox);
+
+                    // 기본적으로 시작점의 그룹을 따름
+                    let group = startGroup;
+
+                    // 시작 박스 그룹에 따른 선 색상 설정
+                    const lineColor = this.colorScheme.getColor(startGroup);
+
+                    const line = new LeaderLine(
+                        LeaderLine.pointAnchor(start, { x: '50%', y: '50%' }),
+                        LeaderLine.pointAnchor(end, { x: '50%', y: '50%' }),
+                        {
+                            path: 'straight',
+                            color: lineColor,
+                            size: 3,
+                            startPlug: 'disc',
+                            endPlug: 'arrow1',
+                            startPlugSize: 1.8,
+                            endPlugSize: 2.5,
+                            dash: false,
+                            startSocket: start.dataset.socket,
+                            endSocket: end.dataset.socket
+                        }
+                    );
+
+                    this.state.connections.set(connectionKey, {
+                        line,
+                        start,
+                        end,
+                        startBoxId: start.dataset.parent,
+                        endBoxId: end.dataset.parent,
+                        group: group,
+                        startGroup: startGroup,
+                        endGroup: endGroup
+                    });
+
+                    // 간단한 애니메이션 효과
+                    line.dash = { animation: true };
+                    setTimeout(() => { line.dash = false; }, 500);
+
+                    // 현재 그룹이 숨겨진 상태면 이 연결선도 숨김
+                    if (!this.state.visibleGroups[group]) {
+                        line.hide('none');
+                    }
+
+                    return line;
+                }
+
+                /**
+                 * 연결 제거
+                 * @param {HTMLElement} connector - 연결을 제거할 커넥터
+                 */
+                removeConnectionByConnector(connector) {
+                    [...this.state.connections.entries()].forEach(([key, conn]) => {
+                        if (conn.start === connector || conn.end === connector) {
+                            conn.line.remove();
+                            this.state.connections.delete(key);
+                        }
+                    });
+                }
+
+                /**
+                 * 모든 연결 초기화
+                 */
+                resetAllConnections() {
+                    this.state.connections.forEach(conn => conn.line.remove());
+                    this.state.connections.clear();
+                    this.createInitialConnections();
+                }
+
+                /**
+                 * 초기 연결 관계 생성
+                 */
+                createInitialConnections() {
+                    // 각 연결 정의
+                    const initialConnections = [
+                        // 1단계: 수신 단계 내 연결
+                        ['1-1. 데이터 소스 연결', 'right', '1-2. 생산 데이터 수신', 'left'],
+                        ['1-2. 생산 데이터 수신', 'right', '1-3. 데이터 검증 및 레이아웃', 'left'],
+                        ['1-3. 데이터 검증 및 레이아웃', 'right', '1-4. ALC코드 참조 및 검증', 'left'],
+                        ['1-4. ALC코드 참조 및 검증', 'right', '1-5. 수신 완료 통보', 'left'],
+                        ['1-5. 수신 완료 통보', 'right', '1-6. 원본 데이터 백업', 'left'],
+
+                        // 1단계에서 2단계로 연결
+                        ['1-5. 수신 완료 통보', 'bottom', '2-1. 편성 프로그램 초기화', 'top'],
+
+                        // 2단계: 편성 단계 내 연결
+                        ['2-1. 편성 프로그램 초기화', 'right', '2-2. 마스터 데이터 로딩', 'left'],
+                        ['2-2. 마스터 데이터 로딩', 'right', '2-3. 데이터 편성 작업 수행', 'left'],
+                        ['2-3. 데이터 편성 작업 수행', 'right', '2-4. 배치(파레트) 편성', 'left'],
+                        ['2-4. 배치(파레트) 편성', 'right', '2-5. 편성 결과 저장', 'left'],
+                        ['2-5. 편성 결과 저장', 'right', '2-6. 편성 결과 검증', 'left'],
+
+                        // 2단계에서 3단계로 연결
+                        ['2-6. 편성 결과 검증', 'bottom', '3-1. 조회 시스템 접속', 'top'],
+
+                        // 3단계: 조회 단계 내 연결
+                        ['3-1. 조회 시스템 접속', 'right', '3-2. 편성 정보 로딩', 'left'],
+                        ['3-2. 편성 정보 로딩', 'right', '3-3. 작업 지시 내용 확인', 'left'],
+                        ['3-3. 작업 지시 내용 확인', 'right', '3-4. 오류 및 특이사항 점검', 'left'],
+                        ['3-4. 오류 및 특이사항 점검', 'right', '3-5. 필요시 조정 작업', 'left'],
+                        ['3-5. 필요시 조정 작업', 'right', '3-6. 조정 결과 확정', 'left'],
+
+                        // 3단계에서 4단계로 연결
+                        ['3-6. 조정 결과 확정', 'bottom', '4-1. 서열지 출력 준비', 'top'],
+
+                        // 4단계: 서열지 출력/이종확인 단계 내 연결
+                        ['4-1. 서열지 출력 준비', 'right', '4-2. 서열지 생성 및 출력', 'left'],
+                        ['4-2. 서열지 생성 및 출력', 'right', '4-3. 이종확인 작업 준비', 'left'],
+                        ['4-3. 이종확인 작업 준비', 'right', '4-4. 부품과 서열지 정보 대조', 'left'],
+                        ['4-4. 부품과 서열지 정보 대조', 'right', '4-5. 이력 저장 및 후속 처리', 'left'],
+                        ['4-5. 이력 저장 및 후속 처리', 'right', '4-6. DCS 인터페이스 전송', 'left'],
+                        ['4-6. DCS 인터페이스 전송', 'right', '4-7. 차종/라인별 유연 프로세스', 'left']
+                    ];
+
+                    // 연결 생성
+                    initialConnections.forEach(([startTitle, startPos, endTitle, endPos]) => {
+                        const start = this.connectorManager.findConnector(startTitle, startPos);
+                        const end = this.connectorManager.findConnector(endTitle, endPos);
+
+                        if (start && end) {
+                            this.createConnection(start, end);
+                        }
+                    });
+                }
+            }
+
+            /**
+             * 박스 드래깅 관리 클래스
+             * 박스 이동 기능 관리
+             */
+            class BoxDragManager {
+                /**
+                 * @param {ProcessMapState} state - 상태 관리 객체
+                 */
+                constructor(state) {
+                    this.state = state;
+                    this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                }
+
+                /**
+                 * 박스 드래깅 초기화
+                 */
+                initBoxDragging() {
+                    const container = document.getElementById('container');
+                    const startEvent = this.isMobile ? 'touchstart' : 'mousedown';
+                    const moveEvent = this.isMobile ? 'touchmove' : 'mousemove';
+                    const endEvent = this.isMobile ? 'touchend' : 'mouseup';
+
+                    container.addEventListener(startEvent, e => {
+                        if (e.target.classList.contains('connector') || e.target.classList.contains('control-button')) return;
+
+                        const box = e.target.closest('.box');
+                        if (!box) return;
+
+                        e.preventDefault();
+                        this.state.isDraggingBox = true;
+                        this.state.draggedBox = box;
+
+                        const pageX = this.isMobile ? e.touches[0].clientX : e.clientX;
+                        const pageY = this.isMobile ? e.touches[0].clientY : e.clientY;
+
+                        this.state.initialMouseX = pageX;
+                        this.state.initialMouseY = pageY;
+                        this.state.initialBoxX = box.offsetLeft;
+                        this.state.initialBoxY = box.offsetTop;
+
+                        box.classList.add('dragging');
+                    });
+
+                    document.addEventListener(moveEvent, e => {
+                        if (this.state.isDraggingBox && this.state.draggedBox) {
+                            const pageX = this.isMobile ? e.touches[0].clientX : e.clientX;
+                            const pageY = this.isMobile ? e.touches[0].clientY : e.clientY;
+
+                            const deltaX = pageX - this.state.initialMouseX;
+                            const deltaY = pageY - this.state.initialMouseY;
+
+                            this.state.draggedBox.style.left = `${this.state.initialBoxX + deltaX}px`;
+                            this.state.draggedBox.style.top = `${this.state.initialBoxY + deltaY}px`;
+
+                            this.state.connections.forEach(conn => conn.line.position());
+                        }
+                    });
+
+                    document.addEventListener(endEvent, () => {
+                        if (this.state.draggedBox) {
+                            this.state.draggedBox.classList.remove('dragging');
+                            this.state.draggedBox = null;
+                        }
+                        this.state.isDraggingBox = false;
+                    });
+                }
+            }
+
+            /**
+             * 그룹 가시성 관리 클래스
+             * 프로세스 그룹의 표시/숨김 관리
+             */
+            class GroupVisibilityManager {
+                /**
+                 * @param {ProcessMapState} state - 상태 관리 객체
+                 */
+                constructor(state) {
+                    this.state = state;
+                }
+
+                /**
+                 * 그룹 표시/숨김 토글
+                 * @param {string} group - 토글할 그룹명
+                 */
+                toggleGroupVisibility(group) {
+                    // 그룹 상태 토글
+                    this.state.visibleGroups[group] = !this.state.visibleGroups[group];
+
+                    // 범례 아이템 상태 갱신
+                    const legendItem = document.querySelector(`.legend-item[data-group="${group}"]`);
+                    if (legendItem) {
+                        if (this.state.visibleGroups[group]) {
+                            legendItem.classList.remove('disabled');
+                        } else {
+                            legendItem.classList.add('disabled');
+                        }
+                    }
+
+                    // 연결선 표시/숨김 상태 갱신
+                    this.state.connections.forEach((conn) => {
+                        if (conn.startGroup === group) {
+                            if (this.state.visibleGroups[group]) {
+                                conn.line.show('none');
+                            } else {
+                                conn.line.hide('none');
+                            }
+                        }
+                    });
+                }
+
+                /**
+                 * 범례 아이템 초기화
+                 */
+                initLegendItems() {
+                    document.querySelectorAll('.legend-item').forEach((item, index) => {
+                        // 데이터 속성 추가
+                        if (index === 0) item.dataset.group = 'receiving';
+                        else if (index === 1) item.dataset.group = 'sequencing';
+                        else if (index === 2) item.dataset.group = 'viewing';
+                        else if (index === 3) item.dataset.group = 'printing';
+
+                        item.addEventListener('click', () => {
+                            const group = item.dataset.group;
+                            this.toggleGroupVisibility(group);
+                        });
+                    });
+                }
+            }
+
+            /**
+             * 이벤트 핸들러 클래스
+             * 사용자 인터랙션 이벤트 처리
+             */
+            class EventHandler {
+                /**
+                 * @param {ProcessMapState} state - 상태 관리 객체
+                 * @param {ConnectionManager} connectionManager - 연결선 관리 객체
+                 * @param {GroupVisibilityManager} visibilityManager - 그룹 가시성 관리 객체
+                 */
+                constructor(state, connectionManager, visibilityManager) {
+                    this.state = state;
+                    this.connectionManager = connectionManager;
+                    this.visibilityManager = visibilityManager;
+                    this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                }
+
+                /**
+                 * 모든 이벤트 초기화
+                 */
+                initEvents() {
+                    this.initConnectorEvents();
+                    this.initControlEvents();
+                    this.initResizeEvent();
+                    this.visibilityManager.initLegendItems();
+                }
+
+                /**
+                 * 커넥터 관련 이벤트 초기화
+                 */
+                initConnectorEvents() {
+                    const container = document.getElementById('container');
+
+                    // 커넥터 이벤트
+                    container.addEventListener(this.isMobile ? 'touchstart' : 'mousedown', e => {
+                        const connector = e.target.closest('.connector');
+                        if (!connector) return;
+
+                        e.stopPropagation();
+                        this.state.dragStart = connector;
+
+                        const existingConn = this.connectionManager.connectorManager.getConnectionByConnector(this.state.dragStart);
+                        if (existingConn) {
+                            existingConn[1].line.remove();
+                            this.state.connections.delete(existingConn[0]);
+                        }
+
+                        const initialEnd = this.isMobile ? {
+                            x: e.touches[0].pageX,
+                            y: e.touches[0].pageY
+                        } : {
+                            x: e.pageX,
+                            y: e.pageY
+                        };
+
+                        this.state.tempLine = this.connectionManager.createTempLine(this.state.dragStart, initialEnd);
+                        connector.classList.add('active');
+
+                        const parentBox = connector.closest('.box');
+                        const parentTitle = parentBox.querySelector('h4').textContent;
+                        this.state.showTooltip(`${parentTitle}에서 연결 시작`, initialEnd.x + 15, initialEnd.y + 15);
+                    });
+
+                    document.addEventListener(this.isMobile ? 'touchmove' : 'mousemove', e => {
+                        if (this.state.tempLine) {
+                            const pageX = this.isMobile ? e.touches[0].pageX : e.pageX;
+                            const pageY = this.isMobile ? e.touches[0].pageY : e.pageY;
+
+                            this.state.tempLine.setOptions({ end: { x: pageX, y: pageY } });
+                            this.state.tooltip.style.left = `${pageX + 15}px`;
+                            this.state.tooltip.style.top = `${pageY + 15}px`;
+                        }
+                    });
+
+                    document.addEventListener(this.isMobile ? 'touchend' : 'mouseup', e => {
+                        if (!this.state.dragStart) return;
+
+                        let targetElement;
+                        if (this.isMobile && e.changedTouches && e.changedTouches.length > 0) {
+                            const touch = e.changedTouches[0];
+                            targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
+                        } else {
+                            targetElement = e.target;
+                        }
+
+                        const dragEnd = targetElement ? targetElement.closest('.connector') : null;
+
+                        if (dragEnd && this.state.dragStart !== dragEnd) {
+                            this.connectionManager.createConnection(this.state.dragStart, dragEnd);
+                            const startBox = this.state.dragStart.closest('.box').querySelector('h4').textContent;
+                            const endBox = dragEnd.closest('.box').querySelector('h4').textContent;
+                            this.state.showTooltip(`${startBox}에서 ${endBox}로 연결됨`, e.pageX + 15, e.pageY + 15);
+                            setTimeout(() => this.state.hideTooltip(), 1500);
+                        } else if (!dragEnd) {
+                            this.connectionManager.removeConnectionByConnector(this.state.dragStart);
+                            this.state.showTooltip('연결 취소됨', e.pageX + 15, e.pageY + 15);
+                            setTimeout(() => this.state.hideTooltip(), 1500);
+                        }
+
+                        if (this.state.tempLine) {
+                            this.state.tempLine.remove();
+                            this.state.tempLine = null;
+                        }
+
+                        this.state.dragStart.classList.remove('active');
+                        this.state.dragStart = null;
+                    });
+
+                    // 컨텍스트 메뉴 이벤트 (연결 제거)
+                    document.addEventListener('contextmenu', e => {
+                        const connector = e.target.closest('.connector');
+                        if (connector) {
+                            e.preventDefault();
+                            this.connectionManager.removeConnectionByConnector(connector);
+                            this.state.showTooltip('연결이 삭제되었습니다', e.pageX + 15, e.pageY + 15);
+                            setTimeout(() => this.state.hideTooltip(), 1500);
+                        }
+                    });
+
+                    // 커넥터 호버 효과
+                    container.addEventListener('mouseover', e => {
+                        const connector = e.target.closest('.connector');
+                        if (connector && !this.state.dragStart) {
+                            const boxTitle = connector.closest('.box').querySelector('h4').textContent;
+                            const position = connector.dataset.socket;
+                            let connectionCount = 0;
+                            this.state.connections.forEach(conn => {
+                                if (conn.start === connector || conn.end === connector) connectionCount++;
+                            });
+
+                            const tooltip = connectionCount > 0
+                                ? `${boxTitle} ${position} 연결 (${connectionCount}개 연결됨)`
+                                : `${boxTitle} ${position} 연결점`;
+
+                            const rect = connector.getBoundingClientRect();
+                            this.state.showTooltip(tooltip, rect.right + 10, rect.top);
+                        }
+                    });
+
+                    container.addEventListener('mouseout', e => {
+                        const connector = e.target.closest('.connector');
+                        if (connector && !this.state.dragStart) this.state.hideTooltip();
+                    });
+                }
+
+                /**
+                 * 컨트롤 버튼 이벤트 초기화
+                 */
+                initControlEvents() {
+                    // 컨트롤 버튼 이벤트
+                    document.getElementById('resetBtn').addEventListener('click', () => this.state.resetBoxPositions());
+                    document.getElementById('resetConnectionsBtn').addEventListener('click', () => this.connectionManager.resetAllConnections());
+                }
+
+                /**
+                 * 창 크기 변경 이벤트 초기화
+                 */
+                initResizeEvent() {
+                    // 창 크기 변경 이벤트
+                    window.addEventListener('resize', () => {
+                        if (this.state.resizeTimeout) clearTimeout(this.state.resizeTimeout);
+                        this.state.resizeTimeout = setTimeout(() => {
+                            this.state.connections.forEach(conn => conn.line.position());
+                        }, 100);
+                    });
+                }
+            }
+
+            /**
+             * 프로세스 맵 애플리케이션 클래스
+             * 전체 앱을 관리하는 메인 클래스
+             */
+            class ProcessMap {
+                constructor() {
+                    // 초기화 순서 중요
+                    this.state = new ProcessMapState();
+                    this.colorScheme = new ColorScheme();
+                    this.connectorManager = new ConnectorManager(this.state, this.colorScheme);
+                    this.connectionManager = new ConnectionManager(this.state, this.connectorManager, this.colorScheme);
+                    this.boxDragManager = new BoxDragManager(this.state);
+                    this.visibilityManager = new GroupVisibilityManager(this.state);
+                    this.eventHandler = new EventHandler(this.state, this.connectionManager, this.visibilityManager);
+
+                    this.initialize();
+                }
+
+                /**
+                 * 앱 초기화
+                 */
+                initialize() {
+                    window.addEventListener('DOMContentLoaded', () => {
+                        this.initTooltip();
+                        this.connectorManager.initConnectors();
+                        this.boxDragManager.initBoxDragging();
+                        this.eventHandler.initEvents();
+                        this.state.saveInitialBoxPositions();
+                        setTimeout(() => this.connectionManager.createInitialConnections(), 1000);
+                    });
+                }
+
+                /**
+                 * 툴팁 초기화
+                 */
+                initTooltip() {
+                    if (!document.getElementById('tooltip')) {
+                        const tooltip = document.createElement('div');
+                        tooltip.id = 'tooltip';
+                        tooltip.className = 'tooltip';
+                        document.body.appendChild(tooltip);
+                        this.state.tooltip = tooltip;
+                    }
+                }
+            }
+
+            // 애플리케이션 인스턴스 생성 및 시작
+            new ProcessMap();
+        })();
+    </script>
+</body>
+
+</html>

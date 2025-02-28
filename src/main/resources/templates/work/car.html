@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>산업단지 프로세스 연결 시스템 - 개선버전</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .boxs {
+            display: block;
+            padding: 20px;
+            position: relative;
+            min-height: 150vh;
+            width: 100%;
+        }
+
+        .box {
+            min-width: 200px;
+            max-width: 400px;
+            min-height: 200px;
+            width: auto;
+            height: auto;
+            border: 2px solid #2c3e50;
+            border-radius: 8px;
+            background: #ffffff;
+            position: absolute;
+            user-select: none;
+            cursor: move;
+            overflow: visible;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .box h4 {
+            margin-top: 0;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .box ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .connector {
+            width: 14px;
+            height: 14px;
+            background: #3498db;
+            border-radius: 50%;
+            position: absolute;
+            cursor: crosshair;
+            z-index: 10;
+        }
+
+        .connector-top {
+            top: -7px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .connector-right {
+            right: -7px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .connector-bottom {
+            bottom: -7px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .connector-left {
+            left: -7px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/leader-line@1.0.5/leader-line.min.js"></script>
+</head>
+
+<body>
+    <div class="boxs">
+        <!-- 자동차 제조사 영역 -->
+        <div class="box" style="top: 0px; left: 0px;">
+            <h4>현대(HMC)</h4>
+            <ul>
+                <li>울산
+                    <ul>
+                        <li>1공장</li>
+                        <li>2공장</li>
+                        <li>3공장</li>
+                        <li>4공장</li>
+                        <li>5공장</li>
+                    </ul>
+                </li>
+
+                <hr>
+
+                <li>울산 시트
+                    <ul>
+                        <li>1공장</li>
+                        <li>2공장</li>
+                        <li>3공장</li>
+                    </ul>
+                </li>
+
+                <hr>
+
+                <li>전주(상용차 전문)
+                    <ul>
+                        <li>버스</li>
+                        <li>트럭</li>
+                        <li>스타리아</li>
+                    </ul>
+                </li>
+
+                <hr>
+
+                <li>아산
+                    <ul>
+                        <li>그랜저</li>
+                        <li>쏘나타</li>
+                        <li>아반떼</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="box" style="top: 0px; left: 500px;">
+            <h4>기아(KMC)</h4>
+            <ul>
+                <li>광주
+                    <ul>
+                        <li>1공장</li>
+                        <li>2공장</li>
+                        <li>3공장</li>
+                    </ul>
+                </li>
+                <li>화성
+                    <ul>
+                        <li>1공장</li>
+                        <li>2공장</li>
+                        <li>3공장</li>
+                    </ul>
+                </li>
+                <li>광명(소하리)
+                    <ul>
+                        <li>1공장</li>
+                        <li>EVO공장</li>
+                    </ul>
+                </li>
+                <li>서산(동희오트)
+                    <ul>
+                        <li>레이</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 업체 관계도 -->
+        <div class="box" style="top: 0px; left: 250px;">
+            <h4>주요 업체 관계도</h4>
+            <ul>
+                <li>고객사
+                    <ul>
+                        <li><b>현대 글로비스</b> (주 고객)</li>
+                        <li>현대(HMC)</li>
+                        <li>기아(KMC)</li>
+                    </ul>
+                </li>
+                <li>부품 공급사
+                    <ul>
+                        <li>현대모비스</li>
+                        <li>현대위아</li>
+                        <li>현대트랜시스</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 원자재 공급망 (새로 추가) -->
+        <div class="box" style="top: 650px; left: 1000px;">
+            <h4>원자재 공급망</h4>
+            <ul>
+                <li><b>금속 원자재</b>
+                    <ul>
+                        <li>포스코 (철강)</li>
+                        <li>알루미늄 공급사</li>
+                    </ul>
+                </li>
+                <li><b>화학 원자재</b>
+                    <ul>
+                        <li>SK 케미칼</li>
+                        <li>LG 화학</li>
+                    </ul>
+                </li>
+                <li><b>전자 부품</b>
+                    <ul>
+                        <li>삼성전자</li>
+                        <li>LG 이노텍</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 현대 글로비스 -->
+        <div class="box" style="top: 360px; left: 300px;">
+            <h4>현대 글로비스 (주 고객)</h4>
+            자동차 업체 협력
+            <ul>
+                <li>제너럴 모터스(GM)</li>
+                <li>비야디(BYD)(확인 필요)</li>
+            </ul>
+            물류/항만 협력
+            <ul>
+                <li>허치슨</li>
+                <li>스테나(Stena)</li>
+            </ul>
+            <hr>
+            <p><b>주요 역할:</b> 완성차 생산 주문 발송, 글로벌 물류 관리</p>
+        </div>
+
+        <!-- 현대 글로비스 실행사 -->
+        <div class="box" style="top: 650px; left: 600px;">
+            <h4>현대 글로비스 실행사</h4>
+            <ul>
+                <li><b>역할:</b> 서열 정보 관리 및 공장 라인 가동 지시</li>
+                <li><b>책임:</b>
+                    <ul>
+                        <li>서열 정보 검증</li>
+                        <li>생산 일정 조율</li>
+                        <li>생산 라인 가동 명령</li>
+                        <li>생산 진행 현황 모니터링</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 공장별 배분 시스템 (새로 추가) -->
+        <div class="box" style="top: 1000px; left: 650px;">
+            <h4>공장별 생산 배분 시스템</h4>
+            <ul>
+                <li><b>공장 배분 기준</b>
+                    <ul>
+                        <li>차종 전문성</li>
+                        <li>공장 가동률</li>
+                        <li>생산 능력</li>
+                        <li>지역별 수요</li>
+                    </ul>
+                </li>
+                <li><b>배분 프로세스</b>
+                    <ul>
+                        <li>주간 생산 계획</li>
+                        <li>일일 생산 할당</li>
+                        <li>긴급 생산 조정</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 업무 내용 -->
+        <div class="box" style="top: 0px; left: 750px;">
+            <h4>업무 프로세스</h4>
+            <ol>
+                <li><b>수신(Order Reception)</b>
+                    <ul>
+                        <li>현대 글로비스로부터 차량 생산 주문을 받는 단계</li>
+                        <li>필요한 차량의 종류, 수량, 사양 등의 정보를 전달받음</li>
+                    </ul>
+                </li>
+
+                <li><b>편성(Production Planning)</b>
+                    <ul>
+                        <li>받은 주문을 바탕으로 생산 계획을 수립하는 단계</li>
+                        <li>각 공장별 생산 능력과 일정을 고려하여 차량 생산을 배정</li>
+                        <li>예: 울산 1공장은 특정 모델, 아산공장은 그랜저/쏘나타 등으로 배정</li>
+                    </ul>
+                </li>
+
+                <li><b>서열지 출력(Production Sequence Sheet)</b>
+                    <ul>
+                        <li>실제 생산에 들어가기 전 최종 생산 순서와 상세 정보를 담은 문서 출력</li>
+                        <li>조립 라인에서 필요한 모든 부품과 작업 순서가 상세히 기재</li>
+                        <li>이 문서를 기반으로 실제 생산이 진행됨</li>
+                    </ul>
+                </li>
+
+                <li><b>이종 확인(Vehicle Identification)</b>
+                    <ul>
+                        <li>생산될 각 차량의 종류와 사양을 확인하는 단계</li>
+                        <li>차량 모델별 특성과 필요한 부품 구성 확인</li>
+                        <li>생산 라인에 맞는 차종 분류 및 검증</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <!-- 제조 공정 -->
+        <div class="box" style="top: 0px; left: 1250px;">
+            <h4>생산 공정</h4>
+            <ol>
+                <li>프레스공정
+                    <ul>
+                        <li>철판을 큰 프레스 기계로 찍어내어 자동차의 외형을 만듭니다.</li>
+                        <li>지붕, 도어, 후드 등 차체의 주요 부분을 성형합니다.</li>
+                    </ul>
+                </li>
+                <li>차체공정(업무 연관 O)
+                    <ul>
+                        <li>프레스된 부품들을 로봇이 용접하여 차체를 조립합니다.</li>
+                        <li>수천 개의 용접 점을 통해 견고한 차체를 완성합니다.</li>
+                    </ul>
+                </li>
+                <li>도장공정
+                    <ul>
+                        <li>차체의 녹 방지를 위해 전착도장을 합니다.</li>
+                        <li>중도, 상도 등 여러 겹의 페인트를 입혀 색상을 입히고 광택을 냅니다.</li>
+                    </ul>
+                </li>
+                <li>의장공정(업무 연관 O)
+                    <ul>
+                        <li>내부 부품들을 조립하는 단계입니다.</li>
+                        <li><b>엔진 마리아지(차체와 엔진 결합)</b>가 진행됩니다.</li>
+                        <li>엔진, 변속기, 시트, 대시보드 등을 장착합니다.</li>
+                        <li>전기배선, 브레이크, 에어컨 등 각종 장치도 설치합니다.</li>
+                    </ul>
+                </li>
+                <li>검사공정
+                    <ul>
+                        <li>완성된 차량의 품질을 꼼꼼히 검사합니다.</li>
+                        <li>주행 테스트, 방수 테스트 등을 실시합니다.</li>
+                        <li>불량이 발견되면 즉시 수정합니다.</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <!-- 물류 용어 -->
+        <div class="box" style="top: 1350px; left: 100px;">
+            <h4>물류 용어</h4>
+            <ul>
+                <li>손해
+                    <ul>
+                        <li>납품</li>
+                        <li><b>납입</b></li>
+                        <li>출하</li>
+                        <li>출고</li>
+                    </ul>
+                </li>
+                <li>이득
+                    <ul>
+                        <li>입고</li>
+                        <li>입하</li>
+                    </ul>
+                </li>
+                <li>득/실
+                    <p>검수</p>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 부품 공급망 -->
+        <div class="box" style="top: 650px; left: 1330px;">
+            <h4>부품 공급망</h4>
+            <ul>
+                <li><b>1차 공급업체 (Tier 1)</b>
+                    <ul>
+                        <li>현대모비스 - 모듈/전장품</li>
+                        <li>현대위아 - 엔진/변속기 부품</li>
+                        <li>현대트랜시스 - 변속기/시트</li>
+                    </ul>
+                </li>
+                <li><b>2차 공급업체 (Tier 2)</b>
+                    <ul>
+                        <li>소형 부품 제조사</li>
+                        <li>원자재 공급사</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 부품 JIT 공급 시스템 (새로 추가) -->
+        <div class="box" style="top: 1000px; left: 1335px;">
+            <h4>부품 JIT 공급 시스템</h4>
+            <ul>
+                <li><b>JIT 납품 프로세스</b>
+                    <ul>
+                        <li>차종별 지정 리드타임 내 공급</li>
+                        <li>서열 정보 기준 부품 공급</li>
+                        <li>모듈 단위 사전 조립</li>
+                    </ul>
+                </li>
+                <li><b>물류 관리</b>
+                    <ul>
+                        <li>실시간 재고 추적</li>
+                        <li>긴급 공급 대응 체계</li>
+                        <li>공급사 네트워크 관리</li>
+                    </ul>
+                </li>
+                <li><b>품질 관리</b>
+                    <ul>
+                        <li>입고 검사</li>
+                        <li>불량 부품 신속 교체</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 출하 및 배송 -->
+        <div class="box" style="top: 1050px; left: 85px;">
+            <h4>출하 및 배송</h4>
+            <ul>
+                <li><b>국내 배송</b>
+                    <ul>
+                        <li>완성차 센터로 이동</li>
+                        <li>딜러십으로 배송</li>
+                    </ul>
+                </li>
+                <li><b>해외 배송</b>
+                    <ul>
+                        <li>항만으로 이동</li>
+                        <li>선적 및 수출</li>
+                        <li>글로비스 해외 물류망 활용</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 품질 관리 및 피드백 시스템 (새로 추가) -->
+        <div class="box" style="top: 1350px; left: 650px;">
+            <h4>품질 관리 및 피드백 시스템</h4>
+            <ul>
+                <li><b>품질 검사 단계</b>
+                    <ul>
+                        <li>공정별 중간 검사</li>
+                        <li>최종 검사 (PDI)</li>
+                        <li>샘플링 검사</li>
+                    </ul>
+                </li>
+                <li><b>피드백 루프</b>
+                    <ul>
+                        <li>불량 유형 분석</li>
+                        <li>원인 추적 시스템</li>
+                        <li>공정 개선 조치</li>
+                    </ul>
+                </li>
+                <li><b>품질 지표</b>
+                    <ul>
+                        <li>FTQ (First Time Quality)</li>
+                        <li>DPU (Defects Per Unit)</li>
+                        <li>고객 만족도 조사</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- AS 및 서비스 시스템 (새로 추가) -->
+        <div class="box" style="top: 1350px; left: 1000px;">
+            <h4>AS 및 서비스 시스템</h4>
+            <ul>
+                <li><b>서비스 네트워크</b>
+                    <ul>
+                        <li>직영 서비스센터</li>
+                        <li>현대 블루핸즈 네트워크</li>
+                        <li>기아 오토큐 네트워크</li>
+                        <li>해외 서비스 지점</li>
+                    </ul>
+                </li>
+                <li><b>서비스 프로세스</b>
+                    <ul>
+                        <li>정기 점검</li>
+                        <li>보증 수리</li>
+                        <li>리콜 관리</li>
+                    </ul>
+                </li>
+                <li><b>부품 관리</b>
+                    <ul>
+                        <li>순정부품 공급</li>
+                        <li>재고 관리</li>
+                        <li>글로벌 공급망</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 데이터 수집 및 분석 시스템 (새로 추가) -->
+        <div class="box" style="top: 650px; left: 100px;">
+            <h4>데이터 수집 및 분석 시스템</h4>
+            <ul>
+                <li><b>수집 데이터</b>
+                    <ul>
+                        <li>생산 효율성</li>
+                        <li>품질 데이터</li>
+                        <li>공급망 성과</li>
+                        <li>고객 피드백</li>
+                    </ul>
+                </li>
+                <li><b>분석 시스템</b>
+                    <ul>
+                        <li>실시간 모니터링</li>
+                        <li>예측 분석</li>
+                        <li>공정 최적화</li>
+                    </ul>
+                </li>
+                <li><b>활용</b>
+                    <ul>
+                        <li>생산성 향상</li>
+                        <li>품질 개선</li>
+                        <li>신제품 개발</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        (() => {
+            const connections = new Map();
+            let dragStart = null, tempLine = null;
+            let isDraggingBox = false;
+            let draggedBox = null;
+            let initialMouseX, initialMouseY;
+            let initialBoxX, initialBoxY;
+
+            // 커넥터 초기화 함수
+            const initConnectors = () => document.querySelectorAll('.box').forEach(box =>
+                ['top', 'right', 'bottom', 'left'].forEach(pos =>
+                    box.insertAdjacentHTML('beforeend', `<div class="connector connector-${pos}" data-socket="${pos}" data-parent="${box.querySelector('h4').textContent}"></div>`)));
+
+            // 연결 생성 함수
+            const createConnection = (start, end) => {
+                const line = new LeaderLine(
+                    LeaderLine.pointAnchor(start, { x: '50%', y: '50%' }),
+                    LeaderLine.pointAnchor(end, { x: '50%', y: '50%' }),
+                    { path: 'straight', color: '#000000', size: 2, startPlug: 'disc', endPlug: 'arrow1' }
+                );
+                connections.set(`${start.dataset.parent}-${start.dataset.socket}-${end.dataset.parent}-${end.dataset.socket}`, { line, start, end });
+                return line;
+            };
+
+            // 커넥터로 연결 제거 함수
+            const removeConnectionByConnector = connector =>
+                [...connections.entries()].forEach(([key, conn]) => {
+                    if (conn.start === connector || conn.end === connector) conn.line.remove(), connections.delete(key);
+                });
+
+            // 커넥터로 연결 찾기 함수
+            const getConnectionByConnector = connector =>
+                [...connections.entries()].find(([, conn]) => conn.start === connector || conn.end === connector);
+
+            // 박스 드래깅 초기화 함수
+            const initBoxDragging = () => {
+                document.querySelectorAll('.box').forEach(box => {
+                    box.addEventListener('mousedown', e => {
+                        if (e.target.classList.contains('connector')) return;
+                        e.preventDefault();
+
+                        isDraggingBox = true;
+                        draggedBox = box;
+                        initialMouseX = e.clientX;
+                        initialMouseY = e.clientY;
+                        initialBoxX = box.offsetLeft;
+                        initialBoxY = box.offsetTop;
+
+                        box.style.zIndex = '1000';
+                    });
+                });
+
+                document.addEventListener('mousemove', e => {
+                    if (isDraggingBox && draggedBox) {
+                        const deltaX = e.clientX - initialMouseX;
+                        const deltaY = e.clientY - initialMouseY;
+                        draggedBox.style.left = `${initialBoxX + deltaX}px`;
+                        draggedBox.style.top = `${initialBoxY + deltaY}px`;
+
+                        // 연결된 모든 선 업데이트
+                        connections.forEach(conn => conn.line.position());
+                    }
+                });
+
+                document.addEventListener('mouseup', () => {
+                    if (draggedBox) {
+                        draggedBox.style.zIndex = '';
+                        draggedBox = null;
+                    }
+                    isDraggingBox = false;
+                });
+            };
+
+            // 이벤트 초기화 함수
+            const initEvents = () => {
+                // 커넥터 마우스다운 이벤트
+                document.querySelectorAll('.connector').forEach(connector => {
+                    connector.addEventListener('mousedown', e => {
+                        e.stopPropagation();
+                        dragStart = e.target;
+
+                        // 기존 연결 제거 로직을 공통 함수로 분리
+                        const existingConn = getConnectionByConnector(dragStart);
+                        if (existingConn) {
+                            existingConn[1].line.remove();
+                            connections.delete(existingConn[0]);
+                        }
+
+                        tempLine = new LeaderLine(
+                            LeaderLine.pointAnchor(dragStart, { x: '50%', y: '50%' }),
+                            { x: e.pageX, y: e.pageY },
+                            { path: 'straight', color: '#000000', size: 2, startPlug: 'disc', endPlug: 'arrow1', dash: true }
+                        );
+                        dragStart.style.backgroundColor = '#e74c3c';
+                    });
+                });
+
+                // 마우스 이동 이벤트
+                document.addEventListener('mousemove', e => {
+                    if (tempLine) {
+                        tempLine.setOptions({ end: { x: e.pageX, y: e.pageY } });
+                    }
+                });
+
+                // 마우스 업 이벤트
+                document.addEventListener('mouseup', e => {
+                    if (!dragStart) return;
+
+                    const dragEnd = e.target.closest('.connector');
+                    if (dragEnd && dragStart !== dragEnd) {
+                        createConnection(dragStart, dragEnd);
+                    } else if (!dragEnd) {
+                        removeConnectionByConnector(dragStart);
+                    }
+
+                    if (tempLine) {
+                        tempLine.remove();
+                        tempLine = null;
+                    }
+                    dragStart.style.backgroundColor = '#3498db';
+                    dragStart = null;
+                });
+
+                // 창 크기 변경 이벤트
+                window.addEventListener('resize', () => connections.forEach(c => c.line.position()));
+
+                // 우클릭 이벤트 (연결 제거)
+                document.addEventListener('contextmenu', e => {
+                    const target = e.target.closest('.connector');
+                    if (target) {
+                        e.preventDefault();
+                        removeConnectionByConnector(target);
+                    }
+                });
+            };
+
+            // 초기 연결 관계 생성 함수
+            const createInitialConnections = () => {
+                // 커넥터 찾기 헬퍼 함수
+                const findConnector = (boxTitle, position) => {
+                    const box = Array.from(document.querySelectorAll('.box')).find(
+                        b => b.querySelector('h4').textContent.trim() === boxTitle
+                    );
+                    return box ? box.querySelector(`.connector-${position}`) : null;
+                };
+
+                // 모든 초기 연결 정의
+                const initialConnections = [
+                    // 현대/기아 -> 주요 업체 관계도
+                    [findConnector('현대(HMC)', 'right'), findConnector('주요 업체 관계도', 'left')],
+                    [findConnector('기아(KMC)', 'left'), findConnector('주요 업체 관계도', 'right')],
+                    // 주요 업체 관계도 -> 현대 글로비스
+                    [findConnector('주요 업체 관계도', 'bottom'), findConnector('현대 글로비스 (주 고객)', 'top')],
+                    // 현대 글로비스 -> 업무 프로세스
+                    [findConnector('현대 글로비스 (주 고객)', 'right'), findConnector('업무 프로세스', 'left')],
+                    // 현대 글로비스 -> 현대 글로비스 실행사
+                    [findConnector('현대 글로비스 (주 고객)', 'bottom'), findConnector('현대 글로비스 실행사', 'top')],
+                    // 업무 프로세스 -> 생산 공정
+                    [findConnector('업무 프로세스', 'right'), findConnector('생산 공정', 'left')],
+                    // 현대 글로비스 실행사 -> 공장별 생산 배분 시스템
+                    [findConnector('현대 글로비스 실행사', 'bottom'), findConnector('공장별 생산 배분 시스템', 'top')],
+                    // 공장별 생산 배분 시스템 -> 생산 공정
+                    [findConnector('공장별 생산 배분 시스템', 'right'), findConnector('생산 공정', 'left')],
+                    // 생산 공정 -> 출하 및 배송
+                    [findConnector('생산 공정', 'bottom'), findConnector('출하 및 배송', 'right')],
+                    // 생산 공정 -> 품질 관리 및 피드백 시스템
+                    [findConnector('생산 공정', 'bottom'), findConnector('품질 관리 및 피드백 시스템', 'top')],
+                    // 품질 관리 및 피드백 시스템 -> AS 및 서비스 시스템
+                    [findConnector('품질 관리 및 피드백 시스템', 'right'), findConnector('AS 및 서비스 시스템', 'left')],
+                    // 출하 및 배송 -> 데이터 수집 및 분석 시스템
+                    [findConnector('출하 및 배송', 'top'), findConnector('데이터 수집 및 분석 시스템', 'bottom')],
+                    // 원자재 공급망 -> 부품 공급망
+                    [findConnector('원자재 공급망', 'right'), findConnector('부품 공급망', 'left')],
+                    // 부품 공급망 -> 생산 공정
+                    [findConnector('부품 공급망', 'top'), findConnector('생산 공정', 'bottom')],
+                    // 부품 JIT 공급 시스템 -> 부품 공급망
+                    [findConnector('부품 JIT 공급 시스템', 'top'), findConnector('부품 공급망', 'bottom')],
+                    // 물류 용어 -> 출하 및 배송
+                    [findConnector('물류 용어', 'top'), findConnector('출하 및 배송', 'bottom')],
+                    // 데이터 수집 및 분석 시스템 -> 품질 관리 및 피드백 시스템
+                    [findConnector('데이터 수집 및 분석 시스템', 'right'), findConnector('품질 관리 및 피드백 시스템', 'left')],
+                    // AS 및 서비스 시스템 -> 데이터 수집 및 분석 시스템
+                    [findConnector('AS 및 서비스 시스템', 'top'), findConnector('데이터 수집 및 분석 시스템', 'right')],
+                    // 데이터 수집 및 분석 시스템 -> 현대 글로비스 (피드백 루프)
+                    [findConnector('데이터 수집 및 분석 시스템', 'top'), findConnector('현대 글로비스 (주 고객)', 'bottom')]
+                ];
+
+                // 각 연결 생성 - 모두 직선 검은색으로 통일
+                initialConnections.forEach(([start, end]) => {
+                    if (start && end) {
+                        createConnection(start, end);
+                    }
+                });
+            };
+
+            // 페이지 로드 시 초기화
+            window.addEventListener('DOMContentLoaded', () => {
+                initConnectors();
+                initEvents();
+                initBoxDragging();
+
+                // 페이지 로드 후 1초 후에 초기 연결 생성 (DOM이 완전히 렌더링 된 후)
+                setTimeout(createInitialConnections, 1000);
+            });
+        })();
+    </script>
+</body>
+
+</html>

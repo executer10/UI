@@ -62,4 +62,8 @@ public class ProjectsController {
 		return response;
 	}
 
+	@GetMapping("/WebSequence")
+	public String getWebSequence() {
+		return "/project/WebSequence";
+	}
 }
