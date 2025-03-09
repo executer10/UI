@@ -25,9 +25,8 @@ public class OllamaService {
     // API 설정 상수
     private static final String OLLAMA_API_URL = "http://localhost:11434/api/generate";
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    private static final int BUFFER_SIZE = 16384; // 버퍼 크기 증가
-    private static final int STREAM_BATCH_SIZE = 512; // 응답 배치 크기 증가
-    private static final char BACKSLASH = '\\';
+    private static final int BUFFER_SIZE = 16384;
+    private static final int STREAM_BATCH_SIZE = 512;
 
     // 병렬 처리를 위한 스레드 풀
     private final ExecutorService executorService = Executors.newFixedThreadPool(
@@ -45,45 +44,38 @@ public class OllamaService {
     public void generateResponseStream(String message, String model, String sessionId, Consumer<String> onResponse) {
         HttpURLConnection conn = null;
         try {
-            // 요청 바디 구성 (직접 JSON 생성으로 변경)
             Map<String, Object> requestBody = createRequestBody(message, model, sessionId);
             String jsonRequest = objectMapper.writeValueAsString(requestBody);
 
-            // HTTP 연결 초기화 및 최적화
             conn = createOptimizedConnection(jsonRequest);
 
-            // 응답 코드 확인
             int statusCode = conn.getResponseCode();
             if (statusCode >= 400) {
                 throw new RuntimeException("API 요청 실패: HTTP " + statusCode);
             }
 
-            // 스트리밍 응답 처리
             processStreamResponse(conn, onResponse);
 
         } catch (IOException e) {
             throw new RuntimeException("스트리밍 응답 생성 실패: " + e.getMessage(), e);
         } finally {
-            // 연결 리소스 해제
             if (conn != null) {
                 conn.disconnect();
             }
         }
     }
 
-    // 요청 바디 생성 메서드 분리
+    // 요청 바디 생성 메서드
     private Map<String, Object> createRequestBody(String message, String model, String sessionId) {
-        Map<String, Object> requestBody = new HashMap<>(5, 1.0f); // 로드 팩터 최적화
+        Map<String, Object> requestBody = new HashMap<>(); // 기본 초기화로 충분함
         requestBody.put("model", model);
         requestBody.put("prompt", message);
         requestBody.put("stream", true);
-        // 성능 최적화 옵션
         requestBody.put("raw", true);
         requestBody.put("num_predict", 4096);
 
-        // 세션 ID 추가
         if (sessionId != null && !sessionId.isEmpty()) {
-            Map<String, Object> options = new HashMap<>(2, 1.0f);
+            Map<String, Object> options = new HashMap<>();
             options.put("num_ctx", 4096);
             options.put("session_id", sessionId);
             requestBody.put("options", options);
@@ -104,11 +96,9 @@ public class OllamaService {
         conn.setDoInput(true);
         conn.setUseCaches(false);
 
-        // 연결 및 읽기 타임아웃 설정
-        conn.setConnectTimeout(10000); // 10초로 감소
-        conn.setReadTimeout(120000); // 2분으로 증가 (긴 응답 고려)
+        conn.setConnectTimeout(10000);
+        conn.setReadTimeout(120000);
 
-        // 요청 데이터 전송
         try (OutputStream os = conn.getOutputStream()) {
             byte[] input = jsonRequest.getBytes(StandardCharsets.UTF_8);
             os.write(input, 0, input.length);
@@ -118,23 +108,20 @@ public class OllamaService {
         return conn;
     }
 
-    // 스트림 응답 처리 메서드 분리
+    // 스트림 응답 처리 메서드
     private void processStreamResponse(HttpURLConnection conn, Consumer<String> onResponse) throws IOException {
         try (InputStream is = conn.getInputStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8),
                         BUFFER_SIZE)) {
 
-            // 응답 배치 처리를 위한 버퍼
             StringBuilder responseBuffer = new StringBuilder(STREAM_BATCH_SIZE * 2);
             StringBuilder batchBuffer = new StringBuilder(STREAM_BATCH_SIZE * 2);
             char[] buffer = new char[BUFFER_SIZE / 4];
             int charsRead;
 
-            // 더 효율적인 문자 단위 읽기
             while ((charsRead = br.read(buffer)) != -1) {
                 responseBuffer.append(buffer, 0, charsRead);
 
-                // 완전한 라인이 있는지 처리
                 int newlineIndex;
                 int lastProcessedIndex = 0;
 
@@ -147,13 +134,11 @@ public class OllamaService {
                     }
                 }
 
-                // 처리된 부분 제거
                 if (lastProcessedIndex > 0) {
                     responseBuffer.delete(0, lastProcessedIndex);
                 }
             }
 
-            // 마지막 부분 처리
             if (responseBuffer.length() > 0) {
                 String[] remainingLines = responseBuffer.toString().split("\n");
                 for (String line : remainingLines) {
@@ -176,15 +161,13 @@ public class OllamaService {
                 if (response != null && !response.isEmpty()) {
                     batchBuffer.append(response);
 
-                    // 일정 크기 이상이거나 완료 상태일 때 콜백 처리
                     if (batchBuffer.length() >= STREAM_BATCH_SIZE || isDone) {
                         String optimized = optimizeResponseString(batchBuffer.toString());
                         onResponse.accept(optimized);
-                        batchBuffer.setLength(0); // 버퍼 초기화
+                        batchBuffer.setLength(0);
                     }
                 }
             } else if (isDone && batchBuffer.length() > 0) {
-                // 'response' 필드가 없지만 done이고 버퍼에 내용이 있는 경우
                 String optimized = optimizeResponseString(batchBuffer.toString());
                 onResponse.accept(optimized);
                 batchBuffer.setLength(0);
@@ -200,12 +183,10 @@ public class OllamaService {
             return "";
         }
 
-        // 최적화: 치환이 필요한지 빠르게 확인
-        if (input.indexOf(BACKSLASH) == -1) {
+        if (input.indexOf('\\') == -1) {
             return input;
         }
 
-        // 문자별 처리로 단일 패스 최적화
         StringBuilder sb = new StringBuilder(input.length());
         boolean escape = false;
 
@@ -238,7 +219,6 @@ public class OllamaService {
             }
         }
 
-        // 마지막 이스케이프 문자 처리
         if (escape) {
             sb.append('\\');
         }
@@ -248,7 +228,7 @@ public class OllamaService {
 
     // 동기식 응답 생성 메서드
     public String generateResponse(String message, String model, String sessionId) {
-        StringBuilder fullResponse = new StringBuilder(4096); // 더 큰 초기 크기로 최적화
+        StringBuilder fullResponse = new StringBuilder();
         generateResponseStream(message, model, sessionId, fullResponse::append);
         return fullResponse.toString();
     }
@@ -256,7 +236,7 @@ public class OllamaService {
     // 비동기식 응답 생성 메서드 (전체 응답)
     public CompletableFuture<String> generateResponseAsync(String message, String model, String sessionId) {
         CompletableFuture<String> future = new CompletableFuture<>();
-        StringBuilder fullResponse = new StringBuilder(4096);
+        StringBuilder fullResponse = new StringBuilder();
 
         generateResponseStreamAsync(message, model, sessionId, response -> {
             synchronized (fullResponse) {
@@ -274,15 +254,10 @@ public class OllamaService {
         return future;
     }
 
-    // 서비스 리소스 해제 메서드 (스프링 자원 해제 이벤트에 연결될 수 있음)
-    public void shutdown() {
+    // Spring의 @PreDestroy와 함께 사용
+    public void destroy() {
         if (!executorService.isShutdown()) {
             executorService.shutdown();
         }
-    }
-
-    // Spring의 @PreDestroy와 함께 사용
-    public void destroy() {
-        shutdown();
     }
 }
